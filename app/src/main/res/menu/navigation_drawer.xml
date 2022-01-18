@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item
+            android:id="@+id/inputUserDataFragment"
+            android:icon="@drawable/ic_baseline_create_24"
+            android:checked="true"
+            android:title="@string/input_one_rm" />
+        <item
+            android:id="@+id/oneRmCalculatorFragment"
+            android:icon="@drawable/ic_baseline_calculate_24"
+            android:title="@string/cal_one_rm"
+             />
+        <item
+            android:id="@+id/todayExercise"
+            android:icon="@drawable/ic_baseline_fitness_center_24"
+            android:title="@string/today_exercise" />
+
+</menu>
