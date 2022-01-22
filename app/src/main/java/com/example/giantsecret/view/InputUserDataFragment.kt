@@ -18,7 +18,7 @@ import com.example.giantsecret.databinding.FragmentInputUserDataBinding
 
 
 class InputUserDataFragment : Fragment() {
-    private lateinit var mViewModel: MviewModel
+    val mViewModel by activityViewModels<MviewModel>()
     private lateinit var binding: FragmentInputUserDataBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +31,9 @@ class InputUserDataFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_input_user_data,container,false)
+        binding.viewModel = mViewModel
+        binding.lifecycleOwner = this
 
-            activity?.run{
-                mViewModel = ViewModelProvider(this,
-                ViewModelProvider.NewInstanceFactory()).get(MviewModel::class.java)
-                binding.viewModel = mViewModel
-                binding.lifecycleOwner = this
-            }
 
 
         return binding.root

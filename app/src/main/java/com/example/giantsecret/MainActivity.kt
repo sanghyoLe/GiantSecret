@@ -1,60 +1,64 @@
 package com.example.giantsecret
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.giantsecret.App.Companion.prefs
-
 import com.example.giantsecret.databinding.ActivityMainBinding
+import com.example.giantsecret.databinding.HeaderNavigationDrawerBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
-    private lateinit var mViewModel:MviewModel
+    val mViewModel by viewModels<MviewModel>()
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
-    private lateinit var navHeader:View
+    private lateinit var headerNavBinding: HeaderNavigationDrawerBinding
+
     private var isHaveInformation: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
-
         super.onCreate(savedInstanceState)
-        mViewModel = ViewModelProvider(this,
-        ViewModelProvider.NewInstanceFactory()).get(MviewModel::class.java)
+        // Splash Screen 복구
+        setTheme(R.style.Theme_GiantSecret)
 
+        // InputUserDataFragment EditText is Empty
         mViewModel.showErrorToast.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
-                Toast.makeText(this, "텍스트를 입력하세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "모든 값을 입력해주세요", Toast.LENGTH_SHORT).show()
             }
         })
 
-        setTheme(R.style.Theme_GiantSecret)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.activity = this
+        mViewModel.showCompleteInputToast.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                Toast.makeText(this,mViewModel.inputBtnText,Toast.LENGTH_SHORT).show()
+            }
+        })
 
+        // dataBinding , headerNavBinding 초기화
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        headerNavBinding = DataBindingUtil.inflate(layoutInflater, R.layout.header_navigation_drawer, binding.navigationView,
+            false)
+
+
+
+        init()
     }
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
 
+    // 취소 버튼 눌렀을 시, DrawLayout Close
     override fun onBackPressed() {
         if(binding.drawerLayout.isDrawerOpen(GravityCompat.START)){
             binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -63,28 +67,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
     fun init(){
-        navHeader = binding.navigationView.getHeaderView(0)
 
-        if(mViewModel.isHaveInformation()){
-            navHeader.findViewById<TextView>(R.id.nickNameHeaderTextView).text = prefs.getValue("nickName")
-            navHeader.findViewById<TextView>(R.id.oneRmHeaderTextView).text =
-                """b: ${prefs.getValue("benchPressWeight")} s: ${prefs.getValue("squatWeight")} d: ${prefs.getValue("deadLeftWeight")} ohp: ${prefs.getValue("overHeadPressWeight")}
-                """
-        }
 
         val topLevelDestinations:HashSet<Int> = object : HashSet<Int>()
         {
             init{
                 add(R.id.inputUserDataFragment)
-                add(R.id.oneRmCalculatorFragment)
+                add(R.id.programScheduleFragment)
             }
         }
+        // Navigation UI를 Toolbar, NavigationView 연결
         navController = Navigation.findNavController(this, R.id.fragmentContainerView)
+
+        // drawlayout에 있는 모든 Menu 항목을 상위 항목으로 설정
         appBarConfiguration = AppBarConfiguration(topLevelDestinationIds = topLevelDestinations,binding.drawerLayout)
         setSupportActionBar(binding.topAppBar)
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navigationView.setupWithNavController(navController)
 
+        // navigationView에 navHeader 추가
+        binding.navigationView.addHeaderView(headerNavBinding.root)
+
+
+        // navHeader의 dataBinding을 위한 설정
+        headerNavBinding.viewModel = mViewModel
+        headerNavBinding.lifecycleOwner = this
     }
 
 

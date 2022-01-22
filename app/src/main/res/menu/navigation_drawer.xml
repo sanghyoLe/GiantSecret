@@ -7,9 +7,9 @@
             android:checked="true"
             android:title="@string/input_one_rm" />
         <item
-            android:id="@+id/oneRmCalculatorFragment"
+            android:id="@+id/programScheduleFragment"
             android:icon="@drawable/ic_baseline_calculate_24"
-            android:title="@string/cal_one_rm"
+            android:title="@string/program"
              />
         <item
             android:id="@+id/todayExercise"

@@ -3,8 +3,54 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="page_title">ㅅㅅㄱㅇ</string>
+    <string name="program">프로그램 일정</string>
     <string name="cal_one_rm">1RM 계산기</string>
     <string name="input_one_rm">1RM 입력</string>
     <string name="today_exercise">오늘의 운동</string>
+
+    <string name="program_title_1">이번 주차는 디로드(휴식)와 자세 점검이야!
+    5초템포와 2초정지 그리고 자세!!! 꼭 신경쓰도록 해!!
+    (너는 햇병아리니까 자만하지마)
+    </string>
+    <string name="program_title_2">운동이 잘되고 있는지 의심가?
+    제발 나대지말고 갑옷을 믿어.
+    믿고 따라오면 분명 넌 강해질거야
+    이번 주도 자세와 호흡 템포에 더욱 집중해! 자세체크는 필수야! 3초템포
+    1초정지야 !
+    </string>
+    <string name="program_title_3">자 이제 슬슬 강도가 올라올거야.
+1,2주차때 연습한 자세를 3주차때도 동일하게 하는데 초점을 맞춰봐! 메인 운동 2세트때는 중량을 낮춰서 자세와 템포에 한번 더 신경써!
+    </string>
+    <string name="program_title_4">이번 주 부터는 쉽지않아!
+하지만 3주차까지 내가 말한 포인트를 잘 따라왔다면? 잘할 수 있을거야! 2세트에는 중량을 꼭 낮춰줘! 제발 깝치지마! 이쿠죠!
+
+    </string>
+    <string name="program_title_5">이제 거의 실전이야! 너를 믿고 있는 힘껏 밀어! 그 동안 연습한 자세들이 저절로 나와야 앞의 훈련을 제대로 한거야!
+신조 사사게오!
+
+    </string>
+    <string name="program_title_6">드디어 때가 왔다! 맞짱뜨자고!
+이번 주는 일요일에 있을 3대측정에 맞춰서 볼륨(횟수)를 줄이고 강도를 높여줘! 무리하지 않되 감을 높이는게 포인트야!
+조사병단 입단을 환영한다.
+    </string>
+    <string name="terms_explanation_1">
+        5T2P : 5초 템포로 이완, 2초 정지
+    </string>
+    <string name="terms_explanation_2">
+        3T1P : 3초 템포로 이완, 1초 정지
+    </string>
+    <string name="terms_explanation_3">
+        P : 1초미만 정지후 프레스
+    </string>
+    <string name="terms_explanation_4">
+        TnG : 터치 앤 고 (찍고프레스)\n
+        P : 1초미만 정지후 프레스
+    </string>
+    <string name="terms_explanation_5">
+        TnG : 터치 앤 고 (찍고프레스)
+    </string>
+    <string name="terms_explanation_6">
+        TnG : 터치 앤 고 (찍고프레스)
+    </string>
 
 </resources>

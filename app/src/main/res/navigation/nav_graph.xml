@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_input_user_data"
         android:label="@string/input_one_rm" />
     <fragment
-        android:id="@+id/oneRmCalculatorFragment"
-        android:name="com.example.giantsecret.view.OneRmCalculatorFragment"
-        tools:layout="@layout/fragment_one_rm_caculator"
-        android:label="@string/cal_one_rm" />
+        android:id="@+id/programScheduleFragment"
+        android:name="com.example.giantsecret.view.ProgramScheduleFragment"
+        tools:layout="@layout/fragment_program_schedule"
+        android:label="@string/program" />
     <activity
         android:id="@+id/mainActivity"
         tools:layout="@layout/activity_main"

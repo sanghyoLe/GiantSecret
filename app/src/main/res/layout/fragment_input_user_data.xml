@@ -218,7 +218,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/deadLiftWeightEd"
                     android:layout_width="match_parent"
-                    android:text="@={viewModel.deadLeftText}"
+                    android:text="@={viewModel.deadLiftText}"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -252,8 +252,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:onClick="@{()->viewModel.setInfo()}"
-
-            android:text="입력 완료"
+            android:text="@{viewModel.inputBtnText}"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
