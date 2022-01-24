@@ -32,7 +32,7 @@ class ProgramFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_program,container,false)
-        viewInit()
+
         return binding.root
     }
 
@@ -47,10 +47,5 @@ class ProgramFragment : Fragment() {
                 }
             }
     }
-    fun viewInit(){
-        var titleResId = resources.getIdentifier("program_title_$programWeek","string",activity?.packageName)
-        var termsExplanationTextResId = resources.getIdentifier("terms_explanation_$programWeek","string",activity?.packageName)
-        binding.programTitleTextView.text = resources.getString(titleResId)
-        binding.termsExplanationTextView.text = resources.getString(termsExplanationTextResId)
-    }
+
 }

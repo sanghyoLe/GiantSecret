@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.giantsecret.MviewModel" />
+            type="com.example.giantsecret.viewModel.MviewModel" />
     </data>
 
 
@@ -102,6 +102,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{()->viewModel.getOneRm()}"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/secondaryColor"
             android:text="계산"
             app:layout_constraintBottom_toBottomOf="@+id/one_rm_prediction_tv"
             app:layout_constraintEnd_toEndOf="parent"
@@ -254,6 +256,7 @@
             android:onClick="@{()->viewModel.setInfo()}"
             android:text="@{viewModel.inputBtnText}"
             android:textColor="@color/white"
+            android:backgroundTint="@color/secondaryColor"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

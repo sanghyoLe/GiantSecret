@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -15,6 +16,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.giantsecret.databinding.ActivityMainBinding
 import com.example.giantsecret.databinding.HeaderNavigationDrawerBinding
+import com.example.giantsecret.viewModel.MviewModel
+import com.example.giantsecret.viewModel.RoutineViewModel
+import com.example.giantsecret.viewModel.RoutineViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
@@ -23,11 +27,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var headerNavBinding: HeaderNavigationDrawerBinding
 
-    private var isHaveInformation: Boolean = false
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         // Splash Screen 복구
         setTheme(R.style.Theme_GiantSecret)
 
@@ -74,6 +79,7 @@ class MainActivity : AppCompatActivity() {
             init{
                 add(R.id.inputUserDataFragment)
                 add(R.id.programScheduleFragment)
+                add(R.id.todayExerciseFragment)
             }
         }
         // Navigation UI를 Toolbar, NavigationView 연결

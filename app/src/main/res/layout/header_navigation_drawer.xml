@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.giantsecret.MviewModel" />
+            type="com.example.giantsecret.viewModel.MviewModel" />
     </data>
     <androidx.appcompat.widget.LinearLayoutCompat
 

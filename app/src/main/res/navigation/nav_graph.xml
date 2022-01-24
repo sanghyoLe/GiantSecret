@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/inputUserDataFragment">
+    app:startDestination="@id/todayExerciseFragment">
 
 
     <fragment
@@ -13,12 +13,24 @@
         android:label="@string/input_one_rm" />
     <fragment
         android:id="@+id/programScheduleFragment"
-        android:name="com.example.giantsecret.view.ProgramScheduleFragment"
+        android:name="com.example.giantsecret.view.RoutineFragment"
         tools:layout="@layout/fragment_program_schedule"
-        android:label="@string/program" />
+        android:label="@string/routine" />
+    <fragment
+        android:id="@+id/todayExerciseFragment"
+        android:name="com.example.giantsecret.view.TodayExerciseFragment"
+        tools:layout="@layout/fragment_today_exercise"
+        android:label="@string/today_exercise" />
     <activity
         android:id="@+id/mainActivity"
         tools:layout="@layout/activity_main"
         android:name="com.example.giantsecret.MainActivity"
         android:label="MainActivity" />
+
+    <activity
+        android:id="@+id/createRoutineActivity"
+        tools:layout="@layout/activity_main"
+        android:name="com.example.giantsecret.view.CreateRoutineActivity"
+        android:label="CreateRoutineActivity" />
+
 </navigation>

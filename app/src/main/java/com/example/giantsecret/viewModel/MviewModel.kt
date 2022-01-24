@@ -1,9 +1,11 @@
-package com.example.giantsecret
+package com.example.giantsecret.viewModel
 
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.giantsecret.App
+import com.example.giantsecret.Event
 import kotlin.math.round
 
 class MviewModel: ViewModel() {
@@ -59,31 +61,7 @@ class MviewModel: ViewModel() {
 
     init {
         oneRm.value = 0.00.toFloat()
-        // SharedPreferences에 저장된 값이 있으면 livedata 초기화화
-        App.prefs.getValue("nickName")?.let { nickName.value = it
-            inputBtnText = "수정 완료"
-            nickNameText.value = it
-        }
-        App.prefs.getValue("benchPressWeight")?.let {
-            benchPressWeight.value = it
-            benchPressText.value = it
-            benchPressWeightDoubleArray.value = createWeightDoubleArray(it.toDouble())
-        }
-        App.prefs.getValue("squatWeight")?.let {
-            squatWeight.value = it
-            squatText.value = it
-            squatWeightDoubleArray.value = createWeightDoubleArray(it.toDouble())
-        }
-        App.prefs.getValue("deadLiftWeight")?.let {
-            deadLiftWeight.value = it
-            deadLiftText.value = it
-            deadLiftWeightDoubleArray.value = createWeightDoubleArray(it.toDouble())
-        }
-        App.prefs.getValue("overHeadPressWeight")?.let {
-            overHeadPressWeight.value = it
-            overHeadPressText.value = it
-            overHeadPressWeightDoubleArray.value = createWeightDoubleArray(it.toDouble())
-        }
+
 
     }
 
@@ -108,41 +86,24 @@ class MviewModel: ViewModel() {
             _showErrorToast.value = Event(true)
         } else {
             nickNameText.value?.let {
-                App.prefs.setValue("nickName", it)
                 nickName.value = it
             }
             benchPressText.value?.let {
-                App.prefs.setValue("benchPressWeight", it)
                 benchPressWeight.value = it
-                benchPressWeightDoubleArray.value = createWeightDoubleArray(it.toDouble())
             }
             squatText.value?.let {
-                App.prefs.setValue("squatWeight", it)
                 squatWeight.value = it
-                squatWeightDoubleArray.value = createWeightDoubleArray(it.toDouble())
             }
             deadLiftText.value?.let {
-                App.prefs.setValue("deadLiftWeight", it)
                 deadLiftWeight.value = it
-                deadLiftWeightDoubleArray.value = createWeightDoubleArray(it.toDouble())
             }
             overHeadPressText.value?.let {
-                App.prefs.setValue("overHeadPressWeight", it)
                 overHeadPressWeight.value = it
-                overHeadPressWeightDoubleArray.value = createWeightDoubleArray(it.toDouble())
             }
             _showCompleteInputToast.value = Event(true)
         }
     }
-    private fun createWeightDoubleArray(weight:Double) : DoubleArray {
-        var doubleArray = DoubleArray(10)
-        var temp = 0.5
-        (0..9).forEach { i ->
-            doubleArray[i] = 2.5*(Math.floor((weight*temp)/2.5))
-            temp = (temp + 0.05)
-        }
-        return doubleArray
-    }
+
 
 
 }

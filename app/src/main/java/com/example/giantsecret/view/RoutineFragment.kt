@@ -6,17 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
-import com.example.giantsecret.viewModel.MviewModel
+import androidx.lifecycle.LifecycleObserver
 import com.example.giantsecret.R
-import com.example.giantsecret.databinding.FragmentInputUserDataBinding
+import com.example.giantsecret.databinding.FragmentProgramScheduleBinding
 
+class RoutineFragment : Fragment(), LifecycleObserver {
+    private lateinit var binding: FragmentProgramScheduleBinding
 
-class InputUserDataFragment : Fragment() {
-    val mViewModel by activityViewModels<MviewModel>()
-    private lateinit var binding: FragmentInputUserDataBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
     }
 
@@ -24,14 +23,19 @@ class InputUserDataFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_input_user_data,container,false)
-        binding.viewModel = mViewModel
+        super.onCreateView(inflater, container, savedInstanceState)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_program_schedule, container, false)
         binding.lifecycleOwner = this
 
 
-
         return binding.root
+
+
     }
+
+
+
+
+
 
 }

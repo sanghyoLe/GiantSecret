@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.giantsecret">
 
-
     <application
+        android:name=".RoutineApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,13 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GiantSecret"
-        android:name=".App"
         tools:targetApi="31">
-
+        <activity
+            android:name=".view.CreateRoutineActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/SplashTheme"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,8 +28,5 @@
             </intent-filter>
         </activity>
     </application>
-
-
-
 
 </manifest>
