@@ -4,7 +4,6 @@ import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.giantsecret.App
 import com.example.giantsecret.Event
 import kotlin.math.round
 

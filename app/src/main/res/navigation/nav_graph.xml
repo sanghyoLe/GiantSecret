@@ -12,15 +12,42 @@
         tools:layout="@layout/fragment_input_user_data"
         android:label="@string/input_one_rm" />
     <fragment
-        android:id="@+id/programScheduleFragment"
+        android:id="@+id/routineFragment"
         android:name="com.example.giantsecret.view.RoutineFragment"
-        tools:layout="@layout/fragment_program_schedule"
-        android:label="@string/routine" />
+        tools:layout="@layout/fragment_routine"
+        android:label="@string/routine" >
+        <action android:id="@+id/createRoutineAction"
+            app:destination="@+id/createRoutineFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+
+            />
+    </fragment>
     <fragment
         android:id="@+id/todayExerciseFragment"
         android:name="com.example.giantsecret.view.TodayExerciseFragment"
         tools:layout="@layout/fragment_today_exercise"
-        android:label="@string/today_exercise" />
+        android:label="@string/today_exercise" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/createRoutineFragment"
+        android:name="com.example.giantsecret.view.CreateRoutineFragment"
+        tools:layout="@layout/fragment_create_routine"
+        android:label="createRoutineFragment">
+        <action android:id="@+id/createRoutineToCloseAction"
+            app:destination="@+id/routineFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/routineFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+
     <activity
         android:id="@+id/mainActivity"
         tools:layout="@layout/activity_main"

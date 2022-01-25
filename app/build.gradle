@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.giantsecret"
-        minSdk 21
+        minSdk 23
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -64,8 +64,11 @@ dependencies {
     // UI
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
     implementation "com.google.android.material:material:$rootProject.materialVersion"
+
     //Calendar library
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
+    //Searchable Spinner
+    implementation 'com.github.leoncydsilva:SearchableSpinner:1.0.1'
 
     // Testing
     testImplementation "junit:junit:$rootProject.junitVersion"

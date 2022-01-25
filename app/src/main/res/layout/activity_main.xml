@@ -15,39 +15,11 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-        <androidx.drawerlayout.widget.DrawerLayout
-            android:id="@+id/drawerLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:openDrawer="start">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:fitsSystemWindows="true">
-
-                <com.google.android.material.appbar.AppBarLayout
-                    android:id="@+id/appBarLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/topAppBar"
-                        android:showAsAction="never"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
-                        app:title="@string/page_title" />
-
-                </com.google.android.material.appbar.AppBarLayout>
-
-
 
                 <fragment
                     android:name="androidx.navigation.fragment.NavHostFragment"
@@ -65,16 +37,17 @@
 
             </LinearLayout>
 
-            <com.google.android.material.navigation.NavigationView
-                android:id="@+id/navigationView"
-                style="@style/Widget.Design.NavigationView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
 
-                app:menu="@menu/navigation_drawer"
-                />
-        </androidx.drawerlayout.widget.DrawerLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:menu="@menu/navigation_drawer" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

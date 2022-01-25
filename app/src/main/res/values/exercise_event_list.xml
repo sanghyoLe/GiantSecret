@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="exercise_event_list">
+        <item>벤치 프레스</item>
+        <item>벤치 프레스</item>
+        <item>벤치 프레스</item>
+        <item>벤치 프레스</item>
+        <item>벤치 프레스</item>
+        <item>벤치 프레스</item>
+        <item>벤치 프레스</item>
+        <item>벤치 프레스</item>
+        <item>벤치 프레스</item>
+        <item>벤치 프레스</item>
+        <item>벤치 프레스</item>
+
+    </string-array>
+</resources>
