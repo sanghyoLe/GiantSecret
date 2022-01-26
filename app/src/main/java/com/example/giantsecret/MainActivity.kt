@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setupWithNavController(navController)
 
 
+
     }
     private fun showBottomNav() {
         binding.bottomNavigation.visibility = View.VISIBLE
@@ -82,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.visibility = View.GONE
 
     }
+
 
 
 

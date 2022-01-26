@@ -52,7 +52,7 @@ class RoutineFragment : Fragment(), LifecycleObserver {
 
 
 
-        binding.createRoutineBtn.setOnClickListener {
+        binding.createRoutineBtnLayout.setOnClickListener {
             findNavController().navigate(R.id.createRoutineAction)
 //            val intent = Intent(activity?.applicationContext, CreateRoutineActivity::class.java)
 //            startActivityForResult(intent, newRoutineActivityRequestCode)

@@ -8,6 +8,7 @@
     <string name="input_one_rm">1RM 입력</string>
     <string name="today_exercise">오늘의 운동</string>
     <string name="create_routine">루틴 추가하기</string>
+    <string name="create_exercise">운동 추가하기</string>
     <string name="basic_exercise_choice">기존 운동 선택하기</string>
     <string name="chest">가슴</string>
     <string name="back">등</string>

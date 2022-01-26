@@ -12,6 +12,7 @@ import android.util.Log
 import android.util.Size
 import android.view.*
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
 import androidx.activity.OnBackPressedCallback
@@ -29,7 +30,7 @@ import com.google.android.material.chip.Chip
 class CreateRoutineFragment : Fragment() {
     private lateinit var binding: FragmentCreateRoutineBinding
     private lateinit var callback: OnBackPressedCallback
-    private lateinit var legacySize: Size
+
     private var x:Int = 1
     private var y:Int = 1
 
@@ -37,7 +38,7 @@ class CreateRoutineFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getDeviceSize()
+
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +54,12 @@ class CreateRoutineFragment : Fragment() {
         binding.createRoutineBackBtn.setOnClickListener {
             findNavController().navigate(R.id.createRoutineToCloseAction)
         }
-        createSearchDialog()
+
+        binding.createExerciseBtnLayout.setOnClickListener {
+            findNavController().navigate(R.id.createRoutineToCreateExercise)
+        }
+
+
         return binding.root
     }
 
@@ -86,46 +92,7 @@ class CreateRoutineFragment : Fragment() {
 //                Log.d("partNames",partNames.get(index).toString())
 //            }
     }
-    private fun createSearchDialog(){
-        var exerciseList = getResources().getStringArray(R.array.exercise_event_list);
 
-
-
-        binding.selectExerciseTextView.setOnClickListener {
-            var dialog:Dialog = Dialog(requireContext())
-            dialog.setContentView(R.layout.dialog_searchable_spinner)
-
-
-            dialog.window?.setLayout((legacySize.width*0.8).toInt(),(legacySize.height*0.8).toInt())
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog.show()
-
-            var editText:EditText = dialog.findViewById(R.id.edit_text)
-            var listView:ListView = dialog.findViewById(R.id.list_view)
-
-            var adapter:ArrayAdapter<String> = ArrayAdapter<String>(requireContext()
-                ,android.R.layout.simple_expandable_list_item_1
-                ,exerciseList
-                )
-
-            listView.adapter = adapter
-            editText.addTextChangedListener { s ->
-                adapter.filter.filter(s);
-            }
-
-            listView.setOnItemClickListener { adapterView, view, position, l ->
-                    binding.selectExerciseTextView.text = adapter.getItem(position)
-
-                dialog.dismiss()
-            }
-
-        }
-    }
-    @RequiresApi(Build.VERSION_CODES.R)
-    private fun getDeviceSize() {
-        var metrics:WindowMetrics = activity?.windowManager!!.currentWindowMetrics
-        legacySize = Size(metrics.bounds.width(), metrics.bounds.height())
-    }
 
 }
 

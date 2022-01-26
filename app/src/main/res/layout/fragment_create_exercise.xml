@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <variable
+            name="createExerciseData"
+            type="com.example.giantsecret.viewModel.RoutineViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.CreateExerciseFragment">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/createExerciseToolbar"
+            android:layout_width="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/primaryLightColor"
+            android:layout_height="?attr/actionBarSize">
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/createExerciseBackBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_baseline_arrow_back_24"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_exercise"
+                android:layout_gravity="center"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                />
+
+        </androidx.appcompat.widget.Toolbar>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/selectExerciseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:drawable/editbox_background"
+            android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+            android:gravity="center"
+            android:hint="운동을 선택하세요"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@id/createExerciseToolbar"
+            app:layout_constraintStart_toStartOf="parent"
+             />
+
+
+
+
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/exerciseNameInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:hint="운동 이름 입력"
+            app:hintTextColor="@color/black"
+            app:boxStrokeColor="@color/secondaryColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selectExerciseTextView"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            >
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/exerciseNameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/choiceSetTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:drawable/editbox_background"
+            android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+            android:gravity="center"
+            android:hint="세트 개수를 선택하세요"
+            android:padding="8dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/exerciseNameInputLayout"/>
+
+
+        <RadioGroup
+            android:id="@+id/exerciseRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/choiceSetTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal"
+            >
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/setWeightEqualBtn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/select_radio_button"
+                android:textColor="@drawable/select_radio_text"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:text="세트 간 무게 동일"
+                android:button="@null"/>
+            <RadioButton
+                android:textSize="12sp"
+                android:id="@+id/setWeightDifferentBtn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/select_radio_button"
+                android:textColor="@drawable/select_radio_text"
+                android:gravity="center"
+                android:text="세트 마다 무게 다름"
+                android:button="@null"/>
+        </RadioGroup>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_margin="16dp"
+            android:id="@+id/selectWeightTextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="무게, 개수를 입력하세요"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/exerciseRadioGroup"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:layout_margin="16dp"
+            android:id="@+id/weightEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/selectWeightTextview"
+            android:backgroundTint="@color/secondaryColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/kg"
+            />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/kg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="kg"
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintTop_toTopOf="@id/weightEditText"
+            app:layout_constraintBottom_toBottomOf="@id/weightEditText"
+            app:layout_constraintEnd_toStartOf="@id/exerciseCountSpinner"
+            app:layout_constraintStart_toEndOf="@id/weightEditText"/>
+        <Spinner
+            android:layout_marginRight="16dp"
+            android:id="@+id/exerciseCountSpinner"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/weightEditText"
+            app:layout_constraintBottom_toBottomOf="@id/weightEditText"
+            app:layout_constraintStart_toEndOf="@id/kg"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
+            android:id="@+id/exerciseRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/exerciseRadioGroup"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

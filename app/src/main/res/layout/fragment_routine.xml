@@ -35,31 +35,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/routineListTextView" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/routineListLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/routineListDivider">
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:id="@+id/createRoutineBtn"
+
+        <LinearLayout
+            android:id="@+id/createRoutineBtnLayout"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:clickable="true"
-            android:text="루틴 추가하기"
-            android:textColor="@color/black"
-            app:strokeColor="@color/secondaryColor"
-            />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
+            app:layout_constraintTop_toBottomOf="@id/routineListDivider"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:padding="16dp"
+            >
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:background="@color/secondaryColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_add_24"
+                />
+            <TextView
+                android:layout_marginLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_routine"
+                android:textColor="@color/black"/>
+        </LinearLayout>
         <androidx.core.widget.NestedScrollView
-            app:layout_constraintTop_toBottomOf="@id/routineListLayout"
+            app:layout_constraintTop_toBottomOf="@id/createRoutineBtnLayout"
             android:id="@+id/programScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

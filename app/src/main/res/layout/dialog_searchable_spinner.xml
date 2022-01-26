@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -9,27 +11,37 @@
     >
 
     <!-- Text view to show the text Select course-->
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="운동 선택"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        />
+        android:gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기존 운동 선택"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/exerciseChoiceCloseBtn"
+            android:background="@color/secondaryColor"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="X" />
+    </LinearLayout>
+
+
 
     <!-- Edit text to allow user to type name
            of item he/she wants to search-->
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_text"
-        android:hint="운동 이름 검색"
-        android:padding="12dp"
-        android:singleLine="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@android:drawable/editbox_background"
-        />
+
 
     <!-- List view to insert list of items-->
     <ListView
