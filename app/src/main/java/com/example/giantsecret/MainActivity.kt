@@ -1,14 +1,13 @@
 package com.example.giantsecret
 
-import android.graphics.Insets
-import android.graphics.Rect
+
 import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.annotation.Size
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -25,11 +24,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
 
+
+
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
 
         // Splash Screen 복구
         setTheme(R.style.Theme_GiantSecret)
@@ -62,8 +61,8 @@ class MainActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this, R.id.fragmentContainerView)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.todayExerciseFragment -> showBottomNav()
-                R.id.inputUserDataFragment -> showBottomNav()
+                R.id.exerciseRecordFragment -> showBottomNav()
+                R.id.statisticFragment -> showBottomNav()
                 R.id.routineFragment -> showBottomNav()
                 else -> hideBottomNav()
             }
@@ -83,8 +82,6 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.visibility = View.GONE
 
     }
-
-
 
 
 }

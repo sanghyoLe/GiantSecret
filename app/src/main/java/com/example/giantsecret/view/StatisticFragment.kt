@@ -9,12 +9,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import com.example.giantsecret.viewModel.MviewModel
 import com.example.giantsecret.R
-import com.example.giantsecret.databinding.FragmentInputUserDataBinding
+import com.example.giantsecret.databinding.FragmentStatisticBinding
 
 
-class InputUserDataFragment : Fragment() {
+class StatisticFragment : Fragment() {
     val mViewModel by activityViewModels<MviewModel>()
-    private lateinit var binding: FragmentInputUserDataBinding
+    private lateinit var binding: FragmentStatisticBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -25,7 +25,7 @@ class InputUserDataFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_input_user_data,container,false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_statistic,container,false)
         binding.viewModel = mViewModel
         binding.lifecycleOwner = this
 

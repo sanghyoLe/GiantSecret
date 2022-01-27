@@ -3,9 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/drawable/border_layout.xml" value="0.2335" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/drawable/bottom_navigation_item_color.xml" value="0.284" />
+        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/drawable/chip_state_list.xml" value="0.194" />
+        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/drawable/empty_drawable.xml" value="0.108" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.302" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/drawable/ic_baseline_arrow_drop_down_24.xml" value="0.168" />
+        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.195" />
+        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/drawable/ic_baseline_fitness_center_24.xml" value="0.3685" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.1445" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/drawable/radius_10.xml" value="0.2455" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/drawable/select_radio_button.xml" value="0.302" />
@@ -14,12 +19,14 @@
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/activity_create_routine.xml" value="0.334375" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/create_exercise_layout.xml" value="0.33" />
+        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/custom_bottom_sheet.xml" value="0.36770833333333336" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/custom_dialog_spinner_layout.xml" value="0.25" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/dialog_searchable_spinner.xml" value="0.22" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/drawer_layout.xml" value="0.28958333333333336" />
+        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/exercise_row_item.xml" value="0.33" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/exercise_set_row_item.xml" value="0.23425925925925925" />
-        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/fragment_create_exercise.xml" value="0.33" />
-        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/fragment_create_routine.xml" value="0.33" />
+        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/fragment_create_exercise.xml" value="0.42965459140690815" />
+        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/fragment_create_routine.xml" value="0.22" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/fragment_input_user_data.xml" value="0.25" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/fragment_one_rm_caculator.xml" value="0.33" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/fragment_one_rm_caculator2.xml" value="0.35520833333333335" />
@@ -32,9 +39,11 @@
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/one_rm_caculator.xml" value="0.3671875" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/routine_card_view.xml" value="0.33" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/spinner_list_view.xml" value="0.290625" />
+        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.36770833333333336" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/menu/main_menu.xml" value="0.35572916666666665" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/menu/navigation_drawer.xml" value="0.24031007751937986" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/menu/top_app_bar.xml" value="0.22" />
+        <entry key="..\:/sdk3.7/platforms/android-32/data/res/drawable/editbox_background.xml" value="0.319" />
         <entry key="..\:/sdk3.7/platforms/android-32/data/res/layout/simple_list_item_1.xml" value="0.3466666666666667" />
       </map>
     </option>

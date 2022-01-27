@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/todayExerciseFragment">
+    app:startDestination="@id/exerciseRecordFragment">
 
 
     <fragment
-        android:id="@+id/inputUserDataFragment"
-        android:name="com.example.giantsecret.view.InputUserDataFragment"
-        tools:layout="@layout/fragment_input_user_data"
+        android:id="@+id/statisticFragment"
+        android:name="com.example.giantsecret.view.StatisticFragment"
+        tools:layout="@layout/fragment_statistic"
         android:label="@string/input_one_rm" />
     <fragment
         android:id="@+id/routineFragment"
@@ -26,10 +26,10 @@
             />
     </fragment>
     <fragment
-        android:id="@+id/todayExerciseFragment"
-        android:name="com.example.giantsecret.view.TodayExerciseFragment"
-        tools:layout="@layout/fragment_today_exercise"
-        android:label="@string/today_exercise" >
+        android:id="@+id/exerciseRecordFragment"
+        android:name="com.example.giantsecret.view.ExerciseRecordFragment"
+        tools:layout="@layout/fragment_exercise_record"
+        android:label="@string/exercise_record" >
 
     </fragment>
     <fragment
