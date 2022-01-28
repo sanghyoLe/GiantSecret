@@ -1,10 +1,8 @@
 package com.example.giantsecret.viewModel
 
 import androidx.lifecycle.*
-import com.example.giantsecret.RoutineRepository
-import com.example.giantsecret.UserRepository
-import com.example.giantsecret.db.entity.Routine
-import com.example.giantsecret.db.entity.User
+import com.example.giantsecret.lib.repository.RoutineRepository
+import com.example.giantsecret.lib.model.Routine
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 

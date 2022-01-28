@@ -1,22 +1,25 @@
-package com.example.giantsecret.db
+package com.example.giantsecret.lib.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.giantsecret.db.dao.RoutineDao
-import com.example.giantsecret.db.entity.Exercise
-import com.example.giantsecret.db.entity.Routine
-import com.example.giantsecret.db.entity.User
+import com.example.giantsecret.lib.dao.ExerciseDao
+import com.example.giantsecret.lib.dao.RoutineDao
+import com.example.giantsecret.lib.model.Exercise
+import com.example.giantsecret.lib.model.ExerciseSet
+import com.example.giantsecret.lib.model.Routine
+import com.example.giantsecret.lib.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
-@Database(entities = [Routine::class, Exercise::class, User::class], version = 1 , exportSchema = false)
+@Database(entities = [Routine::class, ExerciseSet::class,Exercise::class, User::class], version = 1 , exportSchema = true)
 public abstract class AppDatabase : RoomDatabase() {
 
     abstract fun routineDao(): RoutineDao
+    abstract fun exerciseDao(): ExerciseDao
 
     private class AppDatabaseCallback(
         private val scope: CoroutineScope
@@ -26,6 +29,8 @@ public abstract class AppDatabase : RoomDatabase() {
             INSTANCE?.let { database ->
                 scope.launch {
                     var routineDao = database.routineDao()
+                    var exerciseDao = database.exerciseDao()
+
 
                     var routine = Routine("hi")
                     routineDao.insertRoutine(routine)
@@ -47,7 +52,7 @@ public abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "routine_database"
+                    "app_database.db"
                 ).addCallback(AppDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance

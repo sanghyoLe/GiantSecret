@@ -1,4 +1,4 @@
-package com.example.giantsecret.view
+package com.example.giantsecret.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

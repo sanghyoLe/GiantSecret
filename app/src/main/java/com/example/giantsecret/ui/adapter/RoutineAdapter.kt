@@ -1,4 +1,4 @@
-package com.example.giantsecret
+package com.example.giantsecret.ui.adapter
 
 
 import android.view.LayoutInflater
@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.giantsecret.db.entity.Routine
+import com.example.giantsecret.R
+import com.example.giantsecret.lib.model.Routine
 
 
 class RoutineAdapter :  ListAdapter<Routine, RoutineAdapter.RoutineViewHolder>(RoutineComparator()){

@@ -8,12 +8,12 @@
 
     <fragment
         android:id="@+id/statisticFragment"
-        android:name="com.example.giantsecret.view.StatisticFragment"
+        android:name="com.example.giantsecret.ui.StatisticFragment"
         tools:layout="@layout/fragment_statistic"
         android:label="@string/input_one_rm" />
     <fragment
         android:id="@+id/routineFragment"
-        android:name="com.example.giantsecret.view.RoutineFragment"
+        android:name="com.example.giantsecret.ui.RoutineFragment"
         tools:layout="@layout/fragment_routine"
         android:label="@string/routine" >
         <action android:id="@+id/createRoutineAction"
@@ -27,14 +27,14 @@
     </fragment>
     <fragment
         android:id="@+id/exerciseRecordFragment"
-        android:name="com.example.giantsecret.view.ExerciseRecordFragment"
+        android:name="com.example.giantsecret.ui.ExerciseRecordFragment"
         tools:layout="@layout/fragment_exercise_record"
         android:label="@string/exercise_record" >
 
     </fragment>
     <fragment
         android:id="@+id/createRoutineFragment"
-        android:name="com.example.giantsecret.view.CreateRoutineFragment"
+        android:name="com.example.giantsecret.ui.CreateRoutineFragment"
         tools:layout="@layout/fragment_create_routine"
         android:label="createRoutineFragment">
         <action android:id="@+id/createRoutineToCloseAction"
@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/createExerciseFragment"
-        android:name="com.example.giantsecret.view.CreateExerciseFragment"
+        android:name="com.example.giantsecret.ui.CreateExerciseFragment"
         tools:layout="@layout/fragment_create_exercise"
         android:label="createExerciseFragment">
         <action android:id="@+id/createExerciseToCloseAction"
@@ -79,7 +79,7 @@
     <activity
         android:id="@+id/createRoutineActivity"
         tools:layout="@layout/activity_main"
-        android:name="com.example.giantsecret.view.CreateRoutineActivity"
+        android:name="com.example.giantsecret.ui.CreateRoutineActivity"
         android:label="CreateRoutineActivity" />
 
 </navigation>

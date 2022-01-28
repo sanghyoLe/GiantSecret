@@ -4,7 +4,7 @@
     package="com.example.giantsecret">
 
     <application
-        android:name=".RoutineApplication"
+        android:name=".AppApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,7 +15,7 @@
         android:theme="@style/SplashTheme"
         tools:targetApi="32">
         <activity
-            android:name=".view.CreateRoutineActivity"
+            android:name=".ui.CreateRoutineActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

@@ -1,4 +1,4 @@
-package com.example.giantsecret.view
+package com.example.giantsecret.ui
 
 import android.app.Activity
 import android.content.Context
@@ -20,11 +20,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.giantsecret.R
-import com.example.giantsecret.RoutineAdapter
-import com.example.giantsecret.RoutineApplication
+import com.example.giantsecret.ui.adapter.RoutineAdapter
+import com.example.giantsecret.AppApplication
 
 import com.example.giantsecret.databinding.FragmentRoutineBinding
-import com.example.giantsecret.db.entity.Routine
+import com.example.giantsecret.lib.model.Routine
 import com.example.giantsecret.viewModel.RoutineViewModel
 import com.example.giantsecret.viewModel.RoutineViewModelFactory
 
@@ -33,7 +33,7 @@ class RoutineFragment : Fragment(), LifecycleObserver {
     private val newRoutineActivityRequestCode = 1
     private lateinit var adapter: RoutineAdapter
     private val routineViewModel: RoutineViewModel by viewModels {
-        RoutineViewModelFactory((activity?.application as RoutineApplication).repository)
+        RoutineViewModelFactory((activity?.application as AppApplication).repository)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

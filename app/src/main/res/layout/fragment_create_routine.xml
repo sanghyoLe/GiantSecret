@@ -8,10 +8,10 @@
             type="com.example.giantsecret.viewModel.RoutineViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.CreateRoutineFragment">
+        tools:context=".ui.CreateRoutineFragment">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/createRoutineToolbar"
@@ -45,7 +45,18 @@
 
             </androidx.appcompat.widget.Toolbar>
 
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="fill_vertical"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:fillViewport="true"
 
+            >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/routineNameInputLayout"
             android:layout_width="match_parent"
@@ -58,7 +69,7 @@
             app:boxStrokeColor="@color/secondaryColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/createRoutineToolbar"
+            app:layout_constraintTop_toTopOf="parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             >
 
@@ -173,14 +184,19 @@
                 android:text="@string/create_exercise"
                 android:textColor="@color/black"/>
         </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/exerciseListRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/createExerciseBtnLayout"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
 
 
 
-
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

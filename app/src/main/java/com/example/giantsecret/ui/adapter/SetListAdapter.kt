@@ -1,24 +1,20 @@
-package com.example.giantsecret
+package com.example.giantsecret.ui.adapter
 
 import android.content.Context
-import android.text.Layout
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.ListAdapter
 import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.giantsecret.view.SET_SIZE
-import org.w3c.dom.Text
+import com.example.giantsecret.BottomSheetListView
+import com.example.giantsecret.R
+import com.example.giantsecret.ui.SET_SIZE
 
-class ExerciseAdapter(private var setSize:Int,context: Context,fragmentManager: FragmentManager) :
-    RecyclerView.Adapter<ExerciseAdapter.ViewHolder>() {
-    private lateinit var bottomSheetListView:BottomSheetListView
+class SetListAdapter(private var setSize:Int, context: Context, fragmentManager: FragmentManager) :
+    RecyclerView.Adapter<SetListAdapter.ViewHolder>() {
+    private lateinit var bottomSheetListView: BottomSheetListView
     private var context = context
     private var fragmentManager = fragmentManager
     private var countArrayList: ArrayList<String> = ArrayList()
@@ -38,7 +34,7 @@ class ExerciseAdapter(private var setSize:Int,context: Context,fragmentManager: 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
-        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.exercise_row_item,viewGroup,false)
+        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.exercise_input_row_item,viewGroup,false)
         for(i:Int in 0..SET_SIZE) {
             countArrayList.add(i, "${i}")
         }
@@ -51,7 +47,8 @@ class ExerciseAdapter(private var setSize:Int,context: Context,fragmentManager: 
         viewHolder.textView.setOnClickListener {
             bottomSheetListView = BottomSheetListView(context,countArrayList)
             bottomSheetListView.show(fragmentManager,"BOTTOM_SHEET")
-            bottomSheetListView.setOnClickListener(object: BottomSheetListView.onDialogClickListener {
+            bottomSheetListView.setOnClickListener(object:
+                BottomSheetListView.onDialogClickListener {
                 override fun onClicked(clickItem: String,clickItemPosition:Int) {
                         viewHolder.textView.text = clickItem
                 }

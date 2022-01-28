@@ -1,9 +1,7 @@
-package com.example.giantsecret.db.dao
+package com.example.giantsecret.lib.dao
 
 import androidx.room.*
-import com.example.giantsecret.db.entity.Exercise
-import com.example.giantsecret.db.entity.Routine
-import com.example.giantsecret.db.entity.RoutineWithExercises
+import com.example.giantsecret.lib.model.Routine
 import kotlinx.coroutines.flow.Flow
 
 @Dao

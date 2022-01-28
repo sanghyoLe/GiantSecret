@@ -1,4 +1,4 @@
-package com.example.giantsecret.view
+package com.example.giantsecret.ui
 
 import android.app.Activity
 import android.content.Intent

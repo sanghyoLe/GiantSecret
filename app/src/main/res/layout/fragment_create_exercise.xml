@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        tools:context=".view.CreateExerciseFragment">
+        tools:context=".ui.CreateExerciseFragment">
 
 
                 <androidx.appcompat.widget.Toolbar
@@ -36,6 +36,7 @@
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                         />
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/exerciseSaveTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="저장"
@@ -145,6 +146,17 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/choiceSetText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="세트 수를 선택하세요"
+                    android:layout_margin="16dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    app:layout_constraintTop_toBottomOf="@id/exerciseNameInputLayout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/choiceSetTextView"
             android:layout_width="0dp"
@@ -153,14 +165,14 @@
             android:background="@android:drawable/editbox_background"
             android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
             android:gravity="center"
-            android:text="세트 개수를 선택하세요"
+            android:text="1"
             android:layout_marginEnd="16dp"
             android:textColor="@color/black"
             android:padding="8dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/setText"
-            app:layout_constraintTop_toBottomOf="@id/exerciseNameInputLayout"/>
+            app:layout_constraintTop_toBottomOf="@id/choiceSetText"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/setText"
@@ -256,7 +268,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_width="180dp"
                 android:layout_height="35dp"
-                android:text="1"
+                android:text="12"
                 android:background="@android:drawable/editbox_background"
                 android:gravity="center"
                 android:textColor="@color/black"

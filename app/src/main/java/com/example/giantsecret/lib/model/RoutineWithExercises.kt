@@ -1,4 +1,4 @@
-package com.example.giantsecret.db.entity
+package com.example.giantsecret.lib.model
 
 import androidx.room.Embedded
 import androidx.room.Relation

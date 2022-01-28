@@ -1,36 +1,35 @@
-package com.example.giantsecret.view
+package com.example.giantsecret.ui
 
-import android.app.Dialog
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Insets
-import android.graphics.Rect
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.util.Size
 import android.view.*
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.core.view.forEach
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.giantsecret.AppApplication
 import com.example.giantsecret.R
 import com.example.giantsecret.databinding.FragmentCreateRoutineBinding
+import com.example.giantsecret.ui.adapter.ExerciseAdapter
+import com.example.giantsecret.viewModel.ExerciseViewModel
+import com.example.giantsecret.viewModel.ExerciseViewModelFactory
 import com.google.android.material.chip.Chip
 
 
 class CreateRoutineFragment : Fragment() {
     private lateinit var binding: FragmentCreateRoutineBinding
     private lateinit var callback: OnBackPressedCallback
-
+    private var exerciseAdapter = ExerciseAdapter()
+    private val exerciseViewModel: ExerciseViewModel by viewModels {
+        ExerciseViewModelFactory((activity?.application as AppApplication).exerciseRepository)
+    }
     private var x:Int = 1
     private var y:Int = 1
 
@@ -59,10 +58,19 @@ class CreateRoutineFragment : Fragment() {
             findNavController().navigate(R.id.createRoutineToCreateExercise)
         }
 
+        binding.exerciseListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.exerciseListRecyclerView.adapter = exerciseAdapter
 
         return binding.root
     }
-
+    class ActivityLifeCycleObserver(private val update:() -> Unit) :
+        DefaultLifecycleObserver {
+        override fun onCreate(owner: LifecycleOwner) {
+            super.onCreate(owner)
+            owner.lifecycle.removeObserver(this)
+            update()
+        }
+    }
     override fun onAttach(context: Context) {
         super.onAttach(context)
         callback = object : OnBackPressedCallback(true) {
@@ -70,6 +78,13 @@ class CreateRoutineFragment : Fragment() {
                 findNavController()?.navigate(R.id.createRoutineToCloseAction)
             }
         }
+
+        activity?.lifecycle?.addObserver(ActivityLifeCycleObserver{
+            exerciseViewModel.readAllData.observe(this) {
+                    exerciseAdapter.setExercise(it)
+            }
+        })
+
         requireActivity().onBackPressedDispatcher.addCallback(this,callback)
     }
 
@@ -79,14 +94,10 @@ class CreateRoutineFragment : Fragment() {
     }
     private fun registerFilterChange() {
         val ids = binding.routineChipGroup.checkedChipIds
-
         val partNames = mutableListOf<CharSequence>()
-
         ids.forEachIndexed { index, id ->
             partNames.add(index, binding.routineChipGroup.findViewById<Chip>(id).text)
         }
-
-
             // 체크된 name 가져오기
 //            partNames.forEachIndexed { index, charSequence ->
 //                Log.d("partNames",partNames.get(index).toString())

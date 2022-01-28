@@ -5,14 +5,14 @@ package com.example.giantsecret.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.giantsecret.UserRepository
-import com.example.giantsecret.db.entity.User
+import com.example.giantsecret.lib.repository.UserRepository
+import com.example.giantsecret.lib.model.User
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
 class UserViewModel(private val repository: UserRepository) : ViewModel(){
 
-    val userData:User = repository.user
+    val userData: User = repository.user
 
     fun insert(user: User) = viewModelScope.launch {
         repository.insert(user)
