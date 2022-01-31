@@ -7,15 +7,12 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.giantsecret.lib.dao.ExerciseDao
 import com.example.giantsecret.lib.dao.RoutineDao
-import com.example.giantsecret.lib.model.Exercise
-import com.example.giantsecret.lib.model.ExerciseSet
-import com.example.giantsecret.lib.model.Routine
-import com.example.giantsecret.lib.model.User
+import com.example.giantsecret.lib.model.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
-@Database(entities = [Routine::class, ExerciseSet::class,Exercise::class, User::class], version = 1 , exportSchema = true)
+@Database(entities = [Routine::class, ExerciseSet::class,Exercise::class], version = 1 , exportSchema = true)
 public abstract class AppDatabase : RoomDatabase() {
 
     abstract fun routineDao(): RoutineDao

@@ -23,13 +23,24 @@ interface ExerciseDao {
     @Query("SELECT * FROM exercises")
     suspend fun getAllExercises() : List<ExerciseWithSet>
 
+    @Query("SELECT * FROM exercises where exerciseId = :id")
+    suspend fun getExerciseById(id:Long):Exercise
+
+    @Query("SELECT * FROM exerciseset where parentExerciseId = :parentId")
+    suspend fun getExerciseSetByParentId(parentId: Long) : List<ExerciseSet>
+
+    @Transaction
+    @Query("SELECT * FROM exercises where exerciseId = :id")
+    suspend fun getExerciseWithSetByParentId(id:Long) : ExerciseWithSet
+
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun createExercise(exercise: Exercise, sets: List<ExerciseSet>) {
+    suspend fun createExercise(exercise: Exercise, sets: List<ExerciseSet>):Long{
         val exerciseId = insertExercise(exercise)
         sets.map {
             it.apply { parentExerciseId = exerciseId }
         }.also { insertSets(it) }
+        return exerciseId
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

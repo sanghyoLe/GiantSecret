@@ -1,23 +1,29 @@
 package com.example.giantsecret.ui.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.giantsecret.BottomSheetListView
 import com.example.giantsecret.R
 import com.example.giantsecret.ui.SET_SIZE
 
-class SetListAdapter(private var setSize:Int, context: Context, fragmentManager: FragmentManager) :
+class SetListAdapter(private var setSize:Int = 1, context: Context, fragmentManager: FragmentManager) :
     RecyclerView.Adapter<SetListAdapter.ViewHolder>() {
     private lateinit var bottomSheetListView: BottomSheetListView
     private var context = context
     private var fragmentManager = fragmentManager
     private var countArrayList: ArrayList<String> = ArrayList()
+    private var weightArrayList: ArrayList<Double> = ArrayList(setSize)
+    private var repArrayList: ArrayList<Int> = ArrayList()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val setTitleTextView:TextView
@@ -38,11 +44,17 @@ class SetListAdapter(private var setSize:Int, context: Context, fragmentManager:
         for(i:Int in 0..SET_SIZE) {
             countArrayList.add(i, "${i}")
         }
+        for(i:Int in 0..setSize) {
+            weightArrayList.add(i, 60.0)
+            repArrayList.add(i,12)
+        }
+
+
         return ViewHolder(view)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
         viewHolder.setTitleTextView.text = "${position+1} SET"
         viewHolder.textView.setOnClickListener {
             bottomSheetListView = BottomSheetListView(context,countArrayList)
@@ -51,20 +63,38 @@ class SetListAdapter(private var setSize:Int, context: Context, fragmentManager:
                 BottomSheetListView.onDialogClickListener {
                 override fun onClicked(clickItem: String,clickItemPosition:Int) {
                         viewHolder.textView.text = clickItem
+                        repArrayList.add(position,Integer.parseInt(clickItem))
                 }
             })
         }
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
 
+
+            viewHolder.editText.addTextChangedListener {
+                if(TextUtils.isEmpty(viewHolder.editText.text.toString())){
+                    weightArrayList.add(position, 60.0)
+                } else {
+                    weightArrayList.add(position,(viewHolder.editText.text.toString().toDouble()))
+                }
+            }
     }
     fun changeSetSize(changeSetSize:Int){
         setSize = changeSetSize
+        for(i:Int in 0..setSize) {
+            weightArrayList.add(i, 60.0)
+            repArrayList.add(i,12)
+        }
         notifyDataSetChanged()
+    }
+    fun getWeightArrayList():ArrayList<Double>{
+        return weightArrayList
+    }
+    fun getRepArrayList():ArrayList<Int>{
+        return repArrayList
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = setSize
+
 
 }
 

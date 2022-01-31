@@ -20,6 +20,8 @@
             android:layout_margin="16dp"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:hint="60"
+            android:textColorHint="@color/black"
             android:gravity="center"
             android:backgroundTint="@color/secondaryColor"
             />

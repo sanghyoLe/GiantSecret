@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
@@ -34,6 +35,7 @@ class CreateExerciseFragment : Fragment() {
     private lateinit var binding:FragmentCreateExerciseBinding
     private lateinit var bottomSheetListView:BottomSheetListView
     private lateinit var setListAdapter: SetListAdapter
+    private lateinit var callback: OnBackPressedCallback
     private val exerciseViewModel: ExerciseViewModel by viewModels {
        ExerciseViewModelFactory((activity?.application as AppApplication).exerciseRepository)
     }
@@ -55,6 +57,10 @@ class CreateExerciseFragment : Fragment() {
 
     }
 
+
+
+
+
     private fun initView(){
         createBottomSheet()
         createSearchExerciseListView()
@@ -64,11 +70,11 @@ class CreateExerciseFragment : Fragment() {
         binding.createExerciseBackBtn.setOnClickListener {
             findNavController().navigate(R.id.createExerciseToCloseAction)
         }
-        binding.exerciseSaveTextView.setOnClickListener {
-            createExercise()
-        }
         // 세트 마다 무게 다름 RecyclerView Adapter 설정정
         setListAdapter = SetListAdapter(1,requireContext(),childFragmentManager)
+        createExercise()
+
+
     }
 
 
@@ -164,43 +170,59 @@ class CreateExerciseFragment : Fragment() {
 
     // 저장 눌렀을 때
     private fun createExercise(){
-        if(TextUtils.isEmpty(binding.exerciseNameEditText.text)) {
-            Toast.makeText(requireContext(),"운동 제목을 입력해주세요",Toast.LENGTH_LONG).show()
-        } else {
-            var exerciseName:String = binding.exerciseNameEditText.text.toString()
-            var numberOfSet:Int = Integer.parseInt(binding.choiceSetTextView.text.toString())
-            var numberOfRep:Int = Integer.parseInt(binding.choiceExerciseCount.text.toString())
-            var weight:Double =  binding.weightEditText.text.toString().toDouble()
+
+        binding.exerciseSaveTextView.setOnClickListener {
+            var exerciseName:String
+            var numberOfSet:Int
+            // 운동 이름 미입력
+            if(TextUtils.isEmpty(binding.exerciseNameEditText.text)) {
+                Toast.makeText(requireContext(),"운동 제목을 입력해주세요",Toast.LENGTH_LONG).show()
+            } // 중량 미입력
+            else {
+                exerciseName = binding.exerciseNameEditText.text.toString()
+                numberOfSet = Integer.parseInt(binding.choiceSetTextView.text.toString())
+                var exercise = Exercise(null,exerciseName,numberOfSet)
+                // 세트 간 무게 동일 시
+                if(binding.setWeightEqualBtn.isChecked) {
+                    if(TextUtils.isEmpty(binding.weightEditText.text)) {
+                        Toast.makeText(requireContext(), "중량을 입력해주세요", Toast.LENGTH_LONG).show()
+                    } else {
+                        var numberOfRep:Int = Integer.parseInt(binding.choiceExerciseCount.text.toString())
+                        var weight:Double =  binding.weightEditText.text.toString().toDouble()
 
 
-            var numberOfRepList:ArrayList<Int> = ArrayList<Int>()
-            var weightList:ArrayList<Double> = ArrayList<Double>()
+                        var set = ExerciseSet(null,null,numberOfRep,weight)
+                        var setList:List<ExerciseSet>  = List(numberOfSet) { set }
 
-            for(i:Int in 0..numberOfSet){
-                numberOfRepList.add(i,numberOfRep)
+                        exerciseViewModel.createExercise(exercise,setList)
+
+
+
+                        findNavController().navigate(R.id.createExerciseToCloseAction)
+                    }
+                }
+                // 세트 마다 무게 다를 시
+                else if(binding.setWeightDifferentBtn.isChecked) {
+                    var weightList = setListAdapter.getWeightArrayList()
+                    var repList = setListAdapter.getRepArrayList()
+                    var set: ArrayList<ExerciseSet> = ArrayList()
+
+                    for(i:Int in 0..setListAdapter.itemCount) {
+                        set.add(i, ExerciseSet(null,null,
+                            repList.get(i),weightList.get(i)
+                            )
+                        )
+                    }
+                    exerciseViewModel.createExercise(exercise,set)
+                    findNavController().navigate(R.id.createExerciseToCloseAction)
+                }
             }
-
-            for(i:Int in 0..numberOfSet){
-                weightList.add(i,weight)
-            }
-
-            var exercise = Exercise(null,exerciseName,numberOfSet)
-            var set = ExerciseSet(null,null,numberOfRep,weight)
-
-            var setList:List<ExerciseSet>  = List(numberOfSet, { set })
-
-
-
-
-
-            exerciseViewModel.createExercise(exercise,setList)
-
-
-            findNavController().navigate(R.id.createExerciseToCloseAction)
         }
-
     }
 
 
 
 }
+
+
+
