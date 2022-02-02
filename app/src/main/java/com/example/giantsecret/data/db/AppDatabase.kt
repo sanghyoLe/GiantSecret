@@ -1,13 +1,13 @@
-package com.example.giantsecret.lib.db
+package com.example.giantsecret.data.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.giantsecret.lib.dao.ExerciseDao
-import com.example.giantsecret.lib.dao.RoutineDao
-import com.example.giantsecret.lib.model.*
+import com.example.giantsecret.data.dao.ExerciseDao
+import com.example.giantsecret.data.dao.RoutineDao
+import com.example.giantsecret.data.model.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -26,7 +26,6 @@ public abstract class AppDatabase : RoomDatabase() {
             INSTANCE?.let { database ->
                 scope.launch {
                     var routineDao = database.routineDao()
-                    var exerciseDao = database.exerciseDao()
 
 
                     var routine = Routine("hi")
@@ -38,7 +37,6 @@ public abstract class AppDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null
-
         fun getDatabase(
             context: Context,
             scope: CoroutineScope

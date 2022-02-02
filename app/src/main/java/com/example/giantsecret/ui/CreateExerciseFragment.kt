@@ -4,7 +4,6 @@ package com.example.giantsecret.ui
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,23 +21,22 @@ import com.example.giantsecret.ui.adapter.SetListAdapter
 
 
 import com.example.giantsecret.databinding.FragmentCreateExerciseBinding
-import com.example.giantsecret.lib.model.Exercise
-import com.example.giantsecret.lib.model.ExerciseSet
+import com.example.giantsecret.data.model.Exercise
+import com.example.giantsecret.data.model.ExerciseSet
 import com.example.giantsecret.viewModel.ExerciseViewModel
-import com.example.giantsecret.viewModel.ExerciseViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
 import kotlin.collections.ArrayList
 
-
 var SET_SIZE = 100
+
+@AndroidEntryPoint
 class CreateExerciseFragment : Fragment() {
     private lateinit var binding:FragmentCreateExerciseBinding
     private lateinit var bottomSheetListView:BottomSheetListView
     private lateinit var setListAdapter: SetListAdapter
     private lateinit var callback: OnBackPressedCallback
-    private val exerciseViewModel: ExerciseViewModel by viewModels {
-       ExerciseViewModelFactory((activity?.application as AppApplication).exerciseRepository)
-    }
+    private val exerciseViewModel: ExerciseViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {

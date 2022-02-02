@@ -9,32 +9,33 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.forEach
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.giantsecret.AppApplication
+import com.example.giantsecret.MainApplication
 import com.example.giantsecret.R
+import com.example.giantsecret.data.repository.RoutineRepository
 import com.example.giantsecret.databinding.FragmentCreateRoutineBinding
 import com.example.giantsecret.ui.adapter.ExerciseAdapter
 import com.example.giantsecret.viewModel.ExerciseViewModel
-import com.example.giantsecret.viewModel.ExerciseViewModelFactory
 import com.google.android.material.chip.Chip
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class CreateRoutineFragment : Fragment() {
     private lateinit var binding: FragmentCreateRoutineBinding
     private lateinit var callback: OnBackPressedCallback
-    private val exerciseViewModel: ExerciseViewModel by viewModels {
-        ExerciseViewModelFactory((activity?.application as AppApplication).exerciseRepository)
-    }
+    private val exerciseViewModel: ExerciseViewModel by activityViewModels()
     private lateinit var exerciseAdapter:ExerciseAdapter
     private lateinit var searchDialog:SearchDialogFragment
     private lateinit var searchAdapter: SearchDialogFragment.SearchAdapter
-
-
-
 
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -86,8 +87,6 @@ class CreateRoutineFragment : Fragment() {
                 exerciseAdapter.setExerciseWithSet(it)
             }
         })
-
-
 
 
         requireActivity().onBackPressedDispatcher.addCallback(this,callback)

@@ -1,11 +1,10 @@
 package com.example.giantsecret.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.giantsecret.databinding.ExerciseSetRowItemBinding
-import com.example.giantsecret.lib.model.ExerciseSet
+import com.example.giantsecret.data.model.ExerciseSet
 
 
 class ShowSetListAdapter(setList:List<ExerciseSet>) : RecyclerView.Adapter<ShowSetListAdapter.ViewHolder>() {

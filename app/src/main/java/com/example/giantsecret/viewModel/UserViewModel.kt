@@ -5,8 +5,8 @@ package com.example.giantsecret.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.giantsecret.lib.repository.UserRepository
-import com.example.giantsecret.lib.model.User
+import com.example.giantsecret.data.repository.UserRepository
+import com.example.giantsecret.data.model.User
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 

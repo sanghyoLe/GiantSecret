@@ -1,4 +1,4 @@
-package com.example.giantsecret.lib.model
+package com.example.giantsecret.data.model
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
@@ -25,15 +25,6 @@ data class ExerciseSet(
     @ColumnInfo var numberOfRep:Int,
     @ColumnInfo var weight:Double
 )
-
-
-//@Entity(tableName = "exercise_set")
-//data class ExerciseSet(
-//    @PrimaryKey(autoGenerate = true) val setId: Long?,
-//    @ColumnInfo var parentExerciseId: Long?,
-//    @ColumnInfo var numberOfRep:Int,
-//    @ColumnInfo var weight:Double
-//)
 
 
 data class ExerciseWithSet(

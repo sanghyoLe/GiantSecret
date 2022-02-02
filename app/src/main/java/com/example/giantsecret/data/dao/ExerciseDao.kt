@@ -1,11 +1,10 @@
-package com.example.giantsecret.lib.dao
+package com.example.giantsecret.data.dao
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.giantsecret.lib.model.Exercise
-import com.example.giantsecret.lib.model.ExerciseSet
-import com.example.giantsecret.lib.model.ExerciseWithSet
+import com.example.giantsecret.data.model.Exercise
+import com.example.giantsecret.data.model.ExerciseSet
+import com.example.giantsecret.data.model.ExerciseWithSet
 
 @Dao
 interface ExerciseDao {

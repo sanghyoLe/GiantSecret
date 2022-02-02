@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
@@ -13,8 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.giantsecret.R
 import com.example.giantsecret.databinding.SearchDialogLayoutBinding
 import com.example.giantsecret.dialogFragmentResize
-import com.example.giantsecret.lib.model.Exercise
-import com.example.giantsecret.viewModel.ExerciseViewModel
+import com.example.giantsecret.data.model.Exercise
 
 
 class SearchDialogFragment(searchAdapter: SearchAdapter)  : DialogFragment() {

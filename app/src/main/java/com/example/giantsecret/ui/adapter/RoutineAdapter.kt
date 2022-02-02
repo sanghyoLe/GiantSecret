@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.giantsecret.R
-import com.example.giantsecret.lib.model.Routine
+import com.example.giantsecret.data.model.Routine
 
 
 class RoutineAdapter :  ListAdapter<Routine, RoutineAdapter.RoutineViewHolder>(RoutineComparator()){

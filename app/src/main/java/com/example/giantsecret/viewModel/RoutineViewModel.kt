@@ -1,12 +1,20 @@
 package com.example.giantsecret.viewModel
 
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.example.giantsecret.lib.repository.RoutineRepository
-import com.example.giantsecret.lib.model.Routine
+import com.example.giantsecret.data.repository.RoutineRepository
+import com.example.giantsecret.data.model.Routine
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class RoutineViewModel(private val repository: RoutineRepository) : ViewModel(){
+@HiltViewModel
+class RoutineViewModel @Inject constructor(
+    private val repository: RoutineRepository,
+    @Assisted private val savedStateHandle: SavedStateHandle
+) : ViewModel(){
 
     val allRoutines: LiveData<List<Routine>> = repository.allRoutines.asLiveData()
 
@@ -15,12 +23,3 @@ class RoutineViewModel(private val repository: RoutineRepository) : ViewModel(){
     }
 }
 
-class RoutineViewModelFactory(private val repository: RoutineRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(RoutineViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return RoutineViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

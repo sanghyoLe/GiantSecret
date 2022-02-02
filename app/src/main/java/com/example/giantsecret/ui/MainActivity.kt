@@ -1,4 +1,4 @@
-package com.example.giantsecret
+package com.example.giantsecret.ui
 
 
 import android.os.Build
@@ -14,16 +14,16 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
+import com.example.giantsecret.R
 import com.example.giantsecret.databinding.ActivityMainBinding
 import com.example.giantsecret.viewModel.MviewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     val mViewModel by viewModels<MviewModel>()
     private lateinit var navController: NavController
-
-
 
 
     @RequiresApi(Build.VERSION_CODES.R)

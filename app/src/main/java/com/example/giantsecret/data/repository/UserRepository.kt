@@ -1,8 +1,8 @@
-package com.example.giantsecret.lib.repository
+package com.example.giantsecret.data.repository
 
 import androidx.annotation.WorkerThread
-import com.example.giantsecret.lib.dao.UserDao
-import com.example.giantsecret.lib.model.User
+import com.example.giantsecret.data.dao.UserDao
+import com.example.giantsecret.data.model.User
 
 
 class UserRepository (private val userDao: UserDao) {

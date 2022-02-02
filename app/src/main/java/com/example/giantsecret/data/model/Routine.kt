@@ -1,4 +1,4 @@
-package com.example.giantsecret.lib.model
+package com.example.giantsecret.data.model
 
 import androidx.room.*
 

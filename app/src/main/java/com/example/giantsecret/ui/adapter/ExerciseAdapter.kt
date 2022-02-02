@@ -1,7 +1,6 @@
 package com.example.giantsecret.ui.adapter
 
 import android.content.Context
-import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.giantsecret.databinding.ExerciseCardViewBinding
 
-import com.example.giantsecret.lib.model.Exercise
-import com.example.giantsecret.lib.model.ExerciseSet
-import com.example.giantsecret.lib.model.ExerciseWithSet
-import com.example.giantsecret.viewModel.ExerciseViewModel
+import com.example.giantsecret.data.model.Exercise
+import com.example.giantsecret.data.model.ExerciseWithSet
 
 class ExerciseAdapter(context:Context ) : RecyclerView.Adapter<ExerciseAdapter.ViewHolder>(){
     private var context = context
