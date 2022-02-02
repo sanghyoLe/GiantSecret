@@ -24,12 +24,12 @@
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/custom_dialog_spinner_layout.xml" value="0.25" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/dialog_searchable_spinner.xml" value="0.22" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/drawer_layout.xml" value="0.28958333333333336" />
-        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/exercise_card_view.xml" value="0.18" />
+        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/exercise_card_view.xml" value="0.1" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/exercise_input_row_item.xml" value="0.1" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/exercise_row_item.xml" value="0.33" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/exercise_set_row_item.xml" value="0.33" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/fragment_create_exercise.xml" value="0.25" />
-        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/fragment_create_routine.xml" value="0.25" />
+        <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/fragment_create_routine.xml" value="0.1" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/fragment_exercise_record.xml" value="0.26197916666666665" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/fragment_input_user_data.xml" value="0.25" />
         <entry key="..\:/androidProjects/GiantSecret/app/src/main/res/layout/fragment_one_rm_caculator.xml" value="0.33" />

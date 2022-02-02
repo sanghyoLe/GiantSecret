@@ -5,6 +5,7 @@ import androidx.room.*
 import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseSet
 import com.example.giantsecret.data.model.ExerciseWithSet
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ExerciseDao {
@@ -15,18 +16,12 @@ interface ExerciseDao {
     @Delete
     suspend fun deleteExercise(exercise: Exercise)
 
-    @Query("SELECT * FROM exercises")
-    fun getExercise(): LiveData<List<Exercise>>
-
     @Transaction
     @Query("SELECT * FROM exercises")
-    suspend fun getAllExercises() : List<ExerciseWithSet>
+    fun getExercisesWithFlow(): Flow<List<ExerciseWithSet>>
 
-    @Query("SELECT * FROM exercises where exerciseId = :id")
-    suspend fun getExerciseById(id:Long):Exercise
-
-    @Query("SELECT * FROM exerciseset where parentExerciseId = :parentId")
-    suspend fun getExerciseSetByParentId(parentId: Long) : List<ExerciseSet>
+    @Query("SELECT * FROM exercises")
+    fun getAllExerciseFlow() : Flow<List<Exercise>>
 
     @Transaction
     @Query("SELECT * FROM exercises where exerciseId = :id")

@@ -1,27 +1,22 @@
 package com.example.giantsecret.ui
 
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.core.view.forEach
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.giantsecret.MainApplication
+import com.example.giantsecret.BottomSheetListView
 import com.example.giantsecret.R
-import com.example.giantsecret.data.repository.RoutineRepository
 import com.example.giantsecret.databinding.FragmentCreateRoutineBinding
+import com.example.giantsecret.generated.callback.OnClickListener
 import com.example.giantsecret.ui.adapter.ExerciseAdapter
 import com.example.giantsecret.viewModel.ExerciseViewModel
 import com.google.android.material.chip.Chip
@@ -33,18 +28,21 @@ class CreateRoutineFragment : Fragment() {
     private lateinit var binding: FragmentCreateRoutineBinding
     private lateinit var callback: OnBackPressedCallback
     private val exerciseViewModel: ExerciseViewModel by activityViewModels()
-    private lateinit var exerciseAdapter:ExerciseAdapter
+
     private lateinit var searchDialog:SearchDialogFragment
     private lateinit var searchAdapter: SearchDialogFragment.SearchAdapter
-
+    lateinit var exerciseAdapter:ExerciseAdapter
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        exerciseAdapter = ExerciseAdapter(requireContext())
+        exerciseAdapter = ExerciseAdapter()
         searchAdapter = SearchDialogFragment.SearchAdapter()
         searchDialog = SearchDialogFragment(searchAdapter)
 
+
+
+        createRoutineObserver()
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,51 +51,12 @@ class CreateRoutineFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_create_routine, container, false)
         initView()
+
+        binding.exerciseListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.exerciseListRecyclerView.adapter = exerciseAdapter
+
         return binding.root
     }
-
-
-    class ActivityLifeCycleObserver(private val update:() -> Unit) :
-        DefaultLifecycleObserver {
-        override fun onCreate(owner: LifecycleOwner) {
-            super.onCreate(owner)
-            owner.lifecycle.removeObserver(this)
-            update()
-        }
-    }
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController()?.navigate(R.id.createRoutineToCloseAction)
-            }
-        }
-
-        activity?.lifecycle?.addObserver(ActivityLifeCycleObserver{
-            exerciseViewModel.readAllData.observe(this) {
-                searchAdapter.setExercise(it)
-            }
-        })
-
-
-        activity?.lifecycle?.addObserver(ActivityLifeCycleObserver{
-            exerciseViewModel.generatedExerciseWithSet.observe(this) {
-                binding.exerciseListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-                binding.exerciseListRecyclerView.adapter = exerciseAdapter
-                exerciseAdapter.setExerciseWithSet(it)
-            }
-        })
-
-
-        requireActivity().onBackPressedDispatcher.addCallback(this,callback)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        callback.remove()
-    }
-
-
 
 
 
@@ -110,6 +69,12 @@ class CreateRoutineFragment : Fragment() {
         binding.createRoutineBackBtn.setOnClickListener {
             findNavController().navigate(R.id.createRoutineToCloseAction)
         }
+        binding.routineSaveBtn.setOnClickListener {
+            var parts = registerFilterChange()
+            var partString:String = ""
+
+
+        }
         binding.createExerciseBtnLayout.setOnClickListener {
             findNavController().navigate(R.id.createRoutineToCreateExercise)
         }
@@ -118,21 +83,27 @@ class CreateRoutineFragment : Fragment() {
         }
 
 
-
     }
 
 
-    private fun registerFilterChange() {
+    private fun registerFilterChange(): MutableList<CharSequence> {
         val ids = binding.routineChipGroup.checkedChipIds
         val partNames = mutableListOf<CharSequence>()
+        val partString:String = ""
         ids.forEachIndexed { index, id ->
             partNames.add(index, binding.routineChipGroup.findViewById<Chip>(id).text)
         }
-            // 체크된 name 가져오기
-//            partNames.forEachIndexed { index, charSequence ->
-//                Log.d("partNames",partNames.get(index).toString())
-//            }
+        return partNames
     }
+    private fun createRoutineObserver() {
+        exerciseViewModel.generatedExercise.observe(this) { exercises ->
+            exerciseAdapter.setExerciseWithSet(exercises)
+        }
+        exerciseViewModel.exerciseWithSetFlow.observe(this) { allExercise ->
+            searchAdapter.setExercise(allExercise)
+        }
+    }
+
 
 
 }

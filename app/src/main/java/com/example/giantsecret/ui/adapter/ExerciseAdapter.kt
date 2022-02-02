@@ -12,25 +12,30 @@ import com.example.giantsecret.databinding.ExerciseCardViewBinding
 import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseWithSet
 
-class ExerciseAdapter(context:Context ) : RecyclerView.Adapter<ExerciseAdapter.ViewHolder>(){
-    private var context = context
-    private var exerciseList = emptyList<Exercise>()
-    private var exerciseWithSetList = emptyList<ExerciseWithSet>()
+import javax.inject.Inject
+import javax.inject.Singleton
 
+
+class ExerciseAdapter()
+: RecyclerView.Adapter<ExerciseAdapter.ViewHolder>(){
+
+
+    private var exerciseWithSetList = emptyList<ExerciseWithSet>()
+    private lateinit var context: Context
 
 
     class ViewHolder(val binding:ExerciseCardViewBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ExerciseCardViewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-
-            return ViewHolder(binding)
+        context = parent.context
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
             val currentItem = exerciseWithSetList[position]
-            Log.d("1",position.toString())
+
 
             holder.binding.nameTextView.text = currentItem.exercise.name
             holder.binding.numberOfSetTextView.text = currentItem.exercise.numberOfSet.toString()
@@ -43,7 +48,7 @@ class ExerciseAdapter(context:Context ) : RecyclerView.Adapter<ExerciseAdapter.V
     }
 
     override fun getItemCount(): Int {
-        return exerciseList.size
+        return exerciseWithSetList.size
     }
     fun setLayoutShowHide(view:View) {
         view.visibility =
@@ -55,10 +60,7 @@ class ExerciseAdapter(context:Context ) : RecyclerView.Adapter<ExerciseAdapter.V
                 View.GONE
             }
     }
-    fun setExercise(exercise: List<Exercise>) {
-        exerciseList = exercise
-        notifyDataSetChanged()
-    }
+
     fun setExerciseWithSet(exerciseWithSet: List<ExerciseWithSet>) {
         exerciseWithSetList = exerciseWithSet
         notifyDataSetChanged()

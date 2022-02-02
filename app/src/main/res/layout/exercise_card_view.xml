@@ -59,7 +59,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/showAllSetLayout"
                 android:layout_marginTop="16dp"
                 android:layout_width="match_parent"

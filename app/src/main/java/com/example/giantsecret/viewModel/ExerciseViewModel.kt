@@ -1,16 +1,16 @@
 package com.example.giantsecret.viewModel
 
 import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseSet
 import com.example.giantsecret.data.model.ExerciseWithSet
 import com.example.giantsecret.data.repository.ExerciseRepository
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+
 
 
 @HiltViewModel
@@ -19,30 +19,43 @@ class ExerciseViewModel @Inject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val readAllData: LiveData<List<Exercise>>
-    val generatedExerciseData: LiveData<List<Exercise>>
-    var readExerciseSetData: List<ExerciseSet> = emptyList()
-    var generatedExerciseWithSet: LiveData<List<ExerciseWithSet>>
+    val exerciseWithSetFlow: LiveData<List<ExerciseWithSet>> = exerciseRepository.exerciseWithSetFlow.asLiveData()
+    val exerciseFlow: LiveData<List<Exercise>> = exerciseRepository.exerciseFlow.asLiveData()
 
+    var generatedExerciseData: MutableList<ExerciseWithSet>  = mutableListOf()
+    var _generatedExercise: MutableLiveData<List<ExerciseWithSet>> = MutableLiveData()
+    val generatedExercise: LiveData<List<ExerciseWithSet>> = _generatedExercise
 
     init {
-        readAllData = exerciseRepository.readAllData
-        generatedExerciseData = exerciseRepository.generatedExercise
-        readExerciseSetData = exerciseRepository.readExerciseData
-        generatedExerciseWithSet = exerciseRepository.generatedExerciseWithSet
 
     }
+    fun initAddGeneratedExercise(){
+        generatedExerciseData = mutableListOf()
+        _generatedExercise.value = generatedExerciseData
+    }
 
-    fun createExercise(exercise: Exercise, sets: List<ExerciseSet>) {
-        viewModelScope.launch {
-                exerciseRepository.createExercise(exercise, sets)
-        }
+    fun addGeneratedExercise(exerciseWithSet: ExerciseWithSet){
+        generatedExerciseData.add(exerciseWithSet)
+        _generatedExercise.value = generatedExerciseData
     }
-    fun getExerciseById(id: Long) {
+
+    fun getExerciseWithSetByParentId(id:Long) : ExerciseWithSet {
+        lateinit var exerciseWithSet: ExerciseWithSet
         viewModelScope.launch {
-            exerciseRepository.getExerciseById(id)
+            exerciseWithSet = exerciseRepository.getExerciseWithSetByParentId(id)
         }
+        return exerciseWithSet
     }
+
+    fun createExercise(exercise: Exercise, sets: List<ExerciseSet>):Long {
+        var createdId: Long = 0
+        viewModelScope.launch {
+            createdId = exerciseRepository.createExercise(exercise, sets)
+        }
+
+        return createdId
+    }
+
 
 
     fun insertExercise(exercise: Exercise) {
@@ -51,11 +64,6 @@ class ExerciseViewModel @Inject constructor(
         }
     }
 
-    fun getExerciseSetByParentId(parentId: Long) {
-        viewModelScope.launch {
-            exerciseRepository.getExerciseSetByParentId(parentId)
-        }
-    }
 
     fun insertSets(set: List<ExerciseSet>) = viewModelScope.launch {
         exerciseRepository.insertSets(set)

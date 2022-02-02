@@ -25,11 +25,7 @@ public abstract class AppDatabase : RoomDatabase() {
             super.onCreate(db)
             INSTANCE?.let { database ->
                 scope.launch {
-                    var routineDao = database.routineDao()
-
-
-                    var routine = Routine("hi")
-                    routineDao.insertRoutine(routine)
+                    // 앱 설치 후
                 }
             }
         }

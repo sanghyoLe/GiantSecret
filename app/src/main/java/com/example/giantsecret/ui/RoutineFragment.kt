@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleObserver
 
 
@@ -15,6 +16,7 @@ import com.example.giantsecret.R
 
 
 import com.example.giantsecret.databinding.FragmentRoutineBinding
+import com.example.giantsecret.viewModel.ExerciseViewModel
 
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RoutineFragment : Fragment(), LifecycleObserver {
     private lateinit var binding: FragmentRoutineBinding
-
+    private val  exerciseViewModel: ExerciseViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,6 +42,7 @@ class RoutineFragment : Fragment(), LifecycleObserver {
 
         binding.createRoutineBtnLayout.setOnClickListener {
             findNavController().navigate(R.id.createRoutineAction)
+            exerciseViewModel.initAddGeneratedExercise()
 //            val intent = Intent(activity?.applicationContext, CreateRoutineActivity::class.java)
 //            startActivityForResult(intent, newRoutineActivityRequestCode)
         }

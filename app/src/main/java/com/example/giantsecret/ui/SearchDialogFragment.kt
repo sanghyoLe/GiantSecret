@@ -1,27 +1,38 @@
 package com.example.giantsecret.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CheckBox
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.giantsecret.R
 import com.example.giantsecret.databinding.SearchDialogLayoutBinding
 import com.example.giantsecret.dialogFragmentResize
 import com.example.giantsecret.data.model.Exercise
+import com.example.giantsecret.data.model.ExerciseWithSet
+import com.example.giantsecret.generated.callback.OnClickListener
+import com.example.giantsecret.viewModel.ExerciseViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class SearchDialogFragment(searchAdapter: SearchAdapter)  : DialogFragment() {
     private lateinit var binding:SearchDialogLayoutBinding
 
+    private val exerciseViewModel: ExerciseViewModel by activityViewModels()
     private var searchAdapter = searchAdapter
+    private lateinit var listener: OnClickListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -40,6 +51,7 @@ class SearchDialogFragment(searchAdapter: SearchAdapter)  : DialogFragment() {
 
 
 
+
     override fun onResume() {
         super.onResume()
         context?.dialogFragmentResize(this@SearchDialogFragment,0.9f,0.9f)
@@ -51,16 +63,22 @@ class SearchDialogFragment(searchAdapter: SearchAdapter)  : DialogFragment() {
             dismiss()
         }
         binding.choiceBtn.setOnClickListener {
+            searchAdapter.getCheckedExercise().map {
+                exerciseViewModel.addGeneratedExercise(it)
+            }
             dismiss()
-        }
 
+        }
     }
+
     class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
-        private var allExerciseList: List<Exercise> = emptyList()
+        lateinit var exercises:MutableList<ExerciseWithSet>
+        private var allExerciseList: List<ExerciseWithSet> = emptyList()
         class ViewHolder(view:View) : RecyclerView.ViewHolder(view) {
             val checkBox:CheckBox
             val exerciseName:TextView
             init {
+
                 checkBox = view.findViewById(R.id.checkBoxExercise)
                 exerciseName = view.findViewById(R.id.exerciseNameTextView)
             }
@@ -68,22 +86,34 @@ class SearchDialogFragment(searchAdapter: SearchAdapter)  : DialogFragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.search_exercise_row_item,parent,false)
-
+            exercises = mutableListOf()
             return ViewHolder(view)
         }
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             var currentItem = allExerciseList[position]
-            holder.exerciseName.text = currentItem.name
+            holder.exerciseName.text = currentItem.exercise.name
+            holder.checkBox.setOnCheckedChangeListener { _ , isChecked ->
+                if(isChecked) exercises.add(currentItem)
+                else exercises.remove(currentItem)
+            }
         }
 
         override fun getItemCount(): Int {
             return allExerciseList.size
         }
 
-        fun setExercise(exercise: List<Exercise>) {
+
+        fun setExercise(exercise: List<ExerciseWithSet>) {
             allExerciseList = exercise
             notifyDataSetChanged()
         }
+
+        fun getCheckedExercise() : List<ExerciseWithSet>{
+            return exercises
+        }
     }
+
+
+
 
 }
