@@ -9,8 +9,20 @@ interface RoutineDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRoutine(routine: Routine):Long
 
+    @Transaction
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertRoutineExerciseCrossRef(routineExerciseCrossRef: RoutineExerciseCrossRef)
+
+    @Transaction
+    @Query("SELECT * FROM Routine")
+    suspend fun getRoutineWithExercises(): List<RoutineWithExercises>
+
+
     @Query("SELECT * FROM routine")
     fun getAllRoutine() : Flow<List<Routine>>
+
+    @Delete
+    suspend fun deleteRoutine(routine: Routine)
 
 }
 

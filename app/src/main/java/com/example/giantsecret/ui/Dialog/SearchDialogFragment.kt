@@ -1,13 +1,10 @@
-package com.example.giantsecret.ui
+package com.example.giantsecret.ui.Dialog
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.CheckBox
-import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
@@ -16,21 +13,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.giantsecret.R
 import com.example.giantsecret.databinding.SearchDialogLayoutBinding
 import com.example.giantsecret.dialogFragmentResize
-import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseWithSet
-import com.example.giantsecret.generated.callback.OnClickListener
-import com.example.giantsecret.viewModel.ExerciseViewModel
+import com.example.giantsecret.viewModel.RoutineViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class SearchDialogFragment(searchAdapter: SearchAdapter)  : DialogFragment() {
     private lateinit var binding:SearchDialogLayoutBinding
 
-    private val exerciseViewModel: ExerciseViewModel by activityViewModels()
+    private val routineViewModel: RoutineViewModel by activityViewModels()
     private var searchAdapter = searchAdapter
-    private lateinit var listener: OnClickListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -64,7 +58,7 @@ class SearchDialogFragment(searchAdapter: SearchAdapter)  : DialogFragment() {
         }
         binding.choiceBtn.setOnClickListener {
             searchAdapter.getCheckedExercise().map {
-                exerciseViewModel.addGeneratedExercise(it)
+                routineViewModel.addGeneratedExercise(it)
             }
             dismiss()
 

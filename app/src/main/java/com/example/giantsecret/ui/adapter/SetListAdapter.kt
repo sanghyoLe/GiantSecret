@@ -3,7 +3,6 @@ package com.example.giantsecret.ui.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.giantsecret.BottomSheetListView
+import com.example.giantsecret.ui.Dialog.BottomSheetListView
 import com.example.giantsecret.R
 import com.example.giantsecret.ui.SET_SIZE
 

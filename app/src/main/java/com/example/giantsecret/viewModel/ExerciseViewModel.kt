@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseSet
 import com.example.giantsecret.data.model.ExerciseWithSet
+import com.example.giantsecret.data.model.Routine
 import com.example.giantsecret.data.repository.ExerciseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,22 +23,14 @@ class ExerciseViewModel @Inject constructor(
     val exerciseWithSetFlow: LiveData<List<ExerciseWithSet>> = exerciseRepository.exerciseWithSetFlow.asLiveData()
     val exerciseFlow: LiveData<List<Exercise>> = exerciseRepository.exerciseFlow.asLiveData()
 
-    var generatedExerciseData: MutableList<ExerciseWithSet>  = mutableListOf()
-    var _generatedExercise: MutableLiveData<List<ExerciseWithSet>> = MutableLiveData()
-    val generatedExercise: LiveData<List<ExerciseWithSet>> = _generatedExercise
+
 
     init {
 
     }
-    fun initAddGeneratedExercise(){
-        generatedExerciseData = mutableListOf()
-        _generatedExercise.value = generatedExerciseData
-    }
 
-    fun addGeneratedExercise(exerciseWithSet: ExerciseWithSet){
-        generatedExerciseData.add(exerciseWithSet)
-        _generatedExercise.value = generatedExerciseData
-    }
+
+
 
     fun getExerciseWithSetByParentId(id:Long) : ExerciseWithSet {
         lateinit var exerciseWithSet: ExerciseWithSet

@@ -1,52 +1,61 @@
 package com.example.giantsecret.ui.adapter
 
 
+
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-
-import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.example.giantsecret.R
 import com.example.giantsecret.data.model.Routine
+import com.example.giantsecret.databinding.RoutineCardViewBinding
 
 
-class RoutineAdapter :  ListAdapter<Routine, RoutineAdapter.RoutineViewHolder>(RoutineComparator()){
+class RoutineAdapter(private val onDeleteCallBack: (Routine) -> Unit,
+                     private val onModifyCallBack: (Routine) -> Unit
+                     ) :  RecyclerView.Adapter<RoutineAdapter.RoutineViewHolder>(){
+    private var routineList = emptyList<Routine>()
+    private lateinit var context:Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : RoutineViewHolder {
-        return RoutineViewHolder.create(parent)
+        val binding = RoutineCardViewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        context = parent.context
+        return RoutineViewHolder(binding)
     }
+
     override fun onBindViewHolder(holder: RoutineViewHolder, position: Int) {
-        val current = getItem(position)
-        holder.bind(current.name)
-    }
-    class RoutineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val routineItemView: TextView = itemView.findViewById(R.id.routineNameTextView)
-
-        fun bind(text: String?) {
-            routineItemView.text = text
+        val currentItem = routineList[position]
+        holder.binding.routineNameTextView.text = currentItem.name
+//        holder.binding.targetAreaTextView.text = currentItem.exerciseParts
+        holder.binding.deleteBtn.setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+                .setTitle("루틴 삭제")
+                .setMessage("루틴을 삭제하시겠습니까?")
+                .setPositiveButton("삭제", {
+                        dialog , _ ->
+                        onDeleteCallBack(currentItem)
+                    dialog.dismiss()
+                })
+                .setNegativeButton("취소",{
+                        dialog, _ -> dialog.dismiss()
+                }).create().show()
         }
-
-        companion object {
-            fun create(parent: ViewGroup) : RoutineViewHolder {
-                val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.routine_card_view, parent, false)
-
-                return RoutineViewHolder(view)
-            }
-        }
-
-    }
-
-    class RoutineComparator : DiffUtil.ItemCallback<Routine>() {
-        override fun areItemsTheSame(oldItem: Routine, newItem: Routine): Boolean {
-            return oldItem === newItem
-        }
-
-        override fun areContentsTheSame(oldItem: Routine, newItem: Routine): Boolean {
-            return oldItem.name == newItem.name
+        holder.binding.modifyBtn.setOnClickListener {
+                onModifyCallBack(currentItem)
         }
     }
+
+    class RoutineViewHolder(val binding: RoutineCardViewBinding) : RecyclerView.ViewHolder(binding.root)
+
+    override fun getItemCount(): Int {
+        return routineList.size
+    }
+    fun setRoutine(routineList: List<Routine>) {
+        this.routineList = routineList
+        notifyDataSetChanged()
+    }
+
+
+
+
 }

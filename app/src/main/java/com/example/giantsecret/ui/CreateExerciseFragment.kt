@@ -14,7 +14,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.giantsecret.*
@@ -25,7 +24,9 @@ import com.example.giantsecret.databinding.FragmentCreateExerciseBinding
 import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseSet
 import com.example.giantsecret.data.model.ExerciseWithSet
+import com.example.giantsecret.ui.Dialog.BottomSheetListView
 import com.example.giantsecret.viewModel.ExerciseViewModel
+import com.example.giantsecret.viewModel.RoutineViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 import kotlin.collections.ArrayList
@@ -35,10 +36,11 @@ var SET_SIZE = 100
 @AndroidEntryPoint
 class CreateExerciseFragment : Fragment() {
     private lateinit var binding:FragmentCreateExerciseBinding
-    private lateinit var bottomSheetListView:BottomSheetListView
+    private lateinit var bottomSheetListView: BottomSheetListView
     private lateinit var setListAdapter: SetListAdapter
     private lateinit var callback: OnBackPressedCallback
     private val exerciseViewModel: ExerciseViewModel by activityViewModels()
+    private val routineViewModel : RoutineViewModel by activityViewModels()
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -195,7 +197,7 @@ class CreateExerciseFragment : Fragment() {
                         var setList:List<ExerciseSet>  = List(numberOfSet) { set }
 
                         exerciseViewModel.createExercise(exercise,setList)
-                        exerciseViewModel.addGeneratedExercise(ExerciseWithSet(exercise,setList))
+                        routineViewModel.addGeneratedExercise(ExerciseWithSet(exercise,setList))
 
                         findNavController().navigate(R.id.createExerciseToCloseAction)
                     }
@@ -212,8 +214,10 @@ class CreateExerciseFragment : Fragment() {
                             )
                         )
                     }
+
                     exerciseViewModel.createExercise(exercise,set)
-                    exerciseViewModel.addGeneratedExercise(ExerciseWithSet(exercise,set))
+                    routineViewModel.addGeneratedExercise(ExerciseWithSet(exercise,set))
+
                     findNavController().navigate(R.id.createExerciseToCloseAction)
                 }
             }

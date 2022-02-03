@@ -9,6 +9,14 @@
         <item name="checkedIcon">@drawable/ic_baseline_check_24</item>
 
     </style>
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:colorPrimary">@color/secondaryColor</item>
+        <item name="android:textColorPrimary">@color/secondaryColor</item>
+        <item name="android:textColor">@color/secondaryColor</item>
+        <item name="android:textColorSecondary">@color/secondaryColor</item>
+        <item name="android:colorAccent">@color/secondaryColor</item>
+        <item name="android:subtitleTextColor">@color/secondaryColor</item>
+    </style>
 
 
 

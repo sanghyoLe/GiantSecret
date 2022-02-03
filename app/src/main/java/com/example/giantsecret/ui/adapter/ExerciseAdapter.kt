@@ -23,7 +23,6 @@ class ExerciseAdapter()
     private var exerciseWithSetList = emptyList<ExerciseWithSet>()
     private lateinit var context: Context
 
-
     class ViewHolder(val binding:ExerciseCardViewBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,9 +33,8 @@ class ExerciseAdapter()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+
             val currentItem = exerciseWithSetList[position]
-
-
             holder.binding.nameTextView.text = currentItem.exercise.name
             holder.binding.numberOfSetTextView.text = currentItem.exercise.numberOfSet.toString()
             holder.binding.showAllSetRecyclerView.layoutManager = LinearLayoutManager(context)
