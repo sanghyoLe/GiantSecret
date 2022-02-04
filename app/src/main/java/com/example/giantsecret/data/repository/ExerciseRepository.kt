@@ -1,5 +1,7 @@
 package com.example.giantsecret.data.repository
 
+import androidx.room.Transaction
+import androidx.room.Update
 import com.example.giantsecret.data.dao.ExerciseDao
 import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseSet
@@ -31,17 +33,21 @@ class ExerciseRepository @Inject constructor(
     }
     suspend fun createExercise(exercise: Exercise, sets: List<ExerciseSet>) :Long{
         var exerciseId by Delegates.notNull<Long>()
-
         withContext(IoDispatchers){
             exerciseId = insertExercise(exercise)
             sets.map {
                 it.apply { parentExerciseId = exerciseId }
             }.also { insertSets(it) }
         }
-
-
         return exerciseId
     }
+
+    suspend fun updateExerciseWithSet(exercise: Exercise,sets: List<ExerciseSet>) {
+            withContext(IoDispatchers) {
+                    exerciseDao.updateExerciseWithSet(exercise,sets)
+            }
+    }
+
 
     suspend fun getExerciseWithSetByParentId(id:Long) : ExerciseWithSet {
         return exerciseDao.getExerciseWithSetByParentId(id)

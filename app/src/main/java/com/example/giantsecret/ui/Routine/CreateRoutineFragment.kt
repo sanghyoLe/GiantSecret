@@ -1,8 +1,7 @@
-package com.example.giantsecret.ui
+package com.example.giantsecret.ui.Routine
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -10,17 +9,16 @@ import androidx.core.view.forEach
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.map
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.giantsecret.R
-import com.example.giantsecret.data.model.Exercise
+import com.example.giantsecret.data.model.ExerciseWithSet
 import com.example.giantsecret.data.model.Routine
-import com.example.giantsecret.data.model.RoutineExerciseCrossRef
 import com.example.giantsecret.databinding.FragmentCreateRoutineBinding
 import com.example.giantsecret.ui.Dialog.SearchDialogFragment
 import com.example.giantsecret.ui.adapter.ExerciseAdapter
-import com.example.giantsecret.viewModel.ExerciseViewModel
+
 import com.example.giantsecret.viewModel.RoutineViewModel
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class CreateRoutineFragment : Fragment() {
     private lateinit var binding: FragmentCreateRoutineBinding
 
-    private val exerciseViewModel: ExerciseViewModel by activityViewModels()
+
     private val routineViewModel : RoutineViewModel by activityViewModels()
 
     private lateinit var searchDialogFragment: SearchDialogFragment
@@ -40,7 +38,10 @@ class CreateRoutineFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        exerciseAdapter = ExerciseAdapter()
+        exerciseAdapter = ExerciseAdapter(
+            ::clickDeleteExercise,
+            ::clickUpdateExercise
+            )
         searchAdapter = SearchDialogFragment.SearchAdapter()
         searchDialogFragment = SearchDialogFragment(searchAdapter)
 
@@ -84,10 +85,11 @@ class CreateRoutineFragment : Fragment() {
 //                var parts = registerFilterChange().toString()
 //                parts = parts.substring(0, parts.length-1)
 
-               routineViewModel.insertRoutine(Routine(null,routineName))
+                var createdRoutine = Routine(null,routineName)
 
-
-
+                routineViewModel.createRoutine(createdRoutine,
+                    routineViewModel.getGeneratedExerciseList()
+                )
 
 
                 findNavController().navigate(R.id.createRoutineToCloseAction)
@@ -95,7 +97,7 @@ class CreateRoutineFragment : Fragment() {
 
         }
         binding.createExerciseBtnLayout.setOnClickListener {
-            findNavController().navigate(R.id.createRoutineToCreateExercise)
+            findNavController().navigate(R.id.createExerciseFragment)
         }
         binding.searchExerciseBtnLayout.setOnClickListener {
             if(!searchDialogFragment.isAdded)
@@ -124,14 +126,20 @@ class CreateRoutineFragment : Fragment() {
         routineViewModel.generatedExercise.observe(this) { exercises ->
             exerciseAdapter.setExerciseWithSet(exercises)
         }
-        exerciseViewModel.exerciseWithSetFlow.observe(this) { allExercise ->
+        routineViewModel.exerciseWithSetFlow.observe(this) { allExercise ->
             searchAdapter.setExercise(allExercise)
         }
-        routineViewModel.addRoutineId.observe(this) { routineId ->
-                Log.d("addId",routineId.toString())
-            }
-        }
     }
+
+    fun clickUpdateExercise(exerciseWithSet: ExerciseWithSet) {
+        routineViewModel.clickedUpdateExerciseWithSet = exerciseWithSet
+        findNavController().navigate(R.id.updateExerciseFragment)
+    }
+    fun clickDeleteExercise(exerciseWithSet: ExerciseWithSet) {
+
+    }
+
+}
 
 
 

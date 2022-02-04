@@ -13,10 +13,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.giantsecret.ui.Dialog.BottomSheetListView
 import com.example.giantsecret.R
-import com.example.giantsecret.ui.SET_SIZE
+import com.example.giantsecret.ui.Exercise.SET_SIZE
+
 
 class SetListAdapter(private var setSize:Int = 1, context: Context, fragmentManager: FragmentManager) :
     RecyclerView.Adapter<SetListAdapter.ViewHolder>() {
+
     private lateinit var bottomSheetListView: BottomSheetListView
     private var context = context
     private var fragmentManager = fragmentManager

@@ -1,44 +1,35 @@
-package com.example.giantsecret.ui
+package com.example.giantsecret.ui.Routine
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.forEach
-import androidx.core.view.forEachIndexed
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.giantsecret.R
-import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseWithSet
-import com.example.giantsecret.data.model.RoutineWithExercises
 import com.example.giantsecret.databinding.FragmentCreateRoutineBinding
 import com.example.giantsecret.ui.adapter.ExerciseAdapter
-import com.example.giantsecret.viewModel.ExerciseViewModel
+
 import com.example.giantsecret.viewModel.RoutineViewModel
-import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ModifyRoutine : Fragment() {
+class UpdateRoutineFragment : Fragment() {
     private lateinit var binding: FragmentCreateRoutineBinding
     private lateinit var exerciseAdapter: ExerciseAdapter
     private val routineViewModel: RoutineViewModel by activityViewModels()
-    private val exerciseViewModel: ExerciseViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        exerciseAdapter = ExerciseAdapter()
-        var list:List<Exercise> = emptyList()
-        Log.d("adDId",routineViewModel._addRoutineId.value.toString())
-        routineViewModel.getRoutineWithExercise().map {
-            Log.d("name",it.routine.name)
-        }
-
+        exerciseAdapter = ExerciseAdapter(
+            ::clickDeleteExercise,
+            ::clickUpdateExercise
+        )
+        observerModifyRoutine()
     }
 
     override fun onCreateView(
@@ -54,9 +45,22 @@ class ModifyRoutine : Fragment() {
 
 
     fun observerModifyRoutine(){
-        routineViewModel.modifyRoutine.observe(this) {
-
+        routineViewModel.clickedUpdateRoutine.observe(this) {
+                binding.routineNameEditText.setText(it.routine.name)
         }
+        routineViewModel.clickedUpdateExerciseWithSetList.observe(this) {
+            exerciseAdapter.setExerciseWithSet(it)
+        }
+    }
+
+    fun clickUpdateExercise(exerciseWithSet: ExerciseWithSet) {
+        routineViewModel.clickedUpdateExerciseWithSet = exerciseWithSet
+        findNavController().navigate(R.id.updateExerciseFragment)
+    }
+
+
+    fun clickDeleteExercise(exerciseWithSet: ExerciseWithSet) {
+
     }
 
 }

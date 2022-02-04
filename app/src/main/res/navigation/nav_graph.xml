@@ -13,7 +13,7 @@
         android:label="@string/input_one_rm" />
     <fragment
         android:id="@+id/routineFragment"
-        android:name="com.example.giantsecret.ui.RoutineFragment"
+        android:name="com.example.giantsecret.ui.Routine.RoutineFragment"
         tools:layout="@layout/fragment_routine"
         android:label="@string/routine" >
         <action android:id="@+id/createRoutineAction"
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/createRoutineFragment"
-        android:name="com.example.giantsecret.ui.CreateRoutineFragment"
+        android:name="com.example.giantsecret.ui.Routine.CreateRoutineFragment"
         tools:layout="@layout/fragment_create_routine"
         android:label="createRoutineFragment">
         <action android:id="@+id/createRoutineToCloseAction"
@@ -44,7 +44,7 @@
     </fragment>
     <fragment
         android:id="@+id/createExerciseFragment"
-        android:name="com.example.giantsecret.ui.CreateExerciseFragment"
+        android:name="com.example.giantsecret.ui.Exercise.CreateExerciseFragment"
         tools:layout="@layout/fragment_create_exercise"
         android:label="createExerciseFragment">
         <action android:id="@+id/createExerciseToCloseAction"
@@ -55,10 +55,14 @@
     </fragment>
 
     <fragment
-        android:id="@+id/modifyRoutineFragment"
-        android:name="com.example.giantsecret.ui.ModifyRoutine"
+        android:id="@+id/updateRoutineFragment"
+        android:name="com.example.giantsecret.ui.Routine.UpdateRoutineFragment"
         tools:layout="@layout/fragment_create_routine"
-        android:label="modifyRoutineFragment"/>
+        android:label="updateRoutineFragment" />
+    <fragment
+        android:id="@+id/updateExerciseFragment"
+        android:name="com.example.giantsecret.ui.Exercise.UpdateExercise"
+        android:label="updateExerciseFragment"/>
 
     <activity
         android:id="@+id/mainActivity"

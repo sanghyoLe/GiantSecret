@@ -37,6 +37,21 @@ interface ExerciseDao {
         return exerciseId
     }
 
+    @Transaction
+    @Update
+    suspend fun updateExerciseWithSet(exercise: Exercise,sets: List<ExerciseSet>) {
+        updateExercise(exercise)
+        sets.map {
+            it.apply { parentExerciseId = exercise.exerciseId }
+        }.also { updateSets(sets) }
+    }
+
+    @Update
+    suspend fun updateSets(sets: List<ExerciseSet>)
+
+    @Update
+    suspend fun updateExercise(exercise: Exercise)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSets(set:List<ExerciseSet>)
 

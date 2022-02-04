@@ -1,10 +1,9 @@
-package com.example.giantsecret.ui
+package com.example.giantsecret.ui.Routine
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 
@@ -28,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RoutineFragment : Fragment(){
     private lateinit var binding: FragmentRoutineBinding
-    private val  routineViewModel: RoutineViewModel by activityViewModels()
+    private val routineViewModel: RoutineViewModel by activityViewModels()
     private lateinit var routineAdapter: RoutineAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +44,7 @@ class RoutineFragment : Fragment(){
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_routine, container, false)
         binding.createRoutineBtnLayout.setOnClickListener {
             findNavController().navigate(R.id.createRoutineAction)
+
             routineViewModel.initAddGeneratedExercise()
         }
         binding.routineRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -64,7 +64,8 @@ class RoutineFragment : Fragment(){
         routineAdapter.notifyDataSetChanged()
     }
     private fun modifyRoutine(routine: Routine) {
-        routineViewModel.setModifyRoutine(routine)
-        findNavController().navigate(R.id.modifyRoutineFragment)
+        routine.routineId?.let { routineViewModel.getRoutineWithExercisesById(it) }
+        
+        findNavController().navigate(R.id.updateRoutineFragment)
     }
 }

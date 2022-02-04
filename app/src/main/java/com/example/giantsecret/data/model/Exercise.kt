@@ -20,7 +20,7 @@ data class Exercise(
         ]
 )
 data class ExerciseSet(
-    @PrimaryKey(autoGenerate = true) val setId: Long?,
+    @PrimaryKey(autoGenerate = true) var setId: Long?,
     @ColumnInfo var parentExerciseId: Long?,
     @ColumnInfo var numberOfRep:Int,
     @ColumnInfo var weight:Double
@@ -28,10 +28,10 @@ data class ExerciseSet(
 
 
 data class ExerciseWithSet(
-    @Embedded val exercise: Exercise,
+    @Embedded var exercise: Exercise,
     @Relation(
         parentColumn = "exerciseId",
         entityColumn = "parentExerciseId"
     )
-    val sets: List<ExerciseSet>
+    var sets: List<ExerciseSet>
 )

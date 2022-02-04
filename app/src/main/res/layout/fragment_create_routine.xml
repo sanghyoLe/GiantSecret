@@ -11,7 +11,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.CreateRoutineFragment">
+        tools:context=".ui.Routine.CreateRoutineFragment">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/createRoutineToolbar"

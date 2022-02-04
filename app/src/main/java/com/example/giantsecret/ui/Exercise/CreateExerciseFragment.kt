@@ -1,15 +1,12 @@
-package com.example.giantsecret.ui
+package com.example.giantsecret.ui.Exercise
 
 
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -23,9 +20,7 @@ import com.example.giantsecret.ui.adapter.SetListAdapter
 import com.example.giantsecret.databinding.FragmentCreateExerciseBinding
 import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseSet
-import com.example.giantsecret.data.model.ExerciseWithSet
 import com.example.giantsecret.ui.Dialog.BottomSheetListView
-import com.example.giantsecret.viewModel.ExerciseViewModel
 import com.example.giantsecret.viewModel.RoutineViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,13 +33,11 @@ class CreateExerciseFragment : Fragment() {
     private lateinit var binding:FragmentCreateExerciseBinding
     private lateinit var bottomSheetListView: BottomSheetListView
     private lateinit var setListAdapter: SetListAdapter
-    private lateinit var callback: OnBackPressedCallback
-    private val exerciseViewModel: ExerciseViewModel by activityViewModels()
-    private val routineViewModel : RoutineViewModel by activityViewModels()
+    private val routineViewModel: RoutineViewModel by activityViewModels()
 
-    @RequiresApi(Build.VERSION_CODES.R)
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
     }
 
@@ -76,6 +69,8 @@ class CreateExerciseFragment : Fragment() {
         // 세트 마다 무게 다름 RecyclerView Adapter 설정정
         setListAdapter = SetListAdapter(1,requireContext(),childFragmentManager)
         createExercise()
+
+
 
     }
 
@@ -151,6 +146,11 @@ class CreateExerciseFragment : Fragment() {
             hideKeyboard()
         }
 
+        binding.createExerciseBackBtn.setOnClickListener {
+
+            findNavController().navigate(R.id.createExerciseToCloseAction)
+        }
+
 
     }
     // 세트 간 무게 동일 or 무게 다름
@@ -172,7 +172,6 @@ class CreateExerciseFragment : Fragment() {
 
     // 저장 눌렀을 때
     private fun createExercise(){
-
         binding.exerciseSaveTextView.setOnClickListener {
             var exerciseName:String
             var numberOfSet:Int
@@ -196,8 +195,7 @@ class CreateExerciseFragment : Fragment() {
                         var set = ExerciseSet(null,null,numberOfRep,weight)
                         var setList:List<ExerciseSet>  = List(numberOfSet) { set }
 
-                        exerciseViewModel.createExercise(exercise,setList)
-                        routineViewModel.addGeneratedExercise(ExerciseWithSet(exercise,setList))
+                        routineViewModel.createExercise(exercise,setList)
 
                         findNavController().navigate(R.id.createExerciseToCloseAction)
                     }
@@ -208,23 +206,20 @@ class CreateExerciseFragment : Fragment() {
                     var repList = setListAdapter.getRepArrayList()
                     var set: ArrayList<ExerciseSet> = ArrayList()
 
-                    for(i:Int in 0..setListAdapter.itemCount) {
+                    for(i:Int in 0..setListAdapter.itemCount-1) {
                         set.add(i, ExerciseSet(null,null,
                             repList.get(i),weightList.get(i)
                             )
                         )
                     }
 
-                    exerciseViewModel.createExercise(exercise,set)
-                    routineViewModel.addGeneratedExercise(ExerciseWithSet(exercise,set))
+                    routineViewModel.createExercise(exercise,set)
 
                     findNavController().navigate(R.id.createExerciseToCloseAction)
                 }
             }
         }
     }
-
-
 
 }
 

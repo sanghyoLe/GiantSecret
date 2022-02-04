@@ -11,8 +11,22 @@ import kotlinx.parcelize.Parcelize
 data class Routine (
     @PrimaryKey(autoGenerate = true) val routineId:Long?,
     val name: String,
-
     )
+@Entity(primaryKeys = ["routineId","exerciseId"])
+data class RoutineExerciseCrossRef(
+    val routineId: Long,
+    val exerciseId: Long
+)
+
+data class RoutineWithExercises(
+    @Embedded val routine: Routine,
+    @Relation(
+       parentColumn = "routineId",
+       entityColumn = "exerciseId",
+       associateBy = Junction(RoutineExerciseCrossRef::class)
+    )
+    val exercises: List<Exercise>
+)
 //@Entity
 //data class ExercisePart (
 //    @PrimaryKey(autoGenerate = true) val exercisePartId:Long,
@@ -33,19 +47,3 @@ data class Routine (
 //    )
 //    val exerciseParts: List<ExercisePart>
 //)
-
-@Entity(primaryKeys = ["routineId","exerciseId"])
-data class RoutineExerciseCrossRef(
-    val routineId: Long,
-    val exerciseId: Long
-)
-
-data class RoutineWithExercises(
-    @Embedded val routine: Routine,
-    @Relation(
-       parentColumn = "routineId",
-       entityColumn = "exerciseId",
-       associateBy = Junction(RoutineExerciseCrossRef::class)
-    )
-    val exercises: List<Exercise>
-)
