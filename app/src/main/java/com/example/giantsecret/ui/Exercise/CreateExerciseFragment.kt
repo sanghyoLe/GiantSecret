@@ -182,7 +182,7 @@ class CreateExerciseFragment : Fragment() {
             else {
                 exerciseName = binding.exerciseNameEditText.text.toString()
                 numberOfSet = Integer.parseInt(binding.choiceSetTextView.text.toString())
-                var exercise = Exercise(null,exerciseName,numberOfSet)
+                var exercise = Exercise(null,null,exerciseName,numberOfSet)
                 // 세트 간 무게 동일 시
                 if(binding.setWeightEqualBtn.isChecked) {
                     if(TextUtils.isEmpty(binding.weightEditText.text)) {
@@ -192,10 +192,11 @@ class CreateExerciseFragment : Fragment() {
                         var weight:Double =  binding.weightEditText.text.toString().toDouble()
 
 
-                        var set = ExerciseSet(null,null,numberOfRep,weight)
-                        var setList:List<ExerciseSet>  = List(numberOfSet) { set }
+                        var exerciseSet =
+                            ExerciseSet(null,numberOfRep,weight)
+                        var exerciseSetList:List<ExerciseSet>  = List(numberOfSet) { exerciseSet }
 
-                        routineViewModel.createExercise(exercise,setList)
+                        routineViewModel.createExercise(exercise,exerciseSetList)
 
                         findNavController().navigate(R.id.createExerciseToCloseAction)
                     }
@@ -204,16 +205,16 @@ class CreateExerciseFragment : Fragment() {
                 else if(binding.setWeightDifferentBtn.isChecked) {
                     var weightList = setListAdapter.getWeightArrayList()
                     var repList = setListAdapter.getRepArrayList()
-                    var set: ArrayList<ExerciseSet> = ArrayList()
+                    var exerciseSet: ArrayList<ExerciseSet> = ArrayList()
 
                     for(i:Int in 0..setListAdapter.itemCount-1) {
-                        set.add(i, ExerciseSet(null,null,
+                        exerciseSet.add(i, ExerciseSet(null,
                             repList.get(i),weightList.get(i)
-                            )
+                        )
                         )
                     }
 
-                    routineViewModel.createExercise(exercise,set)
+                    routineViewModel.createExercise(exercise,exerciseSet)
 
                     findNavController().navigate(R.id.createExerciseToCloseAction)
                 }

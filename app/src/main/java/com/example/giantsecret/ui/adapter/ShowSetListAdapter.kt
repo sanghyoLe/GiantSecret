@@ -7,8 +7,8 @@ import com.example.giantsecret.databinding.ExerciseSetRowItemBinding
 import com.example.giantsecret.data.model.ExerciseSet
 
 
-class ShowSetListAdapter(setList:List<ExerciseSet>) : RecyclerView.Adapter<ShowSetListAdapter.ViewHolder>() {
-    private var setList:List<ExerciseSet> = setList
+class ShowSetListAdapter(exerciseSetList:List<ExerciseSet>) : RecyclerView.Adapter<ShowSetListAdapter.ViewHolder>() {
+    private var exerciseSetList:List<ExerciseSet> = exerciseSetList
 
     class ViewHolder(val binding:ExerciseSetRowItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -19,7 +19,7 @@ class ShowSetListAdapter(setList:List<ExerciseSet>) : RecyclerView.Adapter<ShowS
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var currentItem = setList[position]
+        var currentItem = exerciseSetList[position]
 
         holder.binding.setNumberTextView.text = (position+1).toString()
         holder.binding.weightTextView.text = currentItem.weight.toString()
@@ -28,7 +28,7 @@ class ShowSetListAdapter(setList:List<ExerciseSet>) : RecyclerView.Adapter<ShowS
 
 
     override fun getItemCount(): Int {
-        return setList.size
+        return exerciseSetList.size
     }
 
 

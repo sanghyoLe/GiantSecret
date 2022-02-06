@@ -8,13 +8,14 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.giantsecret.data.model.Routine
+import com.example.giantsecret.data.model.RoutineWithExerciseAndSets
 import com.example.giantsecret.databinding.RoutineCardViewBinding
 
 
 class RoutineAdapter(private val onDeleteCallBack: (Routine) -> Unit,
-                     private val onModifyCallBack: (Routine) -> Unit
+                     private val onModifyCallBack: (RoutineWithExerciseAndSets) -> Unit
                      ) :  RecyclerView.Adapter<RoutineAdapter.RoutineViewHolder>(){
-    private var routineList = emptyList<Routine>()
+    private var routineList = emptyList<RoutineWithExerciseAndSets>()
     private lateinit var context:Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : RoutineViewHolder {
@@ -25,7 +26,7 @@ class RoutineAdapter(private val onDeleteCallBack: (Routine) -> Unit,
 
     override fun onBindViewHolder(holder: RoutineViewHolder, position: Int) {
         val currentItem = routineList[position]
-        holder.binding.routineNameTextView.text = currentItem.name
+        holder.binding.routineNameTextView.text = currentItem.routine.name
 //        holder.binding.targetAreaTextView.text = currentItem.exerciseParts
         holder.binding.deleteBtn.setOnClickListener {
             val builder = AlertDialog.Builder(context)
@@ -33,7 +34,7 @@ class RoutineAdapter(private val onDeleteCallBack: (Routine) -> Unit,
                 .setMessage("루틴을 삭제하시겠습니까?")
                 .setPositiveButton("삭제", {
                         dialog , _ ->
-                        onDeleteCallBack(currentItem)
+                        onDeleteCallBack(currentItem.routine)
                     dialog.dismiss()
                 })
                 .setNegativeButton("취소",{
@@ -50,7 +51,7 @@ class RoutineAdapter(private val onDeleteCallBack: (Routine) -> Unit,
     override fun getItemCount(): Int {
         return routineList.size
     }
-    fun setRoutine(routineList: List<Routine>) {
+    fun setRoutine(routineList: List<RoutineWithExerciseAndSets>) {
         this.routineList = routineList
         notifyDataSetChanged()
     }

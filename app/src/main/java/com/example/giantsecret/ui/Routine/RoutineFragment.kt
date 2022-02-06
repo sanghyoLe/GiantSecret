@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.giantsecret.R
 import com.example.giantsecret.data.model.Routine
+import com.example.giantsecret.data.model.RoutineWithExerciseAndSets
 
 
 import com.example.giantsecret.databinding.FragmentRoutineBinding
@@ -63,9 +64,8 @@ class RoutineFragment : Fragment(){
         routineViewModel.deleteRoutine(routine)
         routineAdapter.notifyDataSetChanged()
     }
-    private fun modifyRoutine(routine: Routine) {
-        routine.routineId?.let { routineViewModel.getRoutineWithExercisesById(it) }
-        
+    private fun modifyRoutine(routine: RoutineWithExerciseAndSets) {
+        routineViewModel.clickUpdateRoutineBtn(routine)
         findNavController().navigate(R.id.updateRoutineFragment)
     }
 }

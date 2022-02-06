@@ -45,12 +45,7 @@ class UpdateRoutineFragment : Fragment() {
 
 
     fun observerModifyRoutine(){
-        routineViewModel.clickedUpdateRoutine.observe(this) {
-                binding.routineNameEditText.setText(it.routine.name)
-        }
-        routineViewModel.clickedUpdateExerciseWithSetList.observe(this) {
-            exerciseAdapter.setExerciseWithSet(it)
-        }
+
     }
 
     fun clickUpdateExercise(exerciseWithSet: ExerciseWithSet) {

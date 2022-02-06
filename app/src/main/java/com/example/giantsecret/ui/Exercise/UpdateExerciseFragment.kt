@@ -167,7 +167,7 @@ class UpdateExercise : Fragment() {
             else {
                 exerciseName = binding.exerciseNameEditText.text.toString()
                 numberOfSet = Integer.parseInt(binding.choiceSetTextView.text.toString())
-                var exercise = Exercise(null,exerciseName,numberOfSet)
+                var exercise = Exercise(null,null,exerciseName,numberOfSet)
                 // 세트 간 무게 동일 시
                 if(binding.setWeightEqualBtn.isChecked) {
                     if(TextUtils.isEmpty(binding.weightEditText.text)) {
@@ -177,10 +177,11 @@ class UpdateExercise : Fragment() {
                         var weight:Double =  binding.weightEditText.text.toString().toDouble()
 
 
-                        var set = ExerciseSet(null,null,numberOfRep,weight)
-                        var setList:List<ExerciseSet>  = List(numberOfSet) { set }
+                        var exerciseSet =
+                            ExerciseSet(null,numberOfRep,weight)
+                        var exerciseSetList:List<ExerciseSet>  = List(numberOfSet) { exerciseSet }
 
-                        routineViewModel.updateExerciseWithSet(exercise,setList)
+                        routineViewModel.updateExerciseWithSet(exercise,exerciseSetList)
 
                         findNavController().popBackStack()
                     }
@@ -189,17 +190,17 @@ class UpdateExercise : Fragment() {
                 else if(binding.setWeightDifferentBtn.isChecked) {
                     var weightList = setListAdapter.getWeightArrayList()
                     var repList = setListAdapter.getRepArrayList()
-                    var setList: ArrayList<ExerciseSet> = ArrayList()
+                    var exerciseSetList: ArrayList<ExerciseSet> = ArrayList()
 
                     for(i:Int in 0..setListAdapter.itemCount-1) {
-                        setList.add(i, ExerciseSet(null,null,
+                        exerciseSetList.add(i, ExerciseSet(null,
                             repList.get(i),weightList.get(i)
                         )
                         )
                     }
 
 
-                    routineViewModel.updateExerciseWithSet(exercise,setList)
+                    routineViewModel.updateExerciseWithSet(exercise,exerciseSetList)
 
                     findNavController().popBackStack()
                 }

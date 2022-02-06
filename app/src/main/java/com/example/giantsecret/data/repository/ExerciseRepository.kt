@@ -1,7 +1,5 @@
 package com.example.giantsecret.data.repository
 
-import androidx.room.Transaction
-import androidx.room.Update
 import com.example.giantsecret.data.dao.ExerciseDao
 import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseSet
@@ -11,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
 class ExerciseRepository @Inject constructor(
     private val exerciseDao: ExerciseDao
@@ -31,20 +28,13 @@ class ExerciseRepository @Inject constructor(
     suspend fun insertExercise(exercise: Exercise): Long {
         return exerciseDao.insertExercise(exercise)
     }
-    suspend fun createExercise(exercise: Exercise, sets: List<ExerciseSet>) :Long{
-        var exerciseId by Delegates.notNull<Long>()
-        withContext(IoDispatchers){
-            exerciseId = insertExercise(exercise)
-            sets.map {
-                it.apply { parentExerciseId = exerciseId }
-            }.also { insertSets(it) }
-        }
-        return exerciseId
+    suspend fun createExercise(exercise: Exercise, exerciseSets: List<ExerciseSet>) :Long{
+        return exerciseDao.createExercise(exercise,exerciseSets)
     }
 
-    suspend fun updateExerciseWithSet(exercise: Exercise,sets: List<ExerciseSet>) {
+    suspend fun updateExerciseWithSet(exercise: Exercise, exerciseSets: List<ExerciseSet>) {
             withContext(IoDispatchers) {
-                    exerciseDao.updateExerciseWithSet(exercise,sets)
+                    exerciseDao.updateExerciseWithSet(exercise,exerciseSets)
             }
     }
 
@@ -56,11 +46,11 @@ class ExerciseRepository @Inject constructor(
 
 
 
-    suspend fun insertSets(sets: List<ExerciseSet>) {
-        exerciseDao.insertSets(sets)
+    suspend fun insertSets(exerciseSets: List<ExerciseSet>) {
+        exerciseDao.insertSets(exerciseSets)
     }
-    suspend fun insertSet(set: ExerciseSet) {
-        exerciseDao.insertSet(set)
+    suspend fun insertSet(exerciseSet: ExerciseSet) {
+        exerciseDao.insertSet(exerciseSet)
     }
 
 

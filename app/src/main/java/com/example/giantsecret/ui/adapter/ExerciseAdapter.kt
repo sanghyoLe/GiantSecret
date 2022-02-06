@@ -1,21 +1,15 @@
 package com.example.giantsecret.ui.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.giantsecret.databinding.ExerciseCardViewBinding
 
-import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseWithSet
-
-import javax.inject.Inject
-import javax.inject.Singleton
 
 
 class ExerciseAdapter(
@@ -42,7 +36,7 @@ class ExerciseAdapter(
             holder.binding.nameTextView.text = currentItem.exercise.name
             holder.binding.numberOfSetTextView.text = currentItem.exercise.numberOfSet.toString()
             holder.binding.showAllSetRecyclerView.layoutManager = LinearLayoutManager(context)
-            holder.binding.showAllSetRecyclerView.adapter = ShowSetListAdapter(exerciseWithSetList[position].sets)
+            holder.binding.showAllSetRecyclerView.adapter = ShowSetListAdapter(exerciseWithSetList[position].exerciseSets)
             holder.binding.cardViewLayout.setOnClickListener {
                 setLayoutShowHide(holder.binding.showAllSetLayout)
             }

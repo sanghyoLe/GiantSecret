@@ -9,7 +9,6 @@ import androidx.core.view.forEach
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.giantsecret.R
@@ -86,11 +85,7 @@ class CreateRoutineFragment : Fragment() {
 //                parts = parts.substring(0, parts.length-1)
 
                 var createdRoutine = Routine(null,routineName)
-
-                routineViewModel.createRoutine(createdRoutine,
-                    routineViewModel.getGeneratedExerciseList()
-                )
-
+                routineViewModel.clickCreateRoutineBtn(createdRoutine)
 
                 findNavController().navigate(R.id.createRoutineToCloseAction)
             }
@@ -123,7 +118,7 @@ class CreateRoutineFragment : Fragment() {
         }
     }
     private fun createRoutineObserver() {
-        routineViewModel.generatedExercise.observe(this) { exercises ->
+        routineViewModel.exerciseWithSetLiveData.observe(this) { exercises ->
             exerciseAdapter.setExerciseWithSet(exercises)
         }
         routineViewModel.exerciseWithSetFlow.observe(this) { allExercise ->

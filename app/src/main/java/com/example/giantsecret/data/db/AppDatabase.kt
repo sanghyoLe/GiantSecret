@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
-@Database(entities = [Routine::class, ExerciseSet::class,Exercise::class, RoutineExerciseCrossRef::class ], version = 1 , exportSchema = true)
+@Database(entities = [Routine::class, ExerciseSet::class,Exercise::class,ExerciseSetCrossRef::class ], version = 1 , exportSchema = true)
 public abstract class AppDatabase : RoomDatabase() {
 
     abstract fun routineDao(): RoutineDao

@@ -41,5 +41,5 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRoutineExercise(localDataSource: RoutineDao) = RoutineRepository(localDataSource)
+    fun provideRoutineExercise(localDataSource: ExerciseDao) = RoutineRepository(localDataSource)
 }

@@ -2,11 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.giantsecret.viewModel.MviewModel" />
-    </data>
+    <data/>
 
 
 
@@ -46,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="중량"
-                android:text="@={viewModel.weightText}"
+
                 android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -66,7 +62,7 @@
                 android:id="@+id/one_rm_weight_ed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={viewModel.repsText}"
+
 
                 android:textColor="@color/black"
                 tools:layout_editor_absoluteX="98dp"
@@ -91,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="16dp"
-            android:text="@{String.valueOf(viewModel.oneRmData)}"
+
             android:textColor="@color/black"
             android:textSize="32sp"
             app:layout_constraintStart_toEndOf="@+id/textView6"
@@ -101,7 +97,7 @@
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{()->viewModel.getOneRm()}"
+
             android:textColor="@color/white"
             android:backgroundTint="@color/secondaryColor"
             android:text="계산"
@@ -161,7 +157,7 @@
                     android:id="@+id/nickNameEd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={viewModel.nickNameText}"
+
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -181,7 +177,7 @@
                     android:id="@+id/benchPressWeightEd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={viewModel.benchPressText}"
+
                     android:inputType="numberDecimal"
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -201,7 +197,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/squatWeightEd"
                     android:layout_width="match_parent"
-                    android:text="@={viewModel.squatText}"
+
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -220,7 +216,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/deadLiftWeightEd"
                     android:layout_width="match_parent"
-                    android:text="@={viewModel.deadLiftText}"
+
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -239,7 +235,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/overHeadPressEd"
                     android:layout_width="match_parent"
-                    android:text="@={viewModel.overHeadPressText}"
+
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -253,8 +249,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="96dp"
-            android:onClick="@{()->viewModel.setInfo()}"
-            android:text="@{viewModel.inputBtnText}"
+
             android:textColor="@color/white"
             android:backgroundTint="@color/secondaryColor"
             android:textSize="16sp"
