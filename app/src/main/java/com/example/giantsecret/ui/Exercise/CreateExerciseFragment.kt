@@ -193,7 +193,7 @@ class CreateExerciseFragment : Fragment() {
 
 
                         var exerciseSet =
-                            ExerciseSet(null,numberOfRep,weight)
+                            ExerciseSet(null,null,numberOfRep,weight)
                         var exerciseSetList:List<ExerciseSet>  = List(numberOfSet) { exerciseSet }
 
                         routineViewModel.createExercise(exercise,exerciseSetList)
@@ -208,7 +208,7 @@ class CreateExerciseFragment : Fragment() {
                     var exerciseSet: ArrayList<ExerciseSet> = ArrayList()
 
                     for(i:Int in 0..setListAdapter.itemCount-1) {
-                        exerciseSet.add(i, ExerciseSet(null,
+                        exerciseSet.add(i, ExerciseSet(null,null,
                             repList.get(i),weightList.get(i)
                         )
                         )

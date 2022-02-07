@@ -24,36 +24,29 @@ class RoutineViewModel @Inject constructor(
     val allRoutines: LiveData<List<RoutineWithExerciseAndSets>> = routineRepository.allRoutines.asLiveData()
 
 
-    // routine Value
-    var clickedUpdateExerciseWithSetData:MutableList<ExerciseWithSet> = mutableListOf()
-    var _clickedUpdateExerciseWithSetList: MutableLiveData<List<ExerciseWithSet>> = MutableLiveData()
-    var clickedUpdateExerciseWithSetList: LiveData<List<ExerciseWithSet>> = _clickedUpdateExerciseWithSetList
 
-    lateinit var routineWithExerciseAndSetsData: RoutineWithExerciseAndSets
+    var routineWithExerciseAndSetsData: RoutineWithExerciseAndSets? = null
+    lateinit var exerciseWithSetByRoutineId:List<ExerciseWithSet>
+
 
 
     // exercise Value
     val exerciseWithSetFlow: LiveData<List<ExerciseWithSet>> = exerciseRepository.exerciseWithSetFlow.asLiveData()
     val exerciseFlow: LiveData<List<Exercise>> = exerciseRepository.exerciseFlow.asLiveData()
+    val parentIdNullExerciseFlow : LiveData<List<ExerciseWithSet>> = exerciseRepository.parentIdNullExerciseFlow.asLiveData()
 
 
-    lateinit var clickedUpdateExerciseWithSet: ExerciseWithSet
+
 
     var exerciseWithSetData: MutableList<ExerciseWithSet>  = mutableListOf()
     var _exerciseWithSetLiveData: MutableLiveData<List<ExerciseWithSet>> = MutableLiveData()
     val exerciseWithSetLiveData: LiveData<List<ExerciseWithSet>> = _exerciseWithSetLiveData
 
+    var clickedExerciseSetDataPosition: Int = 0
 
-    fun addClickedUpdateExerciseWithSet(exerciseWithSet: ExerciseWithSet){
-        clickedUpdateExerciseWithSetData.add(exerciseWithSet)
-        _clickedUpdateExerciseWithSetList.value = clickedUpdateExerciseWithSetData
-    }
-    fun remove(exerciseWithSet: ExerciseWithSet){
-        clickedUpdateExerciseWithSetData.remove(exerciseWithSet)
-        _clickedUpdateExerciseWithSetList.value = clickedUpdateExerciseWithSetData
-    }
 
-    fun initAddGeneratedExercise(){
+
+    fun initExerciseWithSetData(){
         exerciseWithSetData = mutableListOf()
         _exerciseWithSetLiveData.value = exerciseWithSetData
     }
@@ -75,8 +68,19 @@ class RoutineViewModel @Inject constructor(
         )
     }
     fun clickUpdateRoutineBtn(routineWithExerciseAndSets: RoutineWithExerciseAndSets) {
+        initExerciseWithSetData()
         routineWithExerciseAndSetsData = routineWithExerciseAndSets
+        viewModelScope.launch {
+            exerciseRepository.getExerciseWithSetByRoutineId(
+                routineWithExerciseAndSets.routine.routineId!!
+            ).map {
+                addExerciseWithSetData(it)
+            }
+
+        }
     }
+
+
 
     fun createRoutine(routine: Routine, exerciseWithSet: List<ExerciseWithSet>) {
         viewModelScope.launch {
@@ -91,29 +95,35 @@ class RoutineViewModel @Inject constructor(
     // --------------------- Exercise ----------------------------- //
 
 
-    fun updateExerciseWithSet(exercise: Exercise, exerciseSets:List<ExerciseSet>) {
+    fun updateExerciseWithSet(exerciseWithSet : ExerciseWithSet) {
 
-        clickedUpdateExerciseWithSetData.forEachIndexed { index, exerciseWithSet ->
-            run {
-                if (exerciseWithSet.exercise.exerciseId == exercise.exerciseId) {
-                    remove(exerciseWithSet)
+            exerciseWithSet.exercise.exerciseId =
+                exerciseWithSetData.get(clickedExerciseSetDataPosition).exercise.exerciseId
+
+            exerciseWithSet.exercise.parentRoutineId =
+                exerciseWithSetData.get(clickedExerciseSetDataPosition).exercise.parentRoutineId
+
+            exerciseWithSet.exerciseSets.map {  currentSet ->
+                exerciseWithSetData.get(clickedExerciseSetDataPosition).exerciseSets.map { beforeSet ->
+                    currentSet.setId = beforeSet.setId
+                    currentSet.parentExerciseId = beforeSet.parentExerciseId
                 }
             }
-        }
-        viewModelScope.launch {
-            removeExerciseWithSetData(clickedUpdateExerciseWithSet)
-            remove(clickedUpdateExerciseWithSet)
-            exercise.exerciseId = clickedUpdateExerciseWithSet.exercise.exerciseId
-            clickedUpdateExerciseWithSet.exerciseSets.map{ it1 ->
-                exerciseSets.map {
-                    it.setId  = it1.setId
-                }
-            }
-            addExerciseWithSetData(ExerciseWithSet(exercise,exerciseSets))
-            addClickedUpdateExerciseWithSet(ExerciseWithSet(exercise,exerciseSets))
 
-            exerciseRepository.updateExerciseWithSet(exercise,exerciseSets)
+
+        if(routineWithExerciseAndSetsData == null){
+            viewModelScope.launch {
+                exerciseRepository.updateExerciseWithSet(
+                    exerciseWithSet.exercise,exerciseWithSet.exerciseSets
+                )
+            }
         }
+        removeExerciseWithSetData(exerciseWithSetData.get(clickedExerciseSetDataPosition))
+        exerciseWithSetData.add(clickedExerciseSetDataPosition,exerciseWithSet)
+        _exerciseWithSetLiveData.value = exerciseWithSetData
+
+
+
 
     }
 

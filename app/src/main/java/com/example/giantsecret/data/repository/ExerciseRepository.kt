@@ -23,6 +23,8 @@ class ExerciseRepository @Inject constructor(
     val exerciseFlow: Flow<List<Exercise>>
         get() = exerciseDao.getAllExerciseFlow()
 
+    val parentIdNullExerciseFlow :Flow<List<ExerciseWithSet>>
+        get() = exerciseDao.getParentIdNullExerciseFlow()
 
 
     suspend fun insertExercise(exercise: Exercise): Long {
@@ -31,6 +33,12 @@ class ExerciseRepository @Inject constructor(
     suspend fun createExercise(exercise: Exercise, exerciseSets: List<ExerciseSet>) :Long{
         return exerciseDao.createExercise(exercise,exerciseSets)
     }
+
+    suspend fun getExerciseWithSetByRoutineId(id: Long) : List<ExerciseWithSet> {
+        return exerciseDao.getExerciseWithSetByRoutineId(id)
+    }
+
+
 
     suspend fun updateExerciseWithSet(exercise: Exercise, exerciseSets: List<ExerciseSet>) {
             withContext(IoDispatchers) {

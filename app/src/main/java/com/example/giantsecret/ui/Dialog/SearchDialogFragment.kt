@@ -58,7 +58,12 @@ class SearchDialogFragment(searchAdapter: SearchAdapter)  : DialogFragment() {
         }
         binding.choiceBtn.setOnClickListener {
             searchAdapter.getCheckedExercise().map {
-                routineViewModel.addExerciseWithSetData(it)
+                var addExerciseWithSet = it.copy()
+                addExerciseWithSet.exercise.exerciseId = null
+                addExerciseWithSet.exerciseSets.map {
+                    it.setId = null
+                }
+                routineViewModel.addExerciseWithSetData(addExerciseWithSet)
             }
             dismiss()
 

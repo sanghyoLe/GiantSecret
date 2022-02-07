@@ -22,6 +22,7 @@ data class Exercise(
 @Entity
 data class ExerciseSet(
     @PrimaryKey(autoGenerate = true) var setId: Long?,
+    @ColumnInfo var parentExerciseId: Long?,
     @ColumnInfo var numberOfRep:Int,
     @ColumnInfo var weight:Double
 )
@@ -30,18 +31,11 @@ data class ExerciseWithSet(
     @Embedded var exercise: Exercise,
     @Relation(
         parentColumn = "exerciseId",
-        entityColumn = "setId",
-        associateBy = Junction(ExerciseSetCrossRef::class)
+        entityColumn = "parentExerciseId",
     )
     var exerciseSets: List<ExerciseSet>
 )
 
-
-@Entity(primaryKeys = ["exerciseId","setId"])
-data class ExerciseSetCrossRef(
-    val exerciseId: Long,
-    val setId: Long
-)
 
 data class RoutineWithExerciseAndSets(
     @Embedded val routine: Routine,

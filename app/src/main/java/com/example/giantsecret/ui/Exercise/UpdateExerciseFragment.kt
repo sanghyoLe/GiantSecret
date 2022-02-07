@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.giantsecret.R
 import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseSet
+import com.example.giantsecret.data.model.ExerciseWithSet
 import com.example.giantsecret.databinding.FragmentCreateExerciseBinding
 import com.example.giantsecret.hideKeyboard
 import com.example.giantsecret.ui.Dialog.BottomSheetListView
@@ -31,6 +32,7 @@ class UpdateExercise : Fragment() {
     private lateinit var binding: FragmentCreateExerciseBinding
     private lateinit var bottomSheetListView: BottomSheetListView
     private lateinit var setListAdapter: SetListAdapter
+
     private val routineViewModel: RoutineViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +53,7 @@ class UpdateExercise : Fragment() {
         createBottomSheet()
         createSearchExerciseListView()
         selectExerciseRadioGroup()
-        binding.exerciseNameEditText.setText(
-            routineViewModel.clickedUpdateExerciseWithSet.exercise.name
-        )
+
 
         // 세트 마다 무게 다름 RecyclerView Adapter 설정정
         setListAdapter = SetListAdapter(1,requireContext(),childFragmentManager)
@@ -167,6 +167,7 @@ class UpdateExercise : Fragment() {
             else {
                 exerciseName = binding.exerciseNameEditText.text.toString()
                 numberOfSet = Integer.parseInt(binding.choiceSetTextView.text.toString())
+
                 var exercise = Exercise(null,null,exerciseName,numberOfSet)
                 // 세트 간 무게 동일 시
                 if(binding.setWeightEqualBtn.isChecked) {
@@ -177,11 +178,10 @@ class UpdateExercise : Fragment() {
                         var weight:Double =  binding.weightEditText.text.toString().toDouble()
 
 
-                        var exerciseSet =
-                            ExerciseSet(null,numberOfRep,weight)
+                        var exerciseSet = ExerciseSet(null,null,numberOfRep,weight)
                         var exerciseSetList:List<ExerciseSet>  = List(numberOfSet) { exerciseSet }
 
-                        routineViewModel.updateExerciseWithSet(exercise,exerciseSetList)
+                        routineViewModel.updateExerciseWithSet(ExerciseWithSet(exercise,exerciseSetList))
 
                         findNavController().popBackStack()
                     }
@@ -193,14 +193,13 @@ class UpdateExercise : Fragment() {
                     var exerciseSetList: ArrayList<ExerciseSet> = ArrayList()
 
                     for(i:Int in 0..setListAdapter.itemCount-1) {
-                        exerciseSetList.add(i, ExerciseSet(null,
+                        exerciseSetList.add(i, ExerciseSet(null,null,
                             repList.get(i),weightList.get(i)
                         )
                         )
                     }
 
-
-                    routineViewModel.updateExerciseWithSet(exercise,exerciseSetList)
+                    routineViewModel.updateExerciseWithSet(ExerciseWithSet(exercise,exerciseSetList))
 
                     findNavController().popBackStack()
                 }

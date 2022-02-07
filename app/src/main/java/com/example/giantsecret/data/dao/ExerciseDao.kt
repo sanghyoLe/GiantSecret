@@ -14,27 +14,26 @@ interface ExerciseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun createRoutine(routine: Routine, exerciseWithSet: List<ExerciseWithSet>) :Long {
         val routineId = insertRoutine(routine)
-        insertRoutine(routine)
-        exerciseWithSet.map { it ->
-            it.exercise.apply { parentRoutineId = routineId }
-            var exerciseId = insertExercise(it.exercise)!!
+
+        exerciseWithSet.map {
+            it.exercise.parentRoutineId = routineId
+            if(it.exercise.exerciseId != null) it.exercise.exerciseId = null
             it.exerciseSets.map {
-                var setId = insertSet(it)
-                insertExerciseSetCrossRef(
-                    ExerciseSetCrossRef(exerciseId,setId)
-                )
+                if(it.setId != null) it.setId = null
             }
-
+            var exerciseId = insertExercise(it.exercise)
+            it.exerciseSets.map {
+                it.parentExerciseId = exerciseId
+                insertSet(it)
+            }
         }
-
         return routineId
     }
 
 
 
-    @Transaction
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertExerciseSetCrossRef(exerciseSetCrossRef: ExerciseSetCrossRef)
+
+
 
     @Query("SELECT * FROM routine ORDER BY routineId DESC")
     fun getAllRoutine() : Flow<List<RoutineWithExerciseAndSets>>
@@ -47,6 +46,9 @@ interface ExerciseDao {
     @Query("SELECT * FROM exercises")
     fun getExercisesWithFlow(): Flow<List<ExerciseWithSet>>
 
+    @Query("SELECT * FROM exercises where parentRoutineId IS NULL")
+    fun getParentIdNullExerciseFlow() : Flow<List<ExerciseWithSet>>
+
     @Query("SELECT * FROM exercises")
     fun getAllExerciseFlow() : Flow<List<Exercise>>
 
@@ -54,18 +56,17 @@ interface ExerciseDao {
     @Query("SELECT * FROM exercises where exerciseId = :id")
     suspend fun getExerciseWithSetByParentId(id:Long) : ExerciseWithSet
 
+    @Transaction
+    @Query("SELECT * FROM exercises where parentRoutineId = :id")
+    suspend fun getExerciseWithSetByRoutineId(id: Long) : List<ExerciseWithSet>
 
     @Transaction
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun createExercise(exercise: Exercise, exerciseSets: List<ExerciseSet>):Long{
-
         val exerciseId = insertExercise(exercise)
         exerciseSets.map {
-            var setId = insertSet(it)
-            insertExerciseSetCrossRef(
-                ExerciseSetCrossRef(exerciseId,setId)
-            )
-        }
+            it.apply { parentExerciseId = exerciseId }
+        }.also { insertSets(it) }
         return exerciseId
     }
     @Transaction

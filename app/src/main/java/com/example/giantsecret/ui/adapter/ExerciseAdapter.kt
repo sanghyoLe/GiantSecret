@@ -14,7 +14,7 @@ import com.example.giantsecret.data.model.ExerciseWithSet
 
 class ExerciseAdapter(
     private val onDeleteCallBack: (ExerciseWithSet) -> Unit,
-    private val onModifyCallBack: (ExerciseWithSet) -> Unit,
+    private val onModifyCallBack: (ExerciseWithSet,Int) -> Unit,
 )
 : RecyclerView.Adapter<ExerciseAdapter.ViewHolder>(){
 
@@ -56,7 +56,7 @@ class ExerciseAdapter(
                     }).create().show()
             }
             holder.binding.modifyBtn.setOnClickListener {
-                onModifyCallBack(currentItem)
+                onModifyCallBack(currentItem,position)
                 notifyDataSetChanged()
             }
     }

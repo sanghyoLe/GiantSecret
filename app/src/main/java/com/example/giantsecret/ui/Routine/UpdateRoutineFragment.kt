@@ -30,6 +30,9 @@ class UpdateRoutineFragment : Fragment() {
             ::clickUpdateExercise
         )
         observerModifyRoutine()
+        routineViewModel.exerciseWithSetLiveData.observe(this) { exercises ->
+            exerciseAdapter.setExerciseWithSet(exercises)
+        }
     }
 
     override fun onCreateView(
@@ -48,8 +51,9 @@ class UpdateRoutineFragment : Fragment() {
 
     }
 
-    fun clickUpdateExercise(exerciseWithSet: ExerciseWithSet) {
-        routineViewModel.clickedUpdateExerciseWithSet = exerciseWithSet
+    fun clickUpdateExercise(exerciseWithSet: ExerciseWithSet,position:Int) {
+        routineViewModel.clickedExerciseSetDataPosition = position
+        routineViewModel.updateExerciseWithSet(exerciseWithSet)
         findNavController().navigate(R.id.updateExerciseFragment)
     }
 

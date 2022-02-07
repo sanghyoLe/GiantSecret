@@ -45,8 +45,8 @@ class RoutineFragment : Fragment(){
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_routine, container, false)
         binding.createRoutineBtnLayout.setOnClickListener {
             findNavController().navigate(R.id.createRoutineAction)
-
-            routineViewModel.initAddGeneratedExercise()
+            routineViewModel.routineWithExerciseAndSetsData = null
+            routineViewModel.initExerciseWithSetData()
         }
         binding.routineRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.routineRecyclerView.adapter = routineAdapter
