@@ -43,6 +43,23 @@ class UpdateRoutineFragment : Fragment() {
         binding.topAppBarTitle.text = "루틴 수정하기"
         binding.exerciseListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.exerciseListRecyclerView.adapter = exerciseAdapter
+        binding.routineSaveBtn.text = "수정"
+        binding.chip1.isChecked = routineViewModel.isPartCheckByRoutineId.get(0)
+        binding.chip2.isChecked = routineViewModel.isPartCheckByRoutineId.get(1)
+        binding.chip3.isChecked = routineViewModel.isPartCheckByRoutineId.get(2)
+        binding.chip4.isChecked = routineViewModel.isPartCheckByRoutineId.get(3)
+        binding.chip5.isChecked = routineViewModel.isPartCheckByRoutineId.get(4)
+        binding.chip6.isChecked = routineViewModel.isPartCheckByRoutineId.get(5)
+        binding.chip7.isChecked = routineViewModel.isPartCheckByRoutineId.get(6)
+        binding.createRoutineBackBtn.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        binding.routineSaveBtn.setOnClickListener {
+            routineViewModel.
+
+        }
+
+
         return binding.root
     }
 

@@ -37,6 +37,7 @@ class ExerciseAdapter(
             holder.binding.numberOfSetTextView.text = currentItem.exercise.numberOfSet.toString()
             holder.binding.showAllSetRecyclerView.layoutManager = LinearLayoutManager(context)
             holder.binding.showAllSetRecyclerView.adapter = ShowSetListAdapter(exerciseWithSetList[position].exerciseSets)
+
             holder.binding.cardViewLayout.setOnClickListener {
                 setLayoutShowHide(holder.binding.showAllSetLayout)
             }

@@ -45,6 +45,15 @@ class UpdateExercise : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_create_exercise,container,false)
         initView()
+        binding.exerciseSaveTextView.setText("수정")
+        binding.topAppBarTitle.setText("운동 수정하기")
+        binding.exerciseNameEditText.setText(
+            routineViewModel.clickedExerciseSetData.exercise.name
+        )
+
+        binding.choiceSetTextView.text = routineViewModel.clickedExerciseSetData.exercise.numberOfSet.toString()
+        setListAdapter.changeSetSize(routineViewModel.clickedExerciseSetData.exercise.numberOfSet)
+        setListAdapter.notifyDataSetChanged()
 
         return binding.root
     }
@@ -168,7 +177,7 @@ class UpdateExercise : Fragment() {
                 exerciseName = binding.exerciseNameEditText.text.toString()
                 numberOfSet = Integer.parseInt(binding.choiceSetTextView.text.toString())
 
-                var exercise = Exercise(null,null,exerciseName,numberOfSet)
+                var exercise = Exercise(null, null, name = exerciseName, numberOfSet = numberOfSet)
                 // 세트 간 무게 동일 시
                 if(binding.setWeightEqualBtn.isChecked) {
                     if(TextUtils.isEmpty(binding.weightEditText.text)) {
@@ -192,7 +201,7 @@ class UpdateExercise : Fragment() {
                     var repList = setListAdapter.getRepArrayList()
                     var exerciseSetList: ArrayList<ExerciseSet> = ArrayList()
 
-                    for(i:Int in 0..setListAdapter.itemCount-1) {
+                    for(i:Int in 0..numberOfSet-1) {
                         exerciseSetList.add(i, ExerciseSet(null,null,
                             repList.get(i),weightList.get(i)
                         )

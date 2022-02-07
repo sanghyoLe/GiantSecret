@@ -2,6 +2,7 @@ package com.example.giantsecret.ui.Routine
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -32,6 +33,7 @@ class CreateRoutineFragment : Fragment() {
 
     private lateinit var searchDialogFragment: SearchDialogFragment
     private lateinit var searchAdapter: SearchDialogFragment.SearchAdapter
+    private var isCheckList:ArrayList<Boolean> = arrayListOf(false,false,false,false,false,false,false)
     lateinit var exerciseAdapter:ExerciseAdapter
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -85,7 +87,8 @@ class CreateRoutineFragment : Fragment() {
 //                parts = parts.substring(0, parts.length-1)
 
                 var createdRoutine = Routine(null,routineName)
-                routineViewModel.clickCreateRoutineBtn(createdRoutine)
+
+                routineViewModel.clickCreateRoutineBtn(createdRoutine,isCheckList)
 
                 findNavController().navigate(R.id.createRoutineToCloseAction)
             }
@@ -107,8 +110,18 @@ class CreateRoutineFragment : Fragment() {
         val ids = binding.routineChipGroup.checkedChipIds
         var partString:String = ""
 
+
         ids.forEachIndexed { _, id ->
             partString = partString.plus(binding.routineChipGroup.findViewById<Chip>(id).text).plus(",")
+            when(id){
+                R.id.chip_1 -> isCheckList[0] = true
+                R.id.chip_2 -> isCheckList[1] = true
+                R.id.chip_3 -> isCheckList[2] = true
+                R.id.chip_4 -> isCheckList[3] = true
+                R.id.chip_5 -> isCheckList[4] = true
+                R.id.chip_6 -> isCheckList[5] = true
+                R.id.chip_7 -> isCheckList[6] = true
+            }
         }
 
         return if(partString == ""){

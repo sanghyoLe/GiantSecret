@@ -65,6 +65,7 @@ class RoutineFragment : Fragment(){
         routineAdapter.notifyDataSetChanged()
     }
     private fun modifyRoutine(routine: RoutineWithExerciseAndSets) {
+        routineViewModel.isPartCheckByRoutineId.replaceAll { false }
         routineViewModel.clickUpdateRoutineBtn(routine)
         findNavController().navigate(R.id.updateRoutineFragment)
     }

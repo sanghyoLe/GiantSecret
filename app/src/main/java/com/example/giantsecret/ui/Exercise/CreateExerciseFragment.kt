@@ -3,6 +3,7 @@ package com.example.giantsecret.ui.Exercise
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -182,7 +183,7 @@ class CreateExerciseFragment : Fragment() {
             else {
                 exerciseName = binding.exerciseNameEditText.text.toString()
                 numberOfSet = Integer.parseInt(binding.choiceSetTextView.text.toString())
-                var exercise = Exercise(null,null,exerciseName,numberOfSet)
+                var exercise = Exercise(null, null, name = exerciseName, numberOfSet = numberOfSet)
                 // 세트 간 무게 동일 시
                 if(binding.setWeightEqualBtn.isChecked) {
                     if(TextUtils.isEmpty(binding.weightEditText.text)) {
@@ -208,9 +209,9 @@ class CreateExerciseFragment : Fragment() {
                     var exerciseSet: ArrayList<ExerciseSet> = ArrayList()
 
                     for(i:Int in 0..setListAdapter.itemCount-1) {
+
                         exerciseSet.add(i, ExerciseSet(null,null,
-                            repList.get(i),weightList.get(i)
-                        )
+                            repList.get(i),weightList.get(i))
                         )
                     }
 

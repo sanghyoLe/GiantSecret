@@ -6,13 +6,15 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ExerciseDao {
-    // Exercise Dao
+    @Query("SELECT * FROM routine ORDER BY routineId DESC")
+    fun getAllRoutine() : Flow<List<RoutineWithExerciseAndSets>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRoutine(routine: Routine):Long
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun createRoutine(routine: Routine, exerciseWithSet: List<ExerciseWithSet>) :Long {
+    suspend fun createRoutine(routine: Routine, exerciseWithSet: List<ExerciseWithSet>,isPartCheck:List<Boolean>) :Long {
         val routineId = insertRoutine(routine)
 
         exerciseWithSet.map {
@@ -27,19 +29,32 @@ interface ExerciseDao {
                 insertSet(it)
             }
         }
+        isPartCheck.forEachIndexed { index, check ->
+            if(isPartCheck[index] == true ) {
+                insertRoutineExercisePartCrossRef(
+                    RoutineExercisePartCrossRef(routineId,(index+1).toLong())
+                )
+            }
+        }
         return routineId
     }
 
+    @Transaction
+    @Query("SELECT * from routineexercisepartcrossref where routineId = :id")
+    suspend fun getRoutineExercisePartCrossRefByRoutineId(id:Long):List<RoutineExercisePartCrossRef>
 
-
-
-
-
-    @Query("SELECT * FROM routine ORDER BY routineId DESC")
-    fun getAllRoutine() : Flow<List<RoutineWithExerciseAndSets>>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertExercisePart(exercisePart: ExercisePart)
 
     @Delete
     suspend fun deleteRoutine(routine: Routine)
+
+
+
+    @Transaction
+    @Insert
+    suspend fun insertRoutineExercisePartCrossRef(routineExercisePartCrossRef: RoutineExercisePartCrossRef)
+
 
     // for Exercise
     @Transaction
@@ -59,36 +74,6 @@ interface ExerciseDao {
     @Transaction
     @Query("SELECT * FROM exercises where parentRoutineId = :id")
     suspend fun getExerciseWithSetByRoutineId(id: Long) : List<ExerciseWithSet>
-
-    @Transaction
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun createExercise(exercise: Exercise, exerciseSets: List<ExerciseSet>):Long{
-        val exerciseId = insertExercise(exercise)
-        exerciseSets.map {
-            it.apply { parentExerciseId = exerciseId }
-        }.also { insertSets(it) }
-        return exerciseId
-    }
-    @Transaction
-    @Delete
-    suspend fun deleteExerciseWithSet(exercise: Exercise, exerciseSets: List<ExerciseSet>) {
-        deleteExercise(exercise)
-
-        exerciseSets.map {
-            deleteSet(it)
-        }
-    }
-
-    @Transaction
-    @Update
-    suspend fun updateExerciseWithSet(exercise: Exercise, exerciseSets: List<ExerciseSet>) {
-        updateExercise(exercise)
-        exerciseSets.map {
-            updateSet(it)
-        }
-    }
-
-
 
 
 
@@ -115,6 +100,35 @@ interface ExerciseDao {
 
     @Delete
     suspend fun deleteSet(exerciseSet:ExerciseSet)
+
+
+    @Transaction
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun createExercise(exercise: Exercise, exerciseSets: List<ExerciseSet>):Long{
+        val exerciseId = insertExercise(exercise)
+        exerciseSets.map {
+            it.apply { parentExerciseId = exerciseId }
+        }.also { insertSets(it) }
+        return exerciseId
+    }
+    @Transaction
+    @Delete
+    suspend fun deleteExerciseWithSet(exercise: Exercise, exerciseSets: List<ExerciseSet>) {
+        deleteExercise(exercise)
+        exerciseSets.map {
+            deleteSet(it)
+        }
+    }
+
+    @Transaction
+    @Update
+    suspend fun updateExerciseWithSet(exercise: Exercise, exerciseSets: List<ExerciseSet>) {
+        updateExercise(exercise)
+        exerciseSets.map {
+            updateSet(it)
+        }
+    }
+
 
 
 

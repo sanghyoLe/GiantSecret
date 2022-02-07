@@ -1,5 +1,7 @@
 package com.example.giantsecret.data.model
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 import kotlin.math.E
@@ -9,6 +11,19 @@ data class Routine (
     @PrimaryKey(autoGenerate = true) val routineId:Long?,
     val name: String,
 )
+@Entity
+data class ExercisePart(
+    @PrimaryKey(autoGenerate = true) val partId:Long,
+    val name : String
+)
+
+@Entity(primaryKeys = ["routineId","partId"])
+data class RoutineExercisePartCrossRef(
+    val routineId: Long,
+    val partId: Long
+)
+
+
 
 @Entity(tableName = "exercises")
 data class Exercise(
@@ -34,6 +49,18 @@ data class ExerciseWithSet(
         entityColumn = "parentExerciseId",
     )
     var exerciseSets: List<ExerciseSet>
+)
+
+
+
+data class RoutineWithExerciseParts(
+    @Embedded val routine: Routine,
+    @Relation(
+        parentColumn = "routineId",
+        entityColumn = "partId",
+        associateBy = Junction(RoutineExercisePartCrossRef::class)
+    )
+    val parts: List<ExercisePart>
 )
 
 

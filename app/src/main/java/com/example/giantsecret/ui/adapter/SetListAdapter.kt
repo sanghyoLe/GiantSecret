@@ -3,6 +3,7 @@ package com.example.giantsecret.ui.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,7 @@ class SetListAdapter(private var setSize:Int = 1, context: Context, fragmentMana
     private var context = context
     private var fragmentManager = fragmentManager
     private var countArrayList: ArrayList<String> = ArrayList()
-    private var weightArrayList: ArrayList<Double> = ArrayList(setSize)
+    private var weightArrayList: ArrayList<Double> = ArrayList(setSize-1)
     private var repArrayList: ArrayList<Int> = ArrayList()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -45,7 +46,7 @@ class SetListAdapter(private var setSize:Int = 1, context: Context, fragmentMana
         for(i:Int in 0..SET_SIZE) {
             countArrayList.add(i, "${i}")
         }
-        for(i:Int in 0..setSize) {
+        for(i:Int in 0..setSize-1) {
             weightArrayList.add(i, 60.0)
             repArrayList.add(i,12)
         }
@@ -72,15 +73,20 @@ class SetListAdapter(private var setSize:Int = 1, context: Context, fragmentMana
 
             viewHolder.editText.addTextChangedListener {
                 if(TextUtils.isEmpty(viewHolder.editText.text.toString())){
-                    weightArrayList.add(position, 60.0)
+                    weightArrayList.removeAt(position)
+                    weightArrayList.add(position,60.0)
                 } else {
+                    weightArrayList.removeAt(position)
                     weightArrayList.add(position,(viewHolder.editText.text.toString().toDouble()))
                 }
+
             }
     }
     fun changeSetSize(changeSetSize:Int){
         setSize = changeSetSize
-        for(i:Int in 0..setSize) {
+        weightArrayList = arrayListOf()
+        repArrayList = arrayListOf()
+        for(i:Int in 0..setSize-1) {
             weightArrayList.add(i, 60.0)
             repArrayList.add(i,12)
         }
