@@ -22,6 +22,7 @@ class RoutineViewModel @Inject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel(){
     val allRoutines: LiveData<List<RoutineWithExerciseAndSets>> = routineRepository.allRoutines.asLiveData()
+    var isCreateRoutineView: Boolean = false
 
     var isPartCheckByRoutineId:ArrayList<Boolean> = arrayListOf(false,false,false,false,false,false,false)
 
@@ -70,7 +71,7 @@ class RoutineViewModel @Inject constructor(
         )
 
     }
-    fun clickUpdateRoutineBtn(routineWithExerciseAndSets: RoutineWithExerciseAndSets) {
+    fun clickShowUpdateRoutine(routineWithExerciseAndSets: RoutineWithExerciseAndSets) {
         initExerciseWithSetData()
         routineWithExerciseAndSetsData = routineWithExerciseAndSets
         viewModelScope.launch {
@@ -88,6 +89,24 @@ class RoutineViewModel @Inject constructor(
         }
     }
 
+    fun clickUpdateRoutineBtn(routine: Routine,isPartCheck: ArrayList<Boolean>) {
+        updateRoutineWithChild(
+            routine,
+            exerciseWithSetData.toList(),
+            isPartCheck
+            )
+    }
+
+    fun updateRoutineWithChild(routine: Routine,exerciseWithSet: List<ExerciseWithSet>,isPartCheck:ArrayList<Boolean>){
+        viewModelScope.launch {
+            routineRepository.updateRoutineWithChild(
+                routine,
+                exerciseWithSet,
+                isPartCheck
+            )
+        }
+    }
+
 
 
     fun createRoutine(routine: Routine, exerciseWithSet: List<ExerciseWithSet>,isPartCheck:ArrayList<Boolean>) {
@@ -96,8 +115,8 @@ class RoutineViewModel @Inject constructor(
         }
     }
 
-    fun deleteRoutine(routine: Routine) = viewModelScope.launch {
-        routineRepository.delete(routine)
+    fun deleteRoutineWithChild(routine: Routine) = viewModelScope.launch {
+        routineRepository.deleteRoutineWithChild(routine)
     }
 
 
@@ -105,37 +124,28 @@ class RoutineViewModel @Inject constructor(
 
 
     fun updateExerciseWithSet(exerciseWithSet : ExerciseWithSet) {
+        clickedExerciseSetData = exerciseWithSetData.get(clickedExerciseSetDataPosition)
 
-            if(routineWithExerciseAndSetsData != null){
+        exerciseWithSet.exercise.exerciseId =
+            clickedExerciseSetData.exercise.exerciseId
 
-            }
-            clickedExerciseSetData = exerciseWithSetData.get(clickedExerciseSetDataPosition)
+        exerciseWithSet.exercise.parentRoutineId =
+            clickedExerciseSetData.exercise.parentRoutineId
 
-            exerciseWithSet.exercise.exerciseId =
-                clickedExerciseSetData.exercise.exerciseId
+        exerciseWithSet.exerciseSets.map {
+            it.apply { parentExerciseId = exerciseWithSet.exercise.exerciseId }
+        }
 
-            exerciseWithSet.exercise.parentRoutineId =
-                clickedExerciseSetData.exercise.parentRoutineId
-
-            exerciseWithSet.exerciseSets.map {
-                it.apply { parentExerciseId = exerciseWithSet.exercise.exerciseId }
-            }
-
-
-        if(routineWithExerciseAndSetsData == null){
+        if (routineWithExerciseAndSetsData == null) {
             viewModelScope.launch {
                 exerciseRepository.updateExerciseWithSet(
-                    exerciseWithSet.exercise,exerciseWithSet.exerciseSets
+                    exerciseWithSet.exercise, exerciseWithSet.exerciseSets
                 )
             }
         }
         removeExerciseWithSetData(clickedExerciseSetData)
-        exerciseWithSetData.add(clickedExerciseSetDataPosition,exerciseWithSet)
+        exerciseWithSetData.add(clickedExerciseSetDataPosition, exerciseWithSet)
         _exerciseWithSetLiveData.value = exerciseWithSetData
-
-
-
-
     }
 
 

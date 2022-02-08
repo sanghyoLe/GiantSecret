@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
-    <data/>
-
     <androidx.appcompat.widget.LinearLayoutCompat
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/searchExerciseLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +11,7 @@
         android:weightSum="8"
         >
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -60,5 +56,3 @@
                 android:text="선택"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
-
-</layout>

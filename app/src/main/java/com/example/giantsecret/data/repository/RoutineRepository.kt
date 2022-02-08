@@ -24,12 +24,15 @@ class RoutineRepository @Inject constructor(
         return exerciseDao.insertRoutine(routine)
     }
 
-    suspend fun delete(routine: Routine) {
-        exerciseDao.deleteRoutine(routine)
+    suspend fun deleteRoutineWithChild(routine: Routine) {
+        exerciseDao.deleteRoutineWithChild(routine)
     }
 
     suspend fun createRoutine(routine: Routine, exerciseWithSet: List<ExerciseWithSet>,isPartCheck:List<Boolean>):Long {
         return exerciseDao.createRoutine(routine,exerciseWithSet,isPartCheck)
+    }
+    suspend fun updateRoutineWithChild(routine: Routine, exerciseWithSet: List<ExerciseWithSet>, isPartCheck: List<Boolean>) {
+        return exerciseDao.updateRoutineWithChild(routine,exerciseWithSet,isPartCheck)
     }
 
     suspend fun getRoutineExercisePartCrossRefByRoutineId(id:Long) : List<RoutineExercisePartCrossRef> {

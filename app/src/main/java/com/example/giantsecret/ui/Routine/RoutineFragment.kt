@@ -4,7 +4,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 
 
@@ -15,9 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.giantsecret.R
 import com.example.giantsecret.data.model.Routine
 import com.example.giantsecret.data.model.RoutineWithExerciseAndSets
-
-
 import com.example.giantsecret.databinding.FragmentRoutineBinding
+
 import com.example.giantsecret.ui.adapter.RoutineAdapter
 import com.example.giantsecret.viewModel.RoutineViewModel
 
@@ -42,10 +40,11 @@ class RoutineFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_routine, container, false)
+        binding = FragmentRoutineBinding.inflate(inflater,container, false)
         binding.createRoutineBtnLayout.setOnClickListener {
             findNavController().navigate(R.id.createRoutineAction)
             routineViewModel.routineWithExerciseAndSetsData = null
+            routineViewModel.isCreateRoutineView = true
             routineViewModel.initExerciseWithSetData()
         }
         binding.routineRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -61,12 +60,13 @@ class RoutineFragment : Fragment(){
         }
     }
     private fun deleteRoutine(routine: Routine) {
-        routineViewModel.deleteRoutine(routine)
+        routineViewModel.deleteRoutineWithChild(routine)
         routineAdapter.notifyDataSetChanged()
     }
     private fun modifyRoutine(routine: RoutineWithExerciseAndSets) {
         routineViewModel.isPartCheckByRoutineId.replaceAll { false }
-        routineViewModel.clickUpdateRoutineBtn(routine)
-        findNavController().navigate(R.id.updateRoutineFragment)
+        routineViewModel.clickShowUpdateRoutine(routine)
+        routineViewModel.isCreateRoutineView = false
+        findNavController().navigate(R.id.createRoutineFragment)
     }
 }

@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.databinding.DataBindingUtil
+
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,7 +43,7 @@ class UpdateExercise : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_create_exercise,container,false)
+        binding = FragmentCreateExerciseBinding.inflate(layoutInflater,container,false)
         initView()
         binding.exerciseSaveTextView.setText("수정")
         binding.topAppBarTitle.setText("운동 수정하기")

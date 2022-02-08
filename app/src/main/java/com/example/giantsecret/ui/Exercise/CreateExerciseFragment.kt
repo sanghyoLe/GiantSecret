@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.widget.addTextChangedListener
-import androidx.databinding.DataBindingUtil
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -47,7 +47,7 @@ class CreateExerciseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_create_exercise,container,false)
+        binding = FragmentCreateExerciseBinding.inflate(layoutInflater,container,false)
         initView()
 
         return binding.root
@@ -63,10 +63,6 @@ class CreateExerciseFragment : Fragment() {
         createSearchExerciseListView()
         selectExerciseRadioGroup()
 
-        // Toolbar BackBtn Click
-        binding.createExerciseBackBtn.setOnClickListener {
-            findNavController().navigate(R.id.createExerciseToCloseAction)
-        }
         // 세트 마다 무게 다름 RecyclerView Adapter 설정정
         setListAdapter = SetListAdapter(1,requireContext(),childFragmentManager)
         createExercise()
@@ -149,7 +145,7 @@ class CreateExerciseFragment : Fragment() {
 
         binding.createExerciseBackBtn.setOnClickListener {
 
-            findNavController().navigate(R.id.createExerciseToCloseAction)
+            findNavController().popBackStack()
         }
 
 
@@ -199,7 +195,7 @@ class CreateExerciseFragment : Fragment() {
 
                         routineViewModel.createExercise(exercise,exerciseSetList)
 
-                        findNavController().navigate(R.id.createExerciseToCloseAction)
+                        findNavController().popBackStack()
                     }
                 }
                 // 세트 마다 무게 다를 시
@@ -217,7 +213,7 @@ class CreateExerciseFragment : Fragment() {
 
                     routineViewModel.createExercise(exercise,exerciseSet)
 
-                    findNavController().navigate(R.id.createExerciseToCloseAction)
+                    findNavController().popBackStack()
                 }
             }
         }

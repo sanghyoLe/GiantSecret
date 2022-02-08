@@ -40,6 +40,57 @@ interface ExerciseDao {
     }
 
     @Transaction
+    @Update
+    suspend fun updateRoutineWithChild(routine: Routine, exerciseWithSet: List<ExerciseWithSet>, isPartCheck: List<Boolean>){
+        updateRoutine(routine)
+        exerciseWithSet.map { it ->
+            if(it.exercise.parentRoutineId == null){
+                it.exercise.parentRoutineId = routine.routineId!!
+                var exerciseId = insertExercise(it.exercise)
+                it.exerciseSets.map {
+                    it.parentExerciseId = exerciseId
+                    insertSet(it)
+                }
+            } else {
+                updateExerciseWithSet(it.exercise,it.exerciseSets)
+            }
+        }
+
+        getRoutineExercisePartCrossRefByRoutineId(routine.routineId!!).map {
+            deleteRoutineExercisePartCrossRef(it)
+        }
+
+        isPartCheck.forEachIndexed { index, check ->
+            if(isPartCheck[index] == true ) {
+                insertRoutineExercisePartCrossRef(
+                    RoutineExercisePartCrossRef(routine.routineId!!,(index+1).toLong())
+                )
+            }
+        }
+    }
+
+    @Transaction
+    @Delete
+    suspend fun deleteRoutineWithChild(routine: Routine) {
+        deleteRoutine(routine)
+        getExerciseWithSetByRoutineId(routine.routineId!!).map { exerciseWithSet ->
+            deleteExerciseWithSet(
+                exerciseWithSet.exercise,
+                exerciseWithSet.exerciseSets
+            )
+        }
+        getRoutineExercisePartCrossRefByRoutineId(routine.routineId!!).map {
+            deleteRoutineExercisePartCrossRef(it)
+        }
+    }
+
+    @Update
+    suspend fun updateRoutine(routine:Routine)
+
+
+
+
+    @Transaction
     @Query("SELECT * from routineexercisepartcrossref where routineId = :id")
     suspend fun getRoutineExercisePartCrossRefByRoutineId(id:Long):List<RoutineExercisePartCrossRef>
 
@@ -49,11 +100,13 @@ interface ExerciseDao {
     @Delete
     suspend fun deleteRoutine(routine: Routine)
 
-
-
     @Transaction
     @Insert
     suspend fun insertRoutineExercisePartCrossRef(routineExercisePartCrossRef: RoutineExercisePartCrossRef)
+
+    @Transaction
+    @Delete
+    suspend fun deleteRoutineExercisePartCrossRef(routineExercisePartCrossRef: RoutineExercisePartCrossRef)
 
 
     // for Exercise

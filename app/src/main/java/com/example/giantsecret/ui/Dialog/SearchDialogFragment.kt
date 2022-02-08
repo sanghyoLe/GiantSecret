@@ -1,11 +1,15 @@
 package com.example.giantsecret.ui.Dialog
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,26 +23,30 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class SearchDialogFragment(searchAdapter: SearchAdapter)  : DialogFragment() {
+class SearchDialogFragment(private var searchAdapter: SearchAdapter)  : DialogFragment() {
     private lateinit var binding:SearchDialogLayoutBinding
 
     private val routineViewModel: RoutineViewModel by activityViewModels()
-    private var searchAdapter = searchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = SearchDialogLayoutBinding.inflate(inflater, container, false)
 
         binding.exerciseRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.exerciseRecyclerView.adapter = searchAdapter
         binding.exerciseRecyclerView.setHasFixedSize(true)
+        binding.exerciseSearchEditText.addTextChangedListener { s ->
+            searchAdapter.filter.filter(binding.exerciseSearchEditText.text)
+        }
+
         return binding.root
     }
 
@@ -66,18 +74,21 @@ class SearchDialogFragment(searchAdapter: SearchAdapter)  : DialogFragment() {
                 routineViewModel.addExerciseWithSetData(addExerciseWithSet)
             }
             dismiss()
-
         }
+
     }
 
-    class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
-        lateinit var exercises:MutableList<ExerciseWithSet>
-        private var allExerciseList: List<ExerciseWithSet> = emptyList()
+    class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>(),Filterable {
+
+        private lateinit var exercises:MutableList<ExerciseWithSet>
+
+        var mExerciseList:MutableList<ExerciseWithSet> = mutableListOf()
+        var filteredExercise :MutableList<ExerciseWithSet> = mutableListOf()
+
         class ViewHolder(view:View) : RecyclerView.ViewHolder(view) {
             val checkBox:CheckBox
             val exerciseName:TextView
             init {
-
                 checkBox = view.findViewById(R.id.checkBoxExercise)
                 exerciseName = view.findViewById(R.id.exerciseNameTextView)
             }
@@ -88,8 +99,13 @@ class SearchDialogFragment(searchAdapter: SearchAdapter)  : DialogFragment() {
             exercises = mutableListOf()
             return ViewHolder(view)
         }
+
+
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            var currentItem = allExerciseList[position]
+            var currentItem = if(filteredExercise.size == 0) mExerciseList[position]
+                    else filteredExercise[position]
+
+
             holder.exerciseName.text = currentItem.exercise.name
             holder.checkBox.setOnCheckedChangeListener { _ , isChecked ->
                 if(isChecked) exercises.add(currentItem)
@@ -98,18 +114,59 @@ class SearchDialogFragment(searchAdapter: SearchAdapter)  : DialogFragment() {
         }
 
         override fun getItemCount(): Int {
-            return allExerciseList.size
+            return if(filteredExercise.size == 0) mExerciseList.size
+                else filteredExercise.size
+
         }
 
 
         fun setExercise(exercise: List<ExerciseWithSet>) {
-            allExerciseList = exercise
+            mExerciseList = exercise.toMutableList()
             notifyDataSetChanged()
         }
 
         fun getCheckedExercise() : List<ExerciseWithSet>{
             return exercises
         }
+
+
+
+        override fun getFilter(): Filter {
+            return object : Filter() {
+                override fun publishResults(constraint: CharSequence, results: FilterResults) {
+                    filteredExercise = results.values as ArrayList<ExerciseWithSet>
+                    notifyDataSetChanged()
+                }
+
+                override fun performFiltering(constraint: CharSequence): FilterResults {
+                    filteredExercise.clear()
+
+                    if(constraint.isEmpty()) {
+                        filteredExercise.addAll(mExerciseList)
+                    } else {
+                        filteredExercise = getFilteredResults(constraint.toString())
+                    }
+                    val filterResults = FilterResults()
+                    filterResults.values = filteredExercise
+                    filterResults.count = filteredExercise.size
+                    return filterResults
+
+                }
+
+
+            }
+        }
+                fun getFilteredResults(constraint:String)  : ArrayList<ExerciseWithSet>{
+                    var results: ArrayList<ExerciseWithSet> = ArrayList()
+
+                    mExerciseList.map {
+                        if(it.exercise.name.contains(constraint)) {
+                            results.add(it)
+
+                    }
+                }
+                    return results
+            }
     }
 
 

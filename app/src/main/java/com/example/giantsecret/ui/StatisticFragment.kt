@@ -5,16 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+
 import androidx.fragment.app.activityViewModels
-import com.example.giantsecret.viewModel.MviewModel
 import com.example.giantsecret.R
 import com.example.giantsecret.databinding.FragmentStatisticBinding
 
 
 class StatisticFragment : Fragment() {
-    val mViewModel by activityViewModels<MviewModel>()
-    private lateinit var binding: FragmentStatisticBinding
+
+
+    private var _binding: FragmentStatisticBinding? = null
+
+    private val binding get() = _binding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -25,13 +27,15 @@ class StatisticFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_statistic,container,false)
+        _binding = FragmentStatisticBinding.inflate(inflater,container,false)
 
-        binding.lifecycleOwner = this
-
-
-
-        return binding.root
+        binding!!.root.let { rootView ->
+            return rootView
+        }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

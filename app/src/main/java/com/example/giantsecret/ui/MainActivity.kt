@@ -1,22 +1,16 @@
 package com.example.giantsecret.ui
-import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
+
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.example.giantsecret.R
 import com.example.giantsecret.databinding.ActivityMainBinding
-import com.example.giantsecret.viewModel.MviewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,11 +25,9 @@ class MainActivity : AppCompatActivity() {
 
         // Splash Screen 복구
 
-
-
         // dataBinding , headerNavBinding 초기화
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         init()
     }
