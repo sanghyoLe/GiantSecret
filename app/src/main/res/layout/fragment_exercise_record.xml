@@ -5,21 +5,60 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ui.ExerciseRecordFragment">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-            android:id="@+id/calendarView"
+        <LinearLayout
+            android:id="@+id/calendarViewLayout"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:mcv_tileHeight="35dp"
-            app:mcv_showOtherDates="all"
-            app:mcv_selectionColor="#00F"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/createRecordLayout"
+            android:orientation="vertical">
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                android:padding="16dp"
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mcv_tileHeight="45dp"
+                app:mcv_showOtherDates="all"
+                app:mcv_selectionColor="@color/secondaryColor"
+                app:mcv_dateTextAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:mcv_weekDayTextAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+                />
+        </LinearLayout>
 
-            />
+        <com.google.android.material.card.MaterialCardView
+
+            android:id="@+id/createRecordLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calendarViewLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="8dp"
+            app:cardElevation="24dp"
+            app:cardMaxElevation="36dp"
+            app:cardCornerRadius="15dp"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="@string/create_exercise_record"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
 
 
 

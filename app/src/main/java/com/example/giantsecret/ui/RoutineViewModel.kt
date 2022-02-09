@@ -1,4 +1,4 @@
-package com.example.giantsecret.viewModel
+package com.example.giantsecret.ui
 
 
 import androidx.hilt.Assisted

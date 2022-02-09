@@ -1,7 +1,6 @@
 package com.example.giantsecret.ui.Dialog
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,7 @@ import com.example.giantsecret.R
 import com.example.giantsecret.databinding.SearchDialogLayoutBinding
 import com.example.giantsecret.dialogFragmentResize
 import com.example.giantsecret.data.model.ExerciseWithSet
-import com.example.giantsecret.viewModel.RoutineViewModel
+import com.example.giantsecret.ui.RoutineViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -56,7 +55,7 @@ class SearchDialogFragment(private var searchAdapter: SearchAdapter)  : DialogFr
 
     override fun onResume() {
         super.onResume()
-        context?.dialogFragmentResize(this@SearchDialogFragment,0.9f,0.9f)
+        context?.dialogFragmentResize(this@SearchDialogFragment,0.95f,0.95f)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -7,21 +7,21 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="visible"
-
         android:weightSum="8"
         >
 
         <androidx.appcompat.widget.AppCompatEditText
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height= "32dp"
+            android:layout_margin="16dp"
             android:id="@+id/exerciseSearchEditText"
-            android:hint="검색하려는 운동 이름을 입력하세요"
-            android:padding="16dp"
+            android:hint="&#128269; 검색"
             android:layout_gravity="center"
             android:gravity="center"
             android:singleLine="true"
             android:layout_marginBottom="8dp"
+            android:textSize="16dp"
+            android:elevation="16dp"
             android:background="@drawable/border_layout"
             />
         <androidx.recyclerview.widget.RecyclerView
@@ -34,9 +34,9 @@
             android:layout_height="0dp"
             />
         <androidx.appcompat.widget.LinearLayoutCompat
-
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:gravity="right"
             android:orientation="horizontal">
             <androidx.appcompat.widget.AppCompatTextView
@@ -44,6 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
                 android:textColor="@color/black"
                 android:text="닫기"
                 />
@@ -52,6 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
                 android:textColor="@color/black"
                 android:text="선택"/>
         </androidx.appcompat.widget.LinearLayoutCompat>

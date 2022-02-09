@@ -15,7 +15,7 @@ import com.example.giantsecret.data.model.Routine
 import com.example.giantsecret.databinding.FragmentCreateRoutineBinding
 import com.example.giantsecret.ui.Dialog.SearchDialogFragment
 import com.example.giantsecret.ui.adapter.ExerciseAdapter
-import com.example.giantsecret.viewModel.RoutineViewModel
+import com.example.giantsecret.ui.RoutineViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint

@@ -7,70 +7,114 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/cardViewLayout"
-    android:layout_margin="5dp"
+    android:layout_margin="16dp"
     android:clickable="true"
-    app:cardBackgroundColor="@color/secondaryColor"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="3dp"
-    app:contentPadding="4dp">
+    app:cardElevation="24dp"
+    app:cardMaxElevation="36dp"
+    app:cardCornerRadius="15dp"
+    >
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
         >
-
+    <LinearLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/routineNameTextView"
             android:textAppearance="?attr/textAppearanceHeadline6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/targetAreaTextView"
             android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/black"
             android:padding="8dp"
             android:text="루틴 제목"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/targetAreaTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:textColor="@color/white"
-            android:text="운동 부위"
-            android:textAppearance="?attr/textAppearanceBody2"
-            app:layout_constraintStart_toEndOf="@id/routineNameTextView"
-            app:layout_constraintBottom_toBottomOf="@id/routineNameTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-             />
-
-
         <androidx.appcompat.widget.AppCompatImageButton
-            android:padding="4dp"
+            android:padding="8dp"
             android:id="@+id/modifyBtn"
             android:layout_width="0dp"
+            android:layout_weight="0.2"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:src="@drawable/ic_baseline_create_white_24"
             android:backgroundTint="@color/secondaryColor"
-            app:layout_constraintTop_toBottomOf="@id/routineNameTextView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/deleteBtn"
             />
         <androidx.appcompat.widget.AppCompatImageButton
-            android:padding="4dp"
+            android:padding="8dp"
             android:id="@+id/deleteBtn"
             android:layout_width="0dp"
+            android:layout_weight="0.2"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:src="@drawable/ic_baseline_delete_24"
             android:backgroundTint="@color/secondaryColor"
-            app:layout_constraintTop_toBottomOf="@id/routineNameTextView"
-            app:layout_constraintStart_toEndOf="@id/modifyBtn"
-            app:layout_constraintEnd_toEndOf="parent"
             />
+    </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/workoutPartLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/topLayout"
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/exercisePartTextView"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:text="운동 부위"
+                android:textAppearance="?attr/textAppearanceBody2"
+                />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/numberOfProgressTextview"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:text="0번 진행"
+                />
+        </LinearLayout>
+
+
+            <com.google.android.material.card.MaterialCardView
+                app:layout_constraintTop_toBottomOf="@id/workoutPartLayout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+
+                android:gravity="center"
+                app:cardElevation="12dp"
+                app:cardMaxElevation="24dp"
+                app:cardCornerRadius="6dp"
+                >
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                    android:textColor="@color/black"
+                    android:text="루틴 시작하기"/>
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

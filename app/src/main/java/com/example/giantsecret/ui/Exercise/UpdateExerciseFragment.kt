@@ -21,7 +21,7 @@ import com.example.giantsecret.databinding.FragmentCreateExerciseBinding
 import com.example.giantsecret.hideKeyboard
 import com.example.giantsecret.ui.Dialog.BottomSheetListView
 import com.example.giantsecret.ui.adapter.SetListAdapter
-import com.example.giantsecret.viewModel.RoutineViewModel
+import com.example.giantsecret.ui.RoutineViewModel
 
 import dagger.hilt.android.AndroidEntryPoint
 

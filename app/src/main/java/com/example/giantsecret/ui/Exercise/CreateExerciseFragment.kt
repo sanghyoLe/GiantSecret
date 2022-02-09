@@ -3,7 +3,6 @@ package com.example.giantsecret.ui.Exercise
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,7 @@ import com.example.giantsecret.databinding.FragmentCreateExerciseBinding
 import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseSet
 import com.example.giantsecret.ui.Dialog.BottomSheetListView
-import com.example.giantsecret.viewModel.RoutineViewModel
+import com.example.giantsecret.ui.RoutineViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 import kotlin.collections.ArrayList

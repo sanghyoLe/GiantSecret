@@ -17,7 +17,7 @@ import com.example.giantsecret.data.model.RoutineWithExerciseAndSets
 import com.example.giantsecret.databinding.FragmentRoutineBinding
 
 import com.example.giantsecret.ui.adapter.RoutineAdapter
-import com.example.giantsecret.viewModel.RoutineViewModel
+import com.example.giantsecret.ui.RoutineViewModel
 
 
 import dagger.hilt.android.AndroidEntryPoint
