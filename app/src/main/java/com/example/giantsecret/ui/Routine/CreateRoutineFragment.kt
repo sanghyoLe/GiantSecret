@@ -92,7 +92,7 @@ class CreateRoutineFragment : Fragment() {
                 Toast.makeText(requireContext(),"루틴 제목을 입력하세요",Toast.LENGTH_SHORT).show()
             } else {
                 if(routineViewModel.isCreateRoutineView) {
-                    var createdRoutine = Routine(null,routineName)
+                    var createdRoutine = Routine(0,routineName)
                     routineViewModel.clickCreateRoutineBtn(createdRoutine,isCheckList)
                 } else {
                     var updateRoutineData =

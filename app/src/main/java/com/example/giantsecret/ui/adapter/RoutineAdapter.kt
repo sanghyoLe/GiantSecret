@@ -23,6 +23,7 @@ class RoutineAdapter(private val onDeleteCallBack: (Routine) -> Unit,
                      private val isCreateRoutineAdapter:Boolean
                      ) :  RecyclerView.Adapter<RoutineAdapter.RoutineViewHolder>(){
     private lateinit var binding:RoutineCardViewBinding
+
     private var routineList = emptyList<RoutineWithExerciseAndSets>()
     private var routineWithExercisePart = emptyList<RoutineWithExerciseParts>()
     private var exerciseAdapter = ExerciseAdapter(
@@ -43,38 +44,44 @@ class RoutineAdapter(private val onDeleteCallBack: (Routine) -> Unit,
     }
 
     override fun onBindViewHolder(holder: RoutineViewHolder, position: Int) {
-        val currentItem = routineList[position]
-        val currentExerciseParts = routineWithExercisePart[position]
-        var partString = ""
+        if(routineList.size == routineWithExercisePart.size) {
+            val currentItem = routineList[position]
+            val currentExerciseParts = routineWithExercisePart[position]
+
+            var partString = ""
+
+            // 루틴 부위 String
+
+            if(currentItem.routine.routineId == currentExerciseParts.routine.routineId){
+                currentExerciseParts.parts.map {
+                    partString = partString.plus(it.name).plus(" ")
+                }
+            }
 
 
-        // 루틴 부위 String
-        if(currentItem.routine.routineId == currentExerciseParts.routine.routineId){
-            currentExerciseParts.parts.map {
-                partString = partString.plus(it.name).plus(" ")
+            holder.binding.cardViewLayout.setOnClickListener {
+                exerciseAdapter.setExerciseWithSet(currentItem.exercise)
+                holder.binding.exerciseRecyclerView.visibility =
+                    if(holder.binding.exerciseRecyclerView.visibility == View.VISIBLE) View.GONE
+                    else View.VISIBLE
+            }
+            holder.binding.routineNameTextView.text = currentItem.routine.name
+            holder.binding.exercisePartTextView.text = partString
+            holder.binding.startBtn.setOnClickListener {
+
+            }
+            holder.binding.deleteBtn.setOnClickListener {
+                createAlterDeleteDialog(currentItem)
+            }
+            holder.binding.modifyBtn.setOnClickListener {
+                onModifyCallBack(currentItem)
+            }
+            holder.binding.startBtn.setOnClickListener {
+                onSelectCallBack(currentItem.routine,partString)
             }
         }
 
-        holder.binding.cardViewLayout.setOnClickListener {
-            exerciseAdapter.setExerciseWithSet(currentItem.exercise)
-            holder.binding.exerciseRecyclerView.visibility =
-                if(holder.binding.exerciseRecyclerView.visibility == View.VISIBLE) View.GONE
-                else View.VISIBLE
-        }
-        holder.binding.routineNameTextView.text = currentItem.routine.name
-        holder.binding.exercisePartTextView.text = partString
-        holder.binding.startBtn.setOnClickListener {
 
-        }
-        holder.binding.deleteBtn.setOnClickListener {
-            createAlterDeleteDialog(currentItem)
-        }
-        holder.binding.modifyBtn.setOnClickListener {
-            onModifyCallBack(currentItem)
-        }
-        holder.binding.startBtn.setOnClickListener {
-            onSelectCallBack(currentItem.routine,partString)
-        }
     }
 
     class RoutineViewHolder(val binding: RoutineCardViewBinding) : RecyclerView.ViewHolder(binding.root)
@@ -86,8 +93,8 @@ class RoutineAdapter(private val onDeleteCallBack: (Routine) -> Unit,
         this.routineList = routineList
         notifyDataSetChanged()
     }
-    fun setRoutineWithExerciseParts(routineWithExerciseParts:List<RoutineWithExerciseParts>) {
-        this.routineWithExercisePart = routineWithExerciseParts
+    fun setRoutineWithExerciseParts(routineWithExercisePart:List<RoutineWithExerciseParts>) {
+        this.routineWithExercisePart = routineWithExercisePart
         notifyDataSetChanged()
     }
     fun initRecordAdapter(){
@@ -114,8 +121,5 @@ class RoutineAdapter(private val onDeleteCallBack: (Routine) -> Unit,
                     dialog, _ -> dialog.dismiss()
             }).create().show()
     }
-
-
-
 
 }

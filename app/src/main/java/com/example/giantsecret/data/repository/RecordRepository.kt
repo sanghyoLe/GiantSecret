@@ -2,6 +2,7 @@ package com.example.giantsecret.data.repository
 
 import com.example.giantsecret.data.dao.RecordDao
 import com.example.giantsecret.data.model.Record
+import com.example.giantsecret.data.model.RecordAndRoutine
 import com.example.giantsecret.data.model.Routine
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate

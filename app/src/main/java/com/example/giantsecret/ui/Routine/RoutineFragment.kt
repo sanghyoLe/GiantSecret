@@ -1,5 +1,6 @@
 package com.example.giantsecret.ui.Routine
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.example.giantsecret.data.model.Routine
 import com.example.giantsecret.data.model.RoutineWithExerciseAndSets
 import com.example.giantsecret.databinding.FragmentRoutineBinding
 
+
 import com.example.giantsecret.ui.adapter.RoutineAdapter
 
 
@@ -26,6 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RoutineFragment : Fragment(){
     private lateinit var binding: FragmentRoutineBinding
+
     private val routineViewModel: RoutineViewModel by activityViewModels()
 
     private lateinit var routineAdapter: RoutineAdapter
@@ -40,12 +43,7 @@ class RoutineFragment : Fragment(){
         )
 
 
-        routineViewModel.allRoutines.observe(this) {
-            routineAdapter.setRoutine(it)
-        }
-        routineViewModel.allRoutineWithExerciseParts.observe(this) {
-            routineAdapter.setRoutineWithExerciseParts(it)
-        }
+
     }
 
     override fun onCreateView(
@@ -53,6 +51,7 @@ class RoutineFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+
         binding = FragmentRoutineBinding.inflate(inflater,container, false)
         binding.createRoutineBtnLayout.setOnClickListener {
             findNavController().navigate(R.id.createRoutineAction)
@@ -63,6 +62,14 @@ class RoutineFragment : Fragment(){
         binding.routineRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.routineRecyclerView.adapter = routineAdapter
 
+        routineViewModel.allRoutines.observe(viewLifecycleOwner) {
+            routineAdapter.setRoutine(it)
+
+        }
+        routineViewModel.allRoutineWithExerciseParts.observe(viewLifecycleOwner) {
+            routineAdapter.setRoutineWithExerciseParts(it)
+
+        }
 
         return binding.root
 

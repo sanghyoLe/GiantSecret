@@ -172,7 +172,13 @@ interface RoutineDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun createRoutine(routine: Routine, exerciseWithSet: List<ExerciseWithSet>,isPartCheck:List<Boolean>) :Long {
         val routineId = insertRoutine(routine)
-
+        isPartCheck.forEachIndexed { index, check ->
+            if(isPartCheck[index] == true ) {
+                insertRoutineExercisePartCrossRef(
+                    RoutineExercisePartCrossRef(routineId,(index+1).toLong())
+                )
+            }
+        }
         exerciseWithSet.map {
             it.exercise.parentRoutineId = routineId
             if(it.exercise.exerciseId != null) it.exercise.exerciseId = null
@@ -185,13 +191,7 @@ interface RoutineDao {
                 insertSet(it)
             }
         }
-        isPartCheck.forEachIndexed { index, check ->
-            if(isPartCheck[index] == true ) {
-                insertRoutineExercisePartCrossRef(
-                    RoutineExercisePartCrossRef(routineId,(index+1).toLong())
-                )
-            }
-        }
+
         return routineId
     }
 

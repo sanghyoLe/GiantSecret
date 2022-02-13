@@ -114,9 +114,7 @@ class RoutineViewModel @Inject constructor(
         )
 
     }
-    fun routineObserver(adapter: RoutineAdapter, lifecycleOwner: LifecycleOwner) {
 
-    }
     fun clickShowUpdateRoutine(routineWithExerciseAndSets: RoutineWithExerciseAndSets) {
         initExerciseWithSetData()
         routineWithExerciseAndSetsData = routineWithExerciseAndSets

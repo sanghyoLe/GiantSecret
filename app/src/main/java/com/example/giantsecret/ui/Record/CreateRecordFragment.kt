@@ -39,10 +39,7 @@ class CreateRecordFragment : Fragment() {
             false
         )
 
-       routineViewModel.routineObserver(
-           routineAdapter,
-           lifeCycleOwner
-       )
+
     }
 
     override fun onCreateView(
@@ -59,7 +56,7 @@ class CreateRecordFragment : Fragment() {
         binding.routineRecyclerView.adapter = routineAdapter
         binding.recordDatePicker.updateDate(
             recordViewModel.selectedDay.year,
-            recordViewModel.selectedDay.month,
+            recordViewModel.selectedDay.month-1,
             recordViewModel.selectedDay.day
         )
         binding.recordDatePicker.setOnDateChangedListener { _, year, month, day ->
@@ -79,9 +76,15 @@ class CreateRecordFragment : Fragment() {
                         binding.recordMemoEditText.text.toString()
                         )
                 )
+
                 findNavController().popBackStack()
             }
-
+        }
+        routineViewModel.allRoutines.observe(viewLifecycleOwner) {
+            routineAdapter.setRoutine(it)
+        }
+        routineViewModel.allRoutineWithExerciseParts.observe(viewLifecycleOwner){
+            routineAdapter.setRoutineWithExerciseParts(it)
         }
 
         return binding.root

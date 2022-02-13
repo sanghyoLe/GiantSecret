@@ -36,6 +36,24 @@
                 android:textColor="@color/black"
                 android:padding="8dp"
                 android:text="루틴 제목"/>
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:padding="8dp"
+                android:id="@+id/modifyBtn"
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_create_white_24"
+                android:backgroundTint="@color/secondaryColor"
+                />
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:padding="8dp"
+                android:id="@+id/deleteBtn"
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_delete_24"
+                android:backgroundTint="@color/secondaryColor"
+                />
         </LinearLayout>
 
 

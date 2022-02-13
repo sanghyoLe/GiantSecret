@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="motionLayout" type="id" />
+    <item name="top_image" type="id" />
+    <item name="image_play" type="id" />
+    <item name="image_clear" type="id" />
+    <item name="recyclerview_container" type="id" />
+    <item name="recyclerview_front" type="id" />
+    <item name="bottom_nav" type="id" />
+</resources>

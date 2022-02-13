@@ -13,12 +13,14 @@ data class Record(
     @ColumnInfo var memo:String
 
 )
+
+
 data class RecordAndRoutine(
-    @Embedded val record: Record,
+    @Embedded val routine: Routine?,
     @Relation(
         parentColumn = "routineId",
         entityColumn = "recordInRoutineId"
     )
-    val routine:Routine
+    val record: Record?
 
 )

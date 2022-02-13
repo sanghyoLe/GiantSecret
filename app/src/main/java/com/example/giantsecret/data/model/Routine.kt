@@ -13,7 +13,7 @@ import kotlin.math.E
 
 @Entity
 data class Routine (
-    @PrimaryKey(autoGenerate = true) val routineId:Long?,
+    @PrimaryKey(autoGenerate = true) val routineId:Long,
     val name: String,
 )
 @Entity

@@ -2,6 +2,7 @@ package com.example.giantsecret.ui.Record
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.giantsecret.R
+import com.example.giantsecret.data.model.Record
+import com.example.giantsecret.data.model.Routine
+import com.example.giantsecret.data.model.RoutineWithExerciseAndSets
 
 
 import com.example.giantsecret.databinding.FragmentRecordBinding
@@ -32,33 +36,10 @@ class RecordFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dotColorList = resources.getStringArray(R.array.dot_color_string_array)
-        recordAdapter = RecordAdapter()
-
-
-        recordViewModel.allRecord.observe(this){ list ->
-            list.map { it ->
-                val eventDecorator = EventDecorator(requireContext(),dotColorList,
-                    CalendarDay.from(it.date.year,it.date.monthValue,it.date.dayOfMonth),
-                    1
-                )
-                binding.calendarView.addDecorator(eventDecorator)
-            }
-
-            recordViewModel.allRecordInRoutine.observe(this){ routines  ->
-                if(binding != null){
-                    binding.calendarView.setOnDateChangedListener { widget, date, selected ->
-                        recordViewModel.selectedDay = date
-                        recordViewModel.selectLocalDate = LocalDate.of(date.year,date.month,date.day)
-                        recordAdapter.setRecord(
-                            list,
-                            LocalDate.of(date.year,date.month,date.day),
-                            routines
-                        )
-                    }
-                }
-            }
-
-        }
+        recordAdapter = RecordAdapter(
+            ::modifyRecord,
+            ::deleteRecord
+        )
 
 
     }
@@ -67,27 +48,62 @@ class RecordFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRecordBinding.inflate(inflater,container,false)
+        binding = FragmentRecordBinding.inflate(inflater, container, false)
         binding.recordRecyclerView.adapter = recordAdapter
         binding.recordRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-
-
-//        eventDecorator = EventDecorator(requireContext(),dotColorList,CalendarDay.today(),2)
-//        binding.calendarView.addDecorator(eventDecorator)
+        binding.calendarView.setDateSelected(recordViewModel.selectedDay,true)
 
         binding.createRecordLayout.setOnClickListener {
             findNavController().navigate(R.id.createRecordFragment)
         }
-//        recordViewModel.recordDateList.map {
-//           binding.calendarView.addDecorator(EventDecorator(requireContext(),dotColorList,it,1))
-//       }
+
+            recordViewModel.allRecord.observe(viewLifecycleOwner) { list ->
+                list.map { it ->
+                    val eventDecorator = EventDecorator(
+                        requireContext(), dotColorList,
+                        CalendarDay.from(it.date.year, it.date.monthValue, it.date.dayOfMonth),
+                        1
+                    )
+                    binding.calendarView.addDecorator(eventDecorator)
+
+                }
+                recordAdapter.setRecord(list)
+            }
+            recordViewModel.allRecordInRoutine.observe(viewLifecycleOwner){
+                recordAdapter.setRoutine(it)
+            }
+
+            if (binding != null) {
+                binding.calendarView.setOnDateChangedListener { widget, date, selected ->
+                    recordViewModel.selectedDay = date
+                    recordViewModel.selectLocalDate = LocalDate.of(date.year, date.month, date.day)
+                    recordViewModel._selectDateLiveData.value = LocalDate.of(date.year, date.month, date.day)
+                }
+            }
+            recordViewModel.selectDateLiveData.observe(viewLifecycleOwner) {
+                recordAdapter.setSelectDateInRecord(it)
+            }
+            routineViewModel.allRoutineWithExerciseParts.observe(viewLifecycleOwner) {
+                recordAdapter.setRoutineWithExerciseParts(it)
+            }
+
+            return binding.root
+        }
+
+        private fun deleteRecord(record: Record) {
+            recordViewModel.deleteRecord(record)
+            recordAdapter.notifyDataSetChanged()
+        }
+
+        private fun modifyRecord(record: Record, routine: Routine) {
 
 
-        return binding.root
+        }
+
     }
 
 
-}
+
 
 
