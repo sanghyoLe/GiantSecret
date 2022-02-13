@@ -8,51 +8,76 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cardViewLayout"
-        android:layout_margin="5dp"
-        android:clickable="true"
-        app:cardBackgroundColor="@color/secondaryColor"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="3dp"
-        app:contentPadding="4dp">
+        android:layout_margin="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="12dp"
+        app:cardMaxElevation="12dp"
+        app:cardCornerRadius="15dp"
+        android:focusable="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="4dp">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:textColor="@color/white"
-                    android:id="@+id/nameTextView"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="운동 제목"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id='@+id/topLinearLayout'
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:gravity="center_vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.96"
-                app:layout_constraintStart_toEndOf="@id/nameTextView"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/numberOfSetTextView"
+                    android:id="@+id/nameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1"
+                    android:layout_marginLeft="16dp"
+                    android:text="운동 제목"
                     android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
                     android:layout_height="wrap_content"
-                    android:text=" SET"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                    android:textColor="@color/white" />
+                    android:orientation="horizontal">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_marginLeft="16dp"
+                        android:id="@+id/numberOfSetTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:textColor="@color/black" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" SET"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:textColor="@color/black"
+                        android:layout_marginRight="16dp"
+                        />
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/modifyBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_create_white_24"
+                        android:backgroundTint="@color/secondaryColor"/>
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/deleteBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_delete_24"
+                        android:backgroundTint="@color/secondaryColor"/>
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -62,34 +87,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/nameTextView"
+                app:layout_constraintTop_toBottomOf="@id/topLinearLayout"
                 android:orientation="vertical">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/showAllSetRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/modifyBtn"
-                        android:layout_margin="8dp"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_create_white_24"
-                        android:backgroundTint="@color/secondaryColor"/>
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/deleteBtn"
-                        android:layout_weight="1"
-                        android:layout_margin="8dp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_delete_24"
-                        android:backgroundTint="@color/secondaryColor"/>
-                </LinearLayout>
+
 
 
             </LinearLayout>

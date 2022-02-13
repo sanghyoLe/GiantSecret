@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.ExerciseRecordFragment">
+    tools:context=".ui.Record.RecordFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -22,10 +22,10 @@
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:mcv_tileHeight="45dp"
+                app:mcv_tileHeight="35dp"
                 app:mcv_showOtherDates="all"
                 app:mcv_selectionColor="@color/secondaryColor"
-                app:mcv_dateTextAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:mcv_dateTextAppearance="@style/TextAppearance.AppCompat.Body2"
                 app:mcv_weekDayTextAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
                 />
         </LinearLayout>
@@ -52,17 +52,23 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:padding="8dp"
                     android:text="@string/create_exercise_record"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recordRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/createRecordLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="16dp"/>
 
 
-            
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

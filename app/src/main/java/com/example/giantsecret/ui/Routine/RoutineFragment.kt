@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 
 
+
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 
@@ -17,7 +18,6 @@ import com.example.giantsecret.data.model.RoutineWithExerciseAndSets
 import com.example.giantsecret.databinding.FragmentRoutineBinding
 
 import com.example.giantsecret.ui.adapter.RoutineAdapter
-import com.example.giantsecret.ui.RoutineViewModel
 
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,12 +27,25 @@ import dagger.hilt.android.AndroidEntryPoint
 class RoutineFragment : Fragment(){
     private lateinit var binding: FragmentRoutineBinding
     private val routineViewModel: RoutineViewModel by activityViewModels()
+
     private lateinit var routineAdapter: RoutineAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        routineAdapter = RoutineAdapter(::deleteRoutine,::modifyRoutine)
-        routineObserver()
+        routineAdapter = RoutineAdapter(
+            ::deleteRoutine,
+            ::modifyRoutine,
+            {Routine,String -> },
+            true
+        )
 
+
+        routineViewModel.allRoutines.observe(this) {
+            routineAdapter.setRoutine(it)
+        }
+        routineViewModel.allRoutineWithExerciseParts.observe(this) {
+            routineAdapter.setRoutineWithExerciseParts(it)
+        }
     }
 
     override fun onCreateView(
@@ -54,11 +67,6 @@ class RoutineFragment : Fragment(){
         return binding.root
 
     }
-    private fun routineObserver() {
-        routineViewModel.allRoutines.observe(this) {
-            routineAdapter.setRoutine(it)
-        }
-    }
     private fun deleteRoutine(routine: Routine) {
         routineViewModel.deleteRoutineWithChild(routine)
         routineAdapter.notifyDataSetChanged()
@@ -69,4 +77,6 @@ class RoutineFragment : Fragment(){
         routineViewModel.isCreateRoutineView = false
         findNavController().navigate(R.id.createRoutineFragment)
     }
+
+
 }

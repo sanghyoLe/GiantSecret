@@ -6,18 +6,26 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.giantsecret.data.dao.ExerciseDao
 import com.example.giantsecret.data.dao.RoutineDao
+import com.example.giantsecret.data.dao.RecordDao
 import com.example.giantsecret.data.model.*
+import com.example.giantsecret.util.Converters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-
-@Database(entities = [Routine::class, ExerciseSet::class,Exercise::class, ExercisePart::class,RoutineExercisePartCrossRef::class], version = 1 , exportSchema = true)
+@TypeConverters(Converters::class)
+@Database(entities = [
+    Routine::class,
+    ExerciseSet::class,
+    Exercise::class,
+    ExercisePart::class,
+    RoutineExercisePartCrossRef::class,
+    Record::class], version = 1 , exportSchema = true)
 public abstract class AppDatabase : RoomDatabase() {
 
+
     abstract fun routineDao(): RoutineDao
-    abstract fun exerciseDao(): ExerciseDao
+    abstract fun recordDao(): RecordDao
 
     private class AppDatabaseCallback(
         private val scope: CoroutineScope
@@ -31,7 +39,7 @@ public abstract class AppDatabase : RoomDatabase() {
             }
         }
         suspend fun insertParts(db:AppDatabase){
-            var exerciseDao = db.exerciseDao()
+            var exerciseDao = db.routineDao()
             exerciseDao.insertExercisePart(ExercisePart(1,"가슴"))
             exerciseDao.insertExercisePart(ExercisePart(2,"등"))
             exerciseDao.insertExercisePart(ExercisePart(3,"어깨"))

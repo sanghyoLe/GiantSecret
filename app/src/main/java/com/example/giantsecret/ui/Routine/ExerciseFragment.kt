@@ -1,50 +1,73 @@
-package com.example.giantsecret.ui.Exercise
+package com.example.giantsecret.ui.Routine
+
 
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.*
 import androidx.core.widget.addTextChangedListener
 
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.giantsecret.R
+import com.example.giantsecret.*
+import com.example.giantsecret.ui.adapter.SetListAdapter
+
+
+import com.example.giantsecret.databinding.FragmentCreateExerciseBinding
 import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseSet
 import com.example.giantsecret.data.model.ExerciseWithSet
-import com.example.giantsecret.databinding.FragmentCreateExerciseBinding
-import com.example.giantsecret.hideKeyboard
 import com.example.giantsecret.ui.Dialog.BottomSheetListView
-import com.example.giantsecret.ui.adapter.SetListAdapter
-import com.example.giantsecret.ui.RoutineViewModel
-
 import dagger.hilt.android.AndroidEntryPoint
 
+import kotlin.collections.ArrayList
 
+var SET_SIZE = 100
 
 @AndroidEntryPoint
-class UpdateExercise : Fragment() {
-    private lateinit var binding: FragmentCreateExerciseBinding
+class CreateExerciseFragment : Fragment() {
+    private lateinit var binding:FragmentCreateExerciseBinding
     private lateinit var bottomSheetListView: BottomSheetListView
     private lateinit var setListAdapter: SetListAdapter
-
     private val routineViewModel: RoutineViewModel by activityViewModels()
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = FragmentCreateExerciseBinding.inflate(layoutInflater,container,false)
         initView()
+
+
+        return binding.root
+
+    }
+
+
+    private fun initView(){
+        createBottomSheet()
+        createSearchExerciseListView()
+        selectExerciseRadioGroup()
+
+        // 세트 마다 무게 다름 RecyclerView Adapter 설정정
+        setListAdapter = SetListAdapter(1,requireContext(),childFragmentManager)
+        createExercise()
+
+        if(!routineViewModel.isCreateExerciseView)
+            initUpdateExerciseView()
+    }
+    private fun initUpdateExerciseView(){
         binding.exerciseSaveTextView.setText("수정")
         binding.topAppBarTitle.setText("운동 수정하기")
         binding.exerciseNameEditText.setText(
@@ -54,19 +77,6 @@ class UpdateExercise : Fragment() {
         binding.choiceSetTextView.text = routineViewModel.clickedExerciseSetData.exercise.numberOfSet.toString()
         setListAdapter.changeSetSize(routineViewModel.clickedExerciseSetData.exercise.numberOfSet)
         setListAdapter.notifyDataSetChanged()
-
-        return binding.root
-    }
-
-    private fun initView(){
-        createBottomSheet()
-        createSearchExerciseListView()
-        selectExerciseRadioGroup()
-
-
-        // 세트 마다 무게 다름 RecyclerView Adapter 설정정
-        setListAdapter = SetListAdapter(1,requireContext(),childFragmentManager)
-        createExercise()
     }
 
 
@@ -114,7 +124,7 @@ class UpdateExercise : Fragment() {
             requireContext()
             ,android.R.layout.simple_expandable_list_item_1
             ,exerciseList
-        )
+            )
         // 운동 목록 Adapter 설정
         binding.exerciseListView.adapter = adapter
 
@@ -142,6 +152,7 @@ class UpdateExercise : Fragment() {
         }
 
         binding.createExerciseBackBtn.setOnClickListener {
+
             findNavController().popBackStack()
         }
 
@@ -171,12 +182,11 @@ class UpdateExercise : Fragment() {
             var numberOfSet:Int
             // 운동 이름 미입력
             if(TextUtils.isEmpty(binding.exerciseNameEditText.text)) {
-                Toast.makeText(requireContext(),"운동 제목을 입력해주세요", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(),"운동 제목을 입력해주세요",Toast.LENGTH_LONG).show()
             } // 중량 미입력
             else {
                 exerciseName = binding.exerciseNameEditText.text.toString()
                 numberOfSet = Integer.parseInt(binding.choiceSetTextView.text.toString())
-
                 var exercise = Exercise(null, null, name = exerciseName, numberOfSet = numberOfSet)
                 // 세트 간 무게 동일 시
                 if(binding.setWeightEqualBtn.isChecked) {
@@ -187,10 +197,12 @@ class UpdateExercise : Fragment() {
                         var weight:Double =  binding.weightEditText.text.toString().toDouble()
 
 
-                        var exerciseSet = ExerciseSet(null,null,numberOfRep,weight)
+                        var exerciseSet =
+                            ExerciseSet(null,null,numberOfRep,weight)
                         var exerciseSetList:List<ExerciseSet>  = List(numberOfSet) { exerciseSet }
 
-                        routineViewModel.updateExerciseWithSet(ExerciseWithSet(exercise,exerciseSetList))
+                        if(routineViewModel.isCreateExerciseView) routineViewModel.createExercise(exercise,exerciseSetList)
+                        else routineViewModel.updateExerciseWithSet(ExerciseWithSet(exercise,exerciseSetList))
 
                         findNavController().popBackStack()
                     }
@@ -199,16 +211,17 @@ class UpdateExercise : Fragment() {
                 else if(binding.setWeightDifferentBtn.isChecked) {
                     var weightList = setListAdapter.getWeightArrayList()
                     var repList = setListAdapter.getRepArrayList()
-                    var exerciseSetList: ArrayList<ExerciseSet> = ArrayList()
+                    var exerciseSet: ArrayList<ExerciseSet> = ArrayList()
 
-                    for(i:Int in 0..numberOfSet-1) {
-                        exerciseSetList.add(i, ExerciseSet(null,null,
-                            repList.get(i),weightList.get(i)
-                        )
+                    for(i:Int in 0..setListAdapter.itemCount-1) {
+
+                        exerciseSet.add(i, ExerciseSet(null,null,
+                            repList.get(i),weightList.get(i))
                         )
                     }
 
-                    routineViewModel.updateExerciseWithSet(ExerciseWithSet(exercise,exerciseSetList))
+                    if(routineViewModel.isCreateExerciseView) routineViewModel.createExercise(exercise,exerciseSet)
+                    else routineViewModel.updateExerciseWithSet(ExerciseWithSet(exercise,exerciseSet))
 
                     findNavController().popBackStack()
                 }
@@ -217,3 +230,6 @@ class UpdateExercise : Fragment() {
     }
 
 }
+
+
+

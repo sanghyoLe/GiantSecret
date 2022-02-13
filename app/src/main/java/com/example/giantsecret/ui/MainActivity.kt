@@ -27,6 +27,9 @@ class MainActivity : AppCompatActivity() {
 
         // dataBinding , headerNavBinding 초기화
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+
+
         setContentView(binding.root)
 
         init()

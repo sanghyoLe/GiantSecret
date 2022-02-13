@@ -15,9 +15,18 @@ class EventDecorator(
 
         private lateinit var colors: IntArray
 
+
     override fun shouldDecorate(day: CalendarDay?): Boolean = dates == day
     override fun decorate(view: DayViewFacade) {
-        view.addSpan(CustomMultipleDotSpan(5f,count))
+        colors = IntArray(stringProductColor.size)
+        stringProductColor.forEachIndexed { index, s ->
+                colors[index] = Color.parseColor(s)
+            }
+
+        view.addSpan(CustomMultipleDotSpan(5f,count,colors))
+
+        }
+
+
     }
 
-}

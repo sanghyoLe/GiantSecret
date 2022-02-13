@@ -24,8 +24,8 @@
     </fragment>
     <fragment
         android:id="@+id/exerciseRecordFragment"
-        android:name="com.example.giantsecret.ui.ExerciseRecordFragment"
-        tools:layout="@layout/fragment_exercise_record"
+        android:name="com.example.giantsecret.ui.Record.RecordFragment"
+        tools:layout="@layout/fragment_record"
         android:label="@string/exercise_record" >
 
     </fragment>
@@ -44,7 +44,7 @@
     </fragment>
     <fragment
         android:id="@+id/createExerciseFragment"
-        android:name="com.example.giantsecret.ui.Exercise.CreateExerciseFragment"
+        android:name="com.example.giantsecret.ui.Routine.CreateExerciseFragment"
         tools:layout="@layout/fragment_create_exercise"
         android:label="createExerciseFragment">
         <action android:id="@+id/createExerciseToCloseAction"
@@ -55,14 +55,11 @@
     </fragment>
 
     <fragment
-        android:id="@+id/updateRoutineFragment"
-        android:name="com.example.giantsecret.ui.Routine.UpdateRoutineFragment"
-        tools:layout="@layout/fragment_create_routine"
-        android:label="updateRoutineFragment" />
-    <fragment
-        android:id="@+id/updateExerciseFragment"
-        android:name="com.example.giantsecret.ui.Exercise.UpdateExercise"
-        android:label="updateExerciseFragment"/>
+        android:id="@+id/createRecordFragment"
+        android:name="com.example.giantsecret.ui.Record.CreateRecordFragment"
+        tools:layout="@layout/fragment_create_record"
+        android:label="createRecordFragment"/>
+
 
     <activity
         android:id="@+id/mainActivity"

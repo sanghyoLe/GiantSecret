@@ -1,53 +1,49 @@
-package com.example.giantsecret.ui
-
+package com.example.giantsecret.ui.Routine
 
 import androidx.hilt.Assisted
 import androidx.lifecycle.*
 import com.example.giantsecret.data.model.*
-import com.example.giantsecret.data.model.ExerciseSet
 import com.example.giantsecret.data.repository.ExerciseRepository
 import com.example.giantsecret.data.repository.RoutineRepository
+import com.example.giantsecret.ui.adapter.RoutineAdapter
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-
-
-
 
 @HiltViewModel
 class RoutineViewModel @Inject constructor(
     private val routineRepository: RoutineRepository,
     private val exerciseRepository: ExerciseRepository,
+
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel(){
+    lateinit var clickedExerciseSetData: ExerciseWithSet
+    var clickedExerciseSetDataPosition: Int = 0
+    var isCreateExerciseView: Boolean =  false
+
+    // routine Value
     val allRoutines: LiveData<List<RoutineWithExerciseAndSets>> = routineRepository.allRoutines.asLiveData()
+    val allRoutineWithExerciseParts: LiveData<List<RoutineWithExerciseParts>> = routineRepository.allRoutineWithExerciseParts.asLiveData()
+
     var isCreateRoutineView: Boolean = false
 
     var isPartCheckByRoutineId:ArrayList<Boolean> = arrayListOf(false,false,false,false,false,false,false)
-
     var routineWithExerciseAndSetsData: RoutineWithExerciseAndSets? = null
-    lateinit var exerciseWithSetByRoutineId:List<ExerciseWithSet>
-
+    var routineExercisePartCrossRefs:List<RoutineExercisePartCrossRef> = emptyList()
 
 
     // exercise Value
     val exerciseWithSetFlow: LiveData<List<ExerciseWithSet>> = exerciseRepository.exerciseWithSetFlow.asLiveData()
     val exerciseFlow: LiveData<List<Exercise>> = exerciseRepository.exerciseFlow.asLiveData()
     val parentIdNullExerciseFlow : LiveData<List<ExerciseWithSet>> = exerciseRepository.parentIdNullExerciseFlow.asLiveData()
-
-
-
-
+    lateinit var exerciseWithSetByRoutineId:List<ExerciseWithSet>
     var exerciseWithSetData: MutableList<ExerciseWithSet>  = mutableListOf()
     var _exerciseWithSetLiveData: MutableLiveData<List<ExerciseWithSet>> = MutableLiveData()
     val exerciseWithSetLiveData: LiveData<List<ExerciseWithSet>> = _exerciseWithSetLiveData
 
-    var clickedExerciseSetDataPosition: Int = 0
-    lateinit var clickedExerciseSetData: ExerciseWithSet
 
-
-
+    // Exercise,ExerciseSet Method
     fun initExerciseWithSetData(){
         exerciseWithSetData = mutableListOf()
         _exerciseWithSetLiveData.value = exerciseWithSetData
@@ -63,66 +59,6 @@ class RoutineViewModel @Inject constructor(
         _exerciseWithSetLiveData.value = exerciseWithSetData
     }
 
-    fun clickCreateRoutineBtn(routine: Routine,isPartCheck:ArrayList<Boolean>){
-        createRoutine(
-            routine,
-            exerciseWithSetData.toList(),
-            isPartCheck
-        )
-
-    }
-    fun clickShowUpdateRoutine(routineWithExerciseAndSets: RoutineWithExerciseAndSets) {
-        initExerciseWithSetData()
-        routineWithExerciseAndSetsData = routineWithExerciseAndSets
-        viewModelScope.launch {
-            exerciseRepository.getExerciseWithSetByRoutineId(
-                routineWithExerciseAndSets.routine.routineId!!
-            ).map {
-                addExerciseWithSetData(it)
-            }
-            routineRepository.getRoutineExercisePartCrossRefByRoutineId(
-                routineWithExerciseAndSets.routine.routineId
-            ).map {
-                var checkPartId = (it.partId-1).toInt()
-               isPartCheckByRoutineId[checkPartId] = true
-            }
-        }
-    }
-
-    fun clickUpdateRoutineBtn(routine: Routine,isPartCheck: ArrayList<Boolean>) {
-        updateRoutineWithChild(
-            routine,
-            exerciseWithSetData.toList(),
-            isPartCheck
-            )
-    }
-
-    fun updateRoutineWithChild(routine: Routine,exerciseWithSet: List<ExerciseWithSet>,isPartCheck:ArrayList<Boolean>){
-        viewModelScope.launch {
-            routineRepository.updateRoutineWithChild(
-                routine,
-                exerciseWithSet,
-                isPartCheck
-            )
-        }
-    }
-
-
-
-    fun createRoutine(routine: Routine, exerciseWithSet: List<ExerciseWithSet>,isPartCheck:ArrayList<Boolean>) {
-        viewModelScope.launch {
-           routineRepository.createRoutine(routine,exerciseWithSet,isPartCheck)
-        }
-    }
-
-    fun deleteRoutineWithChild(routine: Routine) = viewModelScope.launch {
-        routineRepository.deleteRoutineWithChild(routine)
-    }
-
-
-    // --------------------- Exercise ----------------------------- //
-
-
     fun updateExerciseWithSet(exerciseWithSet : ExerciseWithSet) {
         clickedExerciseSetData = exerciseWithSetData.get(clickedExerciseSetDataPosition)
 
@@ -135,6 +71,7 @@ class RoutineViewModel @Inject constructor(
         exerciseWithSet.exerciseSets.map {
             it.apply { parentExerciseId = exerciseWithSet.exercise.exerciseId }
         }
+
 
         if (routineWithExerciseAndSetsData == null) {
             viewModelScope.launch {
@@ -168,7 +105,60 @@ class RoutineViewModel @Inject constructor(
 
 
 
+    // routine Method
+    fun clickCreateRoutineBtn(routine: Routine,isPartCheck:ArrayList<Boolean>){
+        createRoutine(
+            routine,
+            exerciseWithSetData.toList(),
+            isPartCheck
+        )
 
+    }
+    fun routineObserver(adapter: RoutineAdapter, lifecycleOwner: LifecycleOwner) {
 
+    }
+    fun clickShowUpdateRoutine(routineWithExerciseAndSets: RoutineWithExerciseAndSets) {
+        initExerciseWithSetData()
+        routineWithExerciseAndSetsData = routineWithExerciseAndSets
+        viewModelScope.launch {
+            exerciseRepository.getExerciseWithSetByRoutineId(
+                routineWithExerciseAndSets.routine.routineId!!
+            ).map { addExerciseWithSetData(it)
+            }
+            routineRepository.getRoutineExercisePartCrossRefByRoutineId(
+                routineWithExerciseAndSets.routine.routineId
+            ).map {
+                var checkPartId = (it.partId-1).toInt()
+                isPartCheckByRoutineId[checkPartId] = true
+            }
+        }
+    }
+
+    fun clickUpdateRoutineBtn(routine: Routine,isPartCheck: ArrayList<Boolean>) {
+        updateRoutineWithChild(
+            routine,
+            exerciseWithSetData.toList(),
+            isPartCheck
+        )
+    }
+
+    fun updateRoutineWithChild(routine: Routine,exerciseWithSet: List<ExerciseWithSet>,isPartCheck:ArrayList<Boolean>){
+        viewModelScope.launch {
+            routineRepository.updateRoutineWithChild(
+                routine,
+                exerciseWithSet,
+                isPartCheck
+            )
+        }
+    }
+
+    fun createRoutine(routine: Routine, exerciseWithSet: List<ExerciseWithSet>,isPartCheck:ArrayList<Boolean>) {
+        viewModelScope.launch {
+            routineRepository.createRoutine(routine,exerciseWithSet,isPartCheck)
+        }
+    }
+
+    fun deleteRoutineWithChild(routine: Routine) = viewModelScope.launch {
+        routineRepository.deleteRoutineWithChild(routine)
+    }
 }
-

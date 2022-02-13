@@ -80,6 +80,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/numberOfProgressTextview"
                 android:layout_width="0dp"
+                android:gravity="right"
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:layout_height="wrap_content"
@@ -87,23 +88,33 @@
                 android:text="0번 진행"
                 />
         </LinearLayout>
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/exerciseRecyclerView"
+                android:layout_margin="16dp"
+                app:layout_constraintTop_toBottomOf="@id/workoutPartLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                />
 
             <com.google.android.material.card.MaterialCardView
-                app:layout_constraintTop_toBottomOf="@id/workoutPartLayout"
+                app:layout_constraintTop_toBottomOf="@id/exerciseRecyclerView"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
 
+                android:outlineSpotShadowColor="@color/secondaryColor"
                 android:gravity="center"
                 app:cardElevation="12dp"
                 app:cardMaxElevation="24dp"
                 app:cardCornerRadius="6dp"
+
                 >
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:padding="8dp"
+                    android:id="@+id/startBtn"
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

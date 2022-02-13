@@ -1,6 +1,6 @@
 package com.example.giantsecret.data.repository
 
-import com.example.giantsecret.data.dao.ExerciseDao
+import com.example.giantsecret.data.dao.RoutineDao
 import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseSet
 import com.example.giantsecret.data.model.ExerciseWithSet
@@ -11,7 +11,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ExerciseRepository @Inject constructor(
-    private val exerciseDao: ExerciseDao
+    private val routineDao: RoutineDao
 ) {
 
 
@@ -19,49 +19,25 @@ class ExerciseRepository @Inject constructor(
 
 
     val exerciseWithSetFlow: Flow<List<ExerciseWithSet>>
-        get() = exerciseDao.getExercisesWithFlow()
+        get() = routineDao.getExercisesWithFlow()
     val exerciseFlow: Flow<List<Exercise>>
-        get() = exerciseDao.getAllExerciseFlow()
-
+        get() = routineDao.getAllExerciseFlow()
     val parentIdNullExerciseFlow :Flow<List<ExerciseWithSet>>
-        get() = exerciseDao.getParentIdNullExerciseFlow()
+        get() = routineDao.getParentIdNullExerciseFlow()
 
 
-    suspend fun insertExercise(exercise: Exercise): Long {
-        return exerciseDao.insertExercise(exercise)
-    }
+
     suspend fun createExercise(exercise: Exercise, exerciseSets: List<ExerciseSet>) :Long{
-        return exerciseDao.createExercise(exercise,exerciseSets)
+        return routineDao.createExercise(exercise,exerciseSets)
     }
 
     suspend fun getExerciseWithSetByRoutineId(id: Long) : List<ExerciseWithSet> {
-        return exerciseDao.getExerciseWithSetByRoutineId(id)
+        return routineDao.getExerciseWithSetByRoutineId(id)
     }
-
-
 
     suspend fun updateExerciseWithSet(exercise: Exercise, exerciseSets: List<ExerciseSet>) {
             withContext(IoDispatchers) {
-                    exerciseDao.updateExerciseWithSet(exercise,exerciseSets)
+                    routineDao.updateExerciseWithSet(exercise,exerciseSets)
             }
     }
-
-
-    suspend fun getExerciseWithSetByParentId(id:Long) : ExerciseWithSet {
-        return exerciseDao.getExerciseWithSetByParentId(id)
-    }
-
-
-
-
-    suspend fun insertSets(exerciseSets: List<ExerciseSet>) {
-        exerciseDao.insertSets(exerciseSets)
-    }
-    suspend fun insertSet(exerciseSet: ExerciseSet) {
-        exerciseDao.insertSet(exerciseSet)
-    }
-
-
-
-
 }

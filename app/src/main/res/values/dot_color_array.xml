@@ -2,6 +2,9 @@
 <resources>
     <string-array name="dot_color_string_array">
         <item>#ff0000</item>
+        <item>#00B4D8</item>
+        <item>#ED5EDD</item>
+        <item>#F1D00A</item>
 
     </string-array>
 </resources>

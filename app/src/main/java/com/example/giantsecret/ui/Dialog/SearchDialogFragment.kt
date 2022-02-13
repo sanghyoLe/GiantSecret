@@ -17,7 +17,7 @@ import com.example.giantsecret.R
 import com.example.giantsecret.databinding.SearchDialogLayoutBinding
 import com.example.giantsecret.dialogFragmentResize
 import com.example.giantsecret.data.model.ExerciseWithSet
-import com.example.giantsecret.ui.RoutineViewModel
+import com.example.giantsecret.ui.Routine.RoutineViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 

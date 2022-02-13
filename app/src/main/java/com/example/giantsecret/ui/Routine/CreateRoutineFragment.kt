@@ -15,7 +15,6 @@ import com.example.giantsecret.data.model.Routine
 import com.example.giantsecret.databinding.FragmentCreateRoutineBinding
 import com.example.giantsecret.ui.Dialog.SearchDialogFragment
 import com.example.giantsecret.ui.adapter.ExerciseAdapter
-import com.example.giantsecret.ui.RoutineViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +26,7 @@ class CreateRoutineFragment : Fragment() {
 
 
     private val routineViewModel : RoutineViewModel by activityViewModels()
+    private val exerciseViewModel : RoutineViewModel by activityViewModels()
 
     private lateinit var searchDialogFragment: SearchDialogFragment
     private lateinit var searchAdapter: SearchDialogFragment.SearchAdapter
@@ -38,12 +38,13 @@ class CreateRoutineFragment : Fragment() {
         super.onCreate(savedInstanceState)
         exerciseAdapter = ExerciseAdapter(
             ::clickDeleteExercise,
-            ::clickUpdateExercise
+            ::clickUpdateExercise,
+            false
             )
 
         searchAdapter = SearchDialogFragment.SearchAdapter()
         searchDialogFragment = SearchDialogFragment(searchAdapter)
-        createRoutineObserver()
+        createObserver()
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -105,9 +106,11 @@ class CreateRoutineFragment : Fragment() {
 
         }
         binding.createExerciseBtnLayout.setOnClickListener {
+            exerciseViewModel.isCreateExerciseView = true
             findNavController().navigate(R.id.createExerciseFragment)
         }
         binding.searchExerciseBtnLayout.setOnClickListener {
+
             if(!searchDialogFragment.isAdded)
                 searchDialogFragment.show(childFragmentManager,"SEARCH_DIALOG")
         }
@@ -134,22 +137,23 @@ class CreateRoutineFragment : Fragment() {
 
 
 
-    private fun createRoutineObserver() {
-        routineViewModel.exerciseWithSetLiveData.observe(this) { exercises ->
+    private fun createObserver() {
+        exerciseViewModel.exerciseWithSetLiveData.observe(this) { exercises ->
             exerciseAdapter.setExerciseWithSet(exercises)
         }
-        routineViewModel.parentIdNullExerciseFlow.observe(this) { allExercise ->
+        exerciseViewModel.parentIdNullExerciseFlow.observe(this) { allExercise ->
             searchAdapter.setExercise(allExercise)
         }
     }
 
     fun clickUpdateExercise(exerciseWithSet: ExerciseWithSet,position:Int) {
-        routineViewModel.clickedExerciseSetDataPosition = position
-        routineViewModel.updateExerciseWithSet(exerciseWithSet)
-        findNavController().navigate(R.id.updateExerciseFragment)
+        exerciseViewModel.clickedExerciseSetDataPosition = position
+        exerciseViewModel.isCreateExerciseView = false
+        exerciseViewModel.updateExerciseWithSet(exerciseWithSet)
+        findNavController().navigate(R.id.createExerciseFragment)
     }
     fun clickDeleteExercise(exerciseWithSet: ExerciseWithSet) {
-
+        exerciseViewModel.removeExerciseWithSetData(exerciseWithSet)
     }
 
 }
