@@ -38,8 +38,6 @@ class CreateRecordFragment : Fragment() {
             ::selectRoutine,
             false
         )
-
-
     }
 
     override fun onCreateView(
@@ -47,6 +45,7 @@ class CreateRecordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCreateRecordBinding.inflate(layoutInflater,container,false)
+        initView()
 
         binding.routineCardView.setOnClickListener {
             showRoutineList()
@@ -54,13 +53,8 @@ class CreateRecordFragment : Fragment() {
 
         binding.routineRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.routineRecyclerView.adapter = routineAdapter
-        binding.recordDatePicker.updateDate(
-            recordViewModel.selectedDay.year,
-            recordViewModel.selectedDay.month-1,
-            recordViewModel.selectedDay.day
-        )
-        binding.recordDatePicker.setOnDateChangedListener { _, year, month, day ->
 
+        binding.recordDatePicker.setOnDateChangedListener { _, year, month, day ->
            recordViewModel.selectedDay = CalendarDay.from(year,month+1,day)
             recordViewModel.selectLocalDate = LocalDate.of(year,month+1,day)
 
@@ -69,13 +63,31 @@ class CreateRecordFragment : Fragment() {
             if(selectRoutineId == null){
                 Toast.makeText(requireContext(),"루틴을 선택하세요",Toast.LENGTH_LONG).show()
             } else {
-                recordViewModel.insertRecord(
-                    Record(0,
+                if(recordViewModel.isCreateRecordView) {
+                    var createRecordData = Record(0,
                         selectRoutineId!!,
                         recordViewModel.selectLocalDate,
                         binding.recordMemoEditText.text.toString()
-                        )
-                )
+                    )
+                    recordViewModel.insertRecord(
+                     createRecordData
+                    )
+                    recordViewModel.addSelectRecord(createRecordData)
+                } else {
+                    var updateRecordData = Record(
+                        recordViewModel.modifyRecordData.recordId,
+                        selectRoutineId!!,
+                        recordViewModel.selectLocalDate,
+                        binding.recordMemoEditText.text.toString()
+                    )
+                    recordViewModel.updateRecord(updateRecordData)
+
+                    recordViewModel.updateSelectRecord(
+                        updateRecordData
+                    )
+
+                }
+
 
                 findNavController().popBackStack()
             }
@@ -115,6 +127,33 @@ class CreateRecordFragment : Fragment() {
         routineViewModel.clickShowUpdateRoutine(routine)
         routineViewModel.isCreateRoutineView = false
         findNavController().navigate(R.id.createRoutineFragment)
+    }
+
+    private fun initView() {
+        if(!recordViewModel.isCreateRecordView) {
+            binding.topAppBarTitle.text = "운동 기록 수정하기"
+            binding.saveBtn.text = "수정"
+            binding.recordMemoEditText.setText(recordViewModel.modifyRecordData.memo)
+            binding.recordDatePicker.updateDate(
+                recordViewModel.modifyRecordData.date.year,
+                recordViewModel.modifyRecordData.date.monthValue,
+                recordViewModel.modifyRecordData.date.dayOfMonth
+            )
+
+            binding.routineNameTextView.text = recordViewModel.modifyRecordInRoutine.name
+            binding.exercisePartTextView.text = recordViewModel.modifyRecordInPartString
+
+            selectRoutineId = recordViewModel.modifyRecordInRoutine.routineId
+            recordViewModel.selectLocalDate = recordViewModel.modifyRecordData.date
+
+        } else {
+            binding.recordDatePicker.updateDate(
+                recordViewModel.selectedDay.year,
+                recordViewModel.selectedDay.month-1,
+                recordViewModel.selectedDay.day
+            )
+        }
+
     }
 
 

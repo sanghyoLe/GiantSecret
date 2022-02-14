@@ -14,17 +14,14 @@ import java.time.LocalDate
 
 
 class RecordAdapter(
-    private val onModifyCallBack: (Record,Routine) -> (Unit),
+    private val onModifyCallBack: (Record,Routine,String,Int) -> (Unit),
     private val onDeleteCallBack: (Record) -> Unit
 )  :  RecyclerView.Adapter<RecordAdapter.RecordViewHolder>() {
     private lateinit var binding: RecordCardViewBinding
     private var recordList: List<Record> = emptyList()
     private var routineList: List<Routine> = emptyList()
-
-    private var selectRecordList = mutableListOf<Record>()
-    private var selectRoutineList = mutableListOf<Routine>()
-
     private var routineWithExercisePart: List<RoutineWithExerciseParts> = emptyList()
+
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordViewHolder {
@@ -34,14 +31,17 @@ class RecordAdapter(
     }
 
     override fun onBindViewHolder(holder: RecordViewHolder, position: Int) {
-        if(!selectRecordList.isEmpty()) {
-            var currentItem = selectRecordList[position]
+
+
+            var currentItem = recordList[position]
             var routineId:Long? = null
             var partString = ""
+            var currentRoutine: Routine? = null
             this.routineList.map { routine ->
                 if(routine.routineId == currentItem.recordInRoutineId) {
                     holder.binding.routineNameTextView.text = routine.name
                     routineId = routine.routineId
+                    currentRoutine = routine
                 }
             }
             this.routineWithExercisePart.map {
@@ -53,18 +53,17 @@ class RecordAdapter(
             holder.binding.exercisePartTextView.text = partString
             holder.binding.memoTextView.text = currentItem.memo
 
+            holder.binding.modifyBtn.setOnClickListener {
+                onModifyCallBack(currentItem,currentRoutine!!,partString,position)
+            }
+            holder.binding.deleteBtn.setOnClickListener {
+                createAlterDeleteDialog(currentItem)
+            }
 
-        }
 
 
-//        holder.binding.exercisePartTextView.text = partString
 
-//        holder.binding.modifyBtn.setOnClickListener {
-//            onModifyCallBack(currentItem, currentRoutine)
-//        }
-//        holder.binding.deleteBtn.setOnClickListener {
-//            createAlterDeleteDialog(currentItem)
-//        }
+
 
     }
 
@@ -72,30 +71,19 @@ class RecordAdapter(
         RecyclerView.ViewHolder(binding.root)
 
     override fun getItemCount(): Int {
-        return selectRecordList.size
+        return recordList.size
     }
 
-    fun setRecord(
-        recordList: List<Record>,
-    ) {
-        this.recordList = recordList
-        notifyDataSetChanged()
-    }
+
     fun setRoutine(
         routineList: List<Routine>,
     ) {
         this.routineList = routineList
 
     }
-    fun setSelectDateInRecord(localDate: LocalDate) {
-        selectRecordList = mutableListOf()
-        selectRoutineList = mutableListOf()
-        this.recordList.map{ record ->
-            if(record.date == localDate) {
-                selectRecordList.add(record)
-            }
-        }
 
+    fun setSelectRecord(records:List<Record>){
+        this.recordList = records
         notifyDataSetChanged()
     }
 

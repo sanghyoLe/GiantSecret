@@ -105,9 +105,7 @@ class RoutineAdapter(private val onDeleteCallBack: (Routine) -> Unit,
         binding.exerciseRecyclerView.layoutManager = LinearLayoutManager(context)
 
     }
-    fun showExerciseRecyclerView(){
 
-    }
     fun createAlterDeleteDialog(currentItem:RoutineWithExerciseAndSets){
         AlertDialog.Builder(context)
             .setTitle("루틴 삭제")

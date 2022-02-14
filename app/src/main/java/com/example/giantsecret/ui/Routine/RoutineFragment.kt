@@ -38,7 +38,7 @@ class RoutineFragment : Fragment(){
         routineAdapter = RoutineAdapter(
             ::deleteRoutine,
             ::modifyRoutine,
-            {Routine,String -> },
+            ::startRoutine,
             true
         )
 
@@ -83,6 +83,11 @@ class RoutineFragment : Fragment(){
         routineViewModel.clickShowUpdateRoutine(routine)
         routineViewModel.isCreateRoutineView = false
         findNavController().navigate(R.id.createRoutineFragment)
+    }
+
+    private fun startRoutine(routine:Routine, string: String) {
+        routineViewModel._isProgressRoutineLiveData.value = true
+
     }
 
 

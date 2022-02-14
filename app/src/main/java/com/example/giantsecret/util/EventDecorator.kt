@@ -23,7 +23,7 @@ class EventDecorator(
                 colors[index] = Color.parseColor(s)
             }
 
-        view.addSpan(CustomMultipleDotSpan(5f,count,colors))
+        view.addSpan(CustomMultipleDotSpan(7f,count,colors))
 
         }
 

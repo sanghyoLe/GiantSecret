@@ -5,7 +5,7 @@
       <map>
         <entry key="..\:/Users/pc/Desktop/GiantSecret/app/src/main/res/layout-v28/fragment_exercise_record.xml" value="0.26666666666666666" />
         <entry key="..\:/Users/pc/Desktop/GiantSecret/app/src/main/res/layout/activity_create_routine.xml" value="0.33" />
-        <entry key="..\:/Users/pc/Desktop/GiantSecret/app/src/main/res/layout/activity_main.xml" value="0.3463541666666667" />
+        <entry key="..\:/Users/pc/Desktop/GiantSecret/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/pc/Desktop/GiantSecret/app/src/main/res/layout/custom_bottom_sheet.xml" value="0.3463541666666667" />
         <entry key="..\:/Users/pc/Desktop/GiantSecret/app/src/main/res/layout/exercise_card_view.xml" value="0.3078125" />
         <entry key="..\:/Users/pc/Desktop/GiantSecret/app/src/main/res/layout/exercise_input_row_item.xml" value="0.3078125" />
@@ -14,6 +14,7 @@
         <entry key="..\:/Users/pc/Desktop/GiantSecret/app/src/main/res/layout/fragment_create_record.xml" value="0.265625" />
         <entry key="..\:/Users/pc/Desktop/GiantSecret/app/src/main/res/layout/fragment_create_routine.xml" value="0.3463541666666667" />
         <entry key="..\:/Users/pc/Desktop/GiantSecret/app/src/main/res/layout/fragment_exercise_record.xml" value="0.33" />
+        <entry key="..\:/Users/pc/Desktop/GiantSecret/app/src/main/res/layout/fragment_progress_routine.xml" value="0.22" />
         <entry key="..\:/Users/pc/Desktop/GiantSecret/app/src/main/res/layout/fragment_record.xml" value="0.309375" />
         <entry key="..\:/Users/pc/Desktop/GiantSecret/app/src/main/res/layout/fragment_routine.xml" value="0.33" />
         <entry key="..\:/Users/pc/Desktop/GiantSecret/app/src/main/res/layout/fragment_update_exercise.xml" value="0.35743589743589743" />

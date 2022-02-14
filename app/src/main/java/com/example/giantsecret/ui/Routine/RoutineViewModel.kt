@@ -21,6 +21,9 @@ class RoutineViewModel @Inject constructor(
     lateinit var clickedExerciseSetData: ExerciseWithSet
     var clickedExerciseSetDataPosition: Int = 0
     var isCreateExerciseView: Boolean =  false
+    var _isProgressRoutineLiveData: MutableLiveData<Boolean>  = MutableLiveData()
+    var isProgressRoutineLiveData: LiveData<Boolean> = _isProgressRoutineLiveData
+
 
     // routine Value
     val allRoutines: LiveData<List<RoutineWithExerciseAndSets>> = routineRepository.allRoutines.asLiveData()

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.giantsecret.R
@@ -24,6 +25,8 @@ import com.example.giantsecret.util.EventDecorator
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
+import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class RecordFragment : Fragment() {
@@ -32,6 +35,7 @@ class RecordFragment : Fragment() {
     private lateinit var dotColorList:Array<String>
     private val routineViewModel: RoutineViewModel by activityViewModels()
     private val recordViewModel: RecordViewModel by activityViewModels()
+    private var a :ArrayList<LocalDate> = arrayListOf()
     private lateinit var recordAdapter: RecordAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +44,6 @@ class RecordFragment : Fragment() {
             ::modifyRecord,
             ::deleteRecord
         )
-
 
     }
 
@@ -55,35 +58,44 @@ class RecordFragment : Fragment() {
         binding.calendarView.setDateSelected(recordViewModel.selectedDay,true)
 
         binding.createRecordLayout.setOnClickListener {
+            recordViewModel.isCreateRecordView = true
             findNavController().navigate(R.id.createRecordFragment)
         }
 
+
+
             recordViewModel.allRecord.observe(viewLifecycleOwner) { list ->
+                recordViewModel.allRecordList = list
+                a = arrayListOf()
+                binding.calendarView.removeDecorators()
                 list.map { it ->
+                    a.add(it.date)
+                }
+                list.map {
                     val eventDecorator = EventDecorator(
                         requireContext(), dotColorList,
                         CalendarDay.from(it.date.year, it.date.monthValue, it.date.dayOfMonth),
-                        1
+                        Collections.frequency(a,LocalDate.of(it.date.year,it.date.monthValue,it.date.dayOfMonth)).toInt()
                     )
-                    binding.calendarView.addDecorator(eventDecorator)
 
+                    binding.calendarView.addDecorator(eventDecorator)
                 }
-                recordAdapter.setRecord(list)
             }
+
             recordViewModel.allRecordInRoutine.observe(viewLifecycleOwner){
                 recordAdapter.setRoutine(it)
             }
 
-            if (binding != null) {
-                binding.calendarView.setOnDateChangedListener { widget, date, selected ->
-                    recordViewModel.selectedDay = date
-                    recordViewModel.selectLocalDate = LocalDate.of(date.year, date.month, date.day)
-                    recordViewModel._selectDateLiveData.value = LocalDate.of(date.year, date.month, date.day)
-                }
+            binding.calendarView.setOnDateChangedListener { widget, date, selected ->
+                recordViewModel.selectedDay = date
+                recordViewModel.selectLocalDate = LocalDate.of(date.year, date.month, date.day)
+                recordViewModel.updateSelectRecordList(LocalDate.of(date.year,date.month,date.day))
             }
-            recordViewModel.selectDateLiveData.observe(viewLifecycleOwner) {
-                recordAdapter.setSelectDateInRecord(it)
+
+            recordViewModel.selectRecordLiveData.observe(viewLifecycleOwner) {
+                recordAdapter.setSelectRecord(it)
             }
+
             routineViewModel.allRoutineWithExerciseParts.observe(viewLifecycleOwner) {
                 recordAdapter.setRoutineWithExerciseParts(it)
             }
@@ -93,12 +105,17 @@ class RecordFragment : Fragment() {
 
         private fun deleteRecord(record: Record) {
             recordViewModel.deleteRecord(record)
+            recordViewModel.deleteSelectRecord(record)
             recordAdapter.notifyDataSetChanged()
         }
 
-        private fun modifyRecord(record: Record, routine: Routine) {
-
-
+        private fun modifyRecord(record: Record,routine:Routine,partString:String,position:Int) {
+            recordViewModel.isCreateRecordView = false
+            recordViewModel.modifyRecordData = record
+            recordViewModel.modifyRecordInRoutine = routine
+            recordViewModel.modifyRecordInPartString = partString
+            recordViewModel.modifyRecordPosition = position
+            findNavController().navigate(R.id.createRecordFragment)
         }
 
     }
