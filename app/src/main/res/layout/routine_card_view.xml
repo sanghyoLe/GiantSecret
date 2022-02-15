@@ -77,16 +77,7 @@
                 android:text="운동 부위"
                 android:textAppearance="?attr/textAppearanceBody2"
                 />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/numberOfProgressTextview"
-                android:layout_width="0dp"
-                android:gravity="right"
-                android:layout_weight="1"
-                android:padding="8dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                android:text="0번 진행"
-                />
+
         </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/exerciseRecyclerView"

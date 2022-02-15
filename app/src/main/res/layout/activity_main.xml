@@ -30,45 +30,6 @@
             </LinearLayout>
 
 
-    <LinearLayout
-        android:id="@+id/timerLayout"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/timerText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:freezesText="false"
-            android:layout_margin="16dp"
-            android:text="0 : 0"
-            android:textAllCaps="false"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="32sp"
-            />
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/startBtn"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:backgroundTint="#5DB160"
-            android:layout_margin="16dp"
-            android:clickable="true"
-            android:tint="#FFFFFF"
-            app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
-        <Button
-            android:layout_margin="16dp"
-            android:id="@+id/endRoutineBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="루틴 종료"
-            />
-
-    </LinearLayout>
 
 
         <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -152,7 +152,6 @@
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner"
                 android:startYear="2022" />
-
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout

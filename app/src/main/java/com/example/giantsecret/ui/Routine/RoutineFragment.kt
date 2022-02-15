@@ -85,9 +85,10 @@ class RoutineFragment : Fragment(){
         findNavController().navigate(R.id.createRoutineFragment)
     }
 
-    private fun startRoutine(routine:Routine, string: String) {
-        routineViewModel._isProgressRoutineLiveData.value = true
-
+    private fun startRoutine(routineWithExerciseAndSets: RoutineWithExerciseAndSets, string: String) {
+        routineViewModel.progressedRoutine = routineWithExerciseAndSets
+        routineViewModel.progressedPartString = string
+        findNavController().navigate(R.id.routineProgressFragment)
     }
 
 

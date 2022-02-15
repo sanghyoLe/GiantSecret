@@ -4,17 +4,17 @@
             android:id="@+id/exerciseRecordFragment"
             android:icon="@drawable/ic_baseline_calendar_today_24"
             android:checked="true"
-            android:title="@string/exercise_record" />
+            android:title="기록" />
 
         <item
             android:id="@+id/routineFragment"
-            android:icon="@drawable/ic_baseline_fitness_center_24"
+            android:icon="@drawable/outline_run_circle_24"
             android:title="@string/routine"
              />
         <item
             android:id="@+id/statisticFragment"
-            android:icon="@drawable/ic_baseline_analytics_24"
-            android:title="@string/statistics" />
+            android:icon="@drawable/ic_baseline_fitness_center_24"
+            android:title="운동" />
 
 
 </menu>

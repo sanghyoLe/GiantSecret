@@ -19,7 +19,7 @@ import com.example.giantsecret.databinding.RoutineCardViewBinding
 
 class RoutineAdapter(private val onDeleteCallBack: (Routine) -> Unit,
                      private val onModifyCallBack: (RoutineWithExerciseAndSets) -> Unit,
-                     private val onSelectCallBack:(Routine,String) ->  Unit,
+                     private val onSelectCallBack:(RoutineWithExerciseAndSets,String) ->  Unit,
                      private val isCreateRoutineAdapter:Boolean
                      ) :  RecyclerView.Adapter<RoutineAdapter.RoutineViewHolder>(){
     private lateinit var binding:RoutineCardViewBinding
@@ -67,9 +67,7 @@ class RoutineAdapter(private val onDeleteCallBack: (Routine) -> Unit,
             }
             holder.binding.routineNameTextView.text = currentItem.routine.name
             holder.binding.exercisePartTextView.text = partString
-            holder.binding.startBtn.setOnClickListener {
 
-            }
             holder.binding.deleteBtn.setOnClickListener {
                 createAlterDeleteDialog(currentItem)
             }
@@ -77,7 +75,7 @@ class RoutineAdapter(private val onDeleteCallBack: (Routine) -> Unit,
                 onModifyCallBack(currentItem)
             }
             holder.binding.startBtn.setOnClickListener {
-                onSelectCallBack(currentItem.routine,partString)
+                onSelectCallBack(currentItem,partString)
             }
         }
 

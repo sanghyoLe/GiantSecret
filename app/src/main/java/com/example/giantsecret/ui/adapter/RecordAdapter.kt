@@ -54,7 +54,12 @@ class RecordAdapter(
             holder.binding.memoTextView.text = currentItem.memo
 
             holder.binding.modifyBtn.setOnClickListener {
-                onModifyCallBack(currentItem,currentRoutine!!,partString,position)
+                if(currentRoutine != null){
+                    onModifyCallBack(currentItem,currentRoutine!!,partString,position)
+                } else {
+                    onModifyCallBack(currentItem,Routine(0,"루틴을 선택해주세요"),"",position)
+                }
+
             }
             holder.binding.deleteBtn.setOnClickListener {
                 createAlterDeleteDialog(currentItem)

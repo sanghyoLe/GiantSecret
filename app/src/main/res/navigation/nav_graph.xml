@@ -10,7 +10,7 @@
         android:id="@+id/statisticFragment"
         android:name="com.example.giantsecret.ui.StatisticFragment"
         tools:layout="@layout/fragment_statistic"
-        android:label="@string/input_one_rm" />
+        android:label="@string/create_exercise" />
     <fragment
         android:id="@+id/routineFragment"
         android:name="com.example.giantsecret.ui.Routine.RoutineFragment"
@@ -60,12 +60,17 @@
         tools:layout="@layout/fragment_create_record"
         android:label="createRecordFragment"/>
 
+    <fragment
+        android:id="@+id/routineProgressFragment"
+        android:name="com.example.giantsecret.ui.Routine.RoutineProgressFragment"
+        android:label="routineProgressFragment"/>
 
     <activity
         android:id="@+id/mainActivity"
         tools:layout="@layout/activity_main"
         android:name="com.example.giantsecret.ui.MainActivity"
         android:label="MainActivity" />
+
 
 
 

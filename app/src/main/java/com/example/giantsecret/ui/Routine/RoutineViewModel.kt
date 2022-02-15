@@ -5,9 +5,13 @@ import androidx.lifecycle.*
 import com.example.giantsecret.data.model.*
 import com.example.giantsecret.data.repository.ExerciseRepository
 import com.example.giantsecret.data.repository.RoutineRepository
+import com.example.giantsecret.ui.MainActivity
 import com.example.giantsecret.ui.adapter.RoutineAdapter
+import com.example.giantsecret.util.displayTime
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,20 +25,18 @@ class RoutineViewModel @Inject constructor(
     lateinit var clickedExerciseSetData: ExerciseWithSet
     var clickedExerciseSetDataPosition: Int = 0
     var isCreateExerciseView: Boolean =  false
-    var _isProgressRoutineLiveData: MutableLiveData<Boolean>  = MutableLiveData()
-    var isProgressRoutineLiveData: LiveData<Boolean> = _isProgressRoutineLiveData
 
 
     // routine Value
     val allRoutines: LiveData<List<RoutineWithExerciseAndSets>> = routineRepository.allRoutines.asLiveData()
     val allRoutineWithExerciseParts: LiveData<List<RoutineWithExerciseParts>> = routineRepository.allRoutineWithExerciseParts.asLiveData()
-
-    var isCreateRoutineView: Boolean = false
-
-    var isPartCheckByRoutineId:ArrayList<Boolean> = arrayListOf(false,false,false,false,false,false,false)
     var routineWithExerciseAndSetsData: RoutineWithExerciseAndSets? = null
     var routineExercisePartCrossRefs:List<RoutineExercisePartCrossRef> = emptyList()
+    var isCreateRoutineView: Boolean = false
+    var isPartCheckByRoutineId:ArrayList<Boolean> = arrayListOf(false,false,false,false,false,false,false)
 
+    lateinit var progressedRoutine: RoutineWithExerciseAndSets
+    var progressedPartString = ""
 
     // exercise Value
     val exerciseWithSetFlow: LiveData<List<ExerciseWithSet>> = exerciseRepository.exerciseWithSetFlow.asLiveData()
@@ -44,6 +46,8 @@ class RoutineViewModel @Inject constructor(
     var exerciseWithSetData: MutableList<ExerciseWithSet>  = mutableListOf()
     var _exerciseWithSetLiveData: MutableLiveData<List<ExerciseWithSet>> = MutableLiveData()
     val exerciseWithSetLiveData: LiveData<List<ExerciseWithSet>> = _exerciseWithSetLiveData
+
+
 
 
     // Exercise,ExerciseSet Method

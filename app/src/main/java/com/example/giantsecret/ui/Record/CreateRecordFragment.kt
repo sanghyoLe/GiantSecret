@@ -55,9 +55,11 @@ class CreateRecordFragment : Fragment() {
         binding.routineRecyclerView.adapter = routineAdapter
 
         binding.recordDatePicker.setOnDateChangedListener { _, year, month, day ->
-           recordViewModel.selectedDay = CalendarDay.from(year,month+1,day)
+           recordViewModel.selectedDay = CalendarDay.from(year,month,day)
             recordViewModel.selectLocalDate = LocalDate.of(year,month+1,day)
-
+        }
+        binding.backBtn.setOnClickListener {
+            findNavController().popBackStack()
         }
         binding.saveBtn.setOnClickListener {
             if(selectRoutineId == null){
@@ -87,8 +89,6 @@ class CreateRecordFragment : Fragment() {
                     )
 
                 }
-
-
                 findNavController().popBackStack()
             }
         }
@@ -112,11 +112,11 @@ class CreateRecordFragment : Fragment() {
             View.VISIBLE
         }
     }
-    private fun selectRoutine(routine: Routine,partString:String) {
+    private fun selectRoutine(routineWithExerciseAndSets: RoutineWithExerciseAndSets,partString:String) {
         showRoutineList()
-        binding.routineNameTextView.text = routine.name
+        binding.routineNameTextView.text = routineWithExerciseAndSets.routine.name
         binding.exercisePartTextView.text = partString
-        selectRoutineId = routine.routineId
+        selectRoutineId = routineWithExerciseAndSets.routine.routineId
     }
     private fun deleteRoutine(routine: Routine) {
         routineViewModel.deleteRoutineWithChild(routine)
@@ -126,6 +126,7 @@ class CreateRecordFragment : Fragment() {
         routineViewModel.isPartCheckByRoutineId.replaceAll { false }
         routineViewModel.clickShowUpdateRoutine(routine)
         routineViewModel.isCreateRoutineView = false
+
         findNavController().navigate(R.id.createRoutineFragment)
     }
 
@@ -146,13 +147,27 @@ class CreateRecordFragment : Fragment() {
             selectRoutineId = recordViewModel.modifyRecordInRoutine.routineId
             recordViewModel.selectLocalDate = recordViewModel.modifyRecordData.date
 
-        } else {
+        }
+        else {
             binding.recordDatePicker.updateDate(
                 recordViewModel.selectedDay.year,
                 recordViewModel.selectedDay.month-1,
                 recordViewModel.selectedDay.day
             )
+            if(routineViewModel.progressedRoutine != null) {
+                binding.routineNameTextView.text = routineViewModel.progressedRoutine.routine.name
+
+                binding.exercisePartTextView.text = routineViewModel.progressedPartString
+                selectRoutineId = routineViewModel.progressedRoutine.routine.routineId
+
+                binding.recordDatePicker.updateDate(
+                    LocalDate.now().year,
+                    LocalDate.now().monthValue-1,
+                    LocalDate.now().dayOfMonth
+                )
+            }
         }
+
 
     }
 
