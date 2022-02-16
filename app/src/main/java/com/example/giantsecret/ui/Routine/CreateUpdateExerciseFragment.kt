@@ -22,6 +22,7 @@ import com.example.giantsecret.data.model.Exercise
 import com.example.giantsecret.data.model.ExerciseSet
 import com.example.giantsecret.data.model.ExerciseWithSet
 import com.example.giantsecret.ui.Dialog.BottomSheetListView
+import com.example.giantsecret.util.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 import kotlin.collections.ArrayList
@@ -29,43 +30,31 @@ import kotlin.collections.ArrayList
 var SET_SIZE = 100
 
 @AndroidEntryPoint
-class CreateExerciseFragment : Fragment() {
-    private lateinit var binding:FragmentCreateExerciseBinding
+class CreateExerciseFragment : BaseFragment<FragmentCreateExerciseBinding>(FragmentCreateExerciseBinding::inflate) {
     private lateinit var bottomSheetListView: BottomSheetListView
     private lateinit var setListAdapter: SetListAdapter
     private val routineViewModel: RoutineViewModel by activityViewModels()
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setListAdapter = SetListAdapter(1,requireContext(),childFragmentManager)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        binding = FragmentCreateExerciseBinding.inflate(layoutInflater,container,false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
-
-
-        return binding.root
-
     }
 
 
     private fun initView(){
+        if(!routineViewModel.isCreateExerciseView) initUpdateExerciseView()
+
         createBottomSheet()
         createSearchExerciseListView()
         selectExerciseRadioGroup()
-
         // 세트 마다 무게 다름 RecyclerView Adapter 설정정
-        setListAdapter = SetListAdapter(1,requireContext(),childFragmentManager)
         createExercise()
 
-        if(!routineViewModel.isCreateExerciseView)
-            initUpdateExerciseView()
+
     }
     private fun initUpdateExerciseView(){
         binding.exerciseSaveTextView.setText("수정")
@@ -78,8 +67,6 @@ class CreateExerciseFragment : Fragment() {
         setListAdapter.changeSetSize(routineViewModel.clickedExerciseSetData.exercise.numberOfSet)
         setListAdapter.notifyDataSetChanged()
     }
-
-
     private fun createBottomSheet(){
         var setArrayList: ArrayList<String> = ArrayList()
         var countArrayList: ArrayList<String> = ArrayList()
@@ -174,7 +161,6 @@ class CreateExerciseFragment : Fragment() {
             binding.setWeightDifferentRecyclerView.visibility = View.VISIBLE
         }
     }
-
     // 저장 눌렀을 때
     private fun createExercise(){
         binding.exerciseSaveTextView.setOnClickListener {
@@ -227,6 +213,12 @@ class CreateExerciseFragment : Fragment() {
                 }
             }
         }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        routineViewModel.isCreateExerciseView = false
     }
 
 }

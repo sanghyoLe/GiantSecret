@@ -19,7 +19,7 @@ class RecordViewModel @Inject constructor(
 ) : ViewModel(){
 
     var isCreateRecordView: Boolean = false
-
+    var isProgressedEndRecordView: Boolean = false
     val allRecord: LiveData<List<Record>> = recordRepository.allRecord.asLiveData()
     val allRecordInRoutine : LiveData<List<Routine>> = recordRepository.allRecordInRoutine.asLiveData()
 
@@ -34,13 +34,7 @@ class RecordViewModel @Inject constructor(
     lateinit var modifyRecordInPartString: String
     var modifyRecordPosition by Delegates.notNull<Int>()
 
-    val _selectDateLiveData  : MutableLiveData<LocalDate> = MutableLiveData()
-    val selectDateLiveData: LiveData<LocalDate> = _selectDateLiveData
 
-    val recordDateList: List<CalendarDay> = listOf(
-        CalendarDay.from(2022,2,2),
-        CalendarDay.from(2022,2,1),
-        CalendarDay.from(2022,2,3))
     var selectedDay: CalendarDay = CalendarDay.today()
     var selectLocalDate:LocalDate = LocalDate.now()
 

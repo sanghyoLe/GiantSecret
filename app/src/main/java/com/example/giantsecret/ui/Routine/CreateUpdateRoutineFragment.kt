@@ -1,11 +1,8 @@
 package com.example.giantsecret.ui.Routine
 
-import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,56 +12,53 @@ import com.example.giantsecret.data.model.Routine
 import com.example.giantsecret.databinding.FragmentCreateRoutineBinding
 import com.example.giantsecret.ui.Dialog.SearchDialogFragment
 import com.example.giantsecret.ui.adapter.ExerciseAdapter
+import com.example.giantsecret.util.BaseFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class CreateRoutineFragment : Fragment() {
-    private lateinit var binding: FragmentCreateRoutineBinding
-
-
+class CreateUpdateRoutineFragment : BaseFragment<FragmentCreateRoutineBinding>(FragmentCreateRoutineBinding::inflate) {
     private val routineViewModel : RoutineViewModel by activityViewModels()
-    private val exerciseViewModel : RoutineViewModel by activityViewModels()
-
     private lateinit var searchDialogFragment: SearchDialogFragment
     private lateinit var searchAdapter: SearchDialogFragment.SearchAdapter
     private var isCheckList:ArrayList<Boolean> = arrayListOf(false,false,false,false,false,false,false)
     lateinit var exerciseAdapter:ExerciseAdapter
 
-    @RequiresApi(Build.VERSION_CODES.R)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         exerciseAdapter = ExerciseAdapter(
             ::clickDeleteExercise,
             ::clickUpdateExercise,
             false
-            )
-
-        searchAdapter = SearchDialogFragment.SearchAdapter()
-        searchDialogFragment = SearchDialogFragment(searchAdapter)
-        createObserver()
+        )
     }
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentCreateRoutineBinding.inflate(layoutInflater, container, false)
-        if(!routineViewModel.isCreateRoutineView) {
-            changeViewForUpdateRoutine()
-        }
 
-        InitButtonsEvent()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.exerciseListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.exerciseListRecyclerView.adapter = exerciseAdapter
+        searchAdapter = SearchDialogFragment.SearchAdapter()
+        searchDialogFragment = SearchDialogFragment(searchAdapter)
 
-        return binding.root
+        if(!routineViewModel.isCreateRoutineView) {
+            changeViewForUpdateRoutine()
+        }
+        addEventListeners()
+        addObservers()
     }
 
-    fun changeViewForUpdateRoutine(){
+    override fun onDestroy() {
+        super.onDestroy()
+        routineViewModel.isCreateRoutineView = false
+    }
+
+
+    private fun changeViewForUpdateRoutine(){
             binding.topAppBarTitle.text = "루틴 수정하기"
             binding.routineSaveBtn.text = "수정"
             binding.routineNameEditText.setText(
@@ -78,12 +72,10 @@ class CreateRoutineFragment : Fragment() {
             binding.chip6.isChecked = routineViewModel.isPartCheckByRoutineId.get(5)
             binding.chip7.isChecked = routineViewModel.isPartCheckByRoutineId.get(6)
     }
-    fun InitButtonsEvent(){
-
+    private fun addEventListeners(){
         binding.createRoutineBackBtn.setOnClickListener {
             findNavController().popBackStack()
         }
-
         binding.routineSaveBtn.setOnClickListener {
             var routineName:String? = binding.routineNameEditText.text.toString()
             if(!checkChipsEvent()){
@@ -106,7 +98,7 @@ class CreateRoutineFragment : Fragment() {
 
         }
         binding.createExerciseBtnLayout.setOnClickListener {
-            exerciseViewModel.isCreateExerciseView = true
+            routineViewModel.isCreateExerciseView = true
             findNavController().navigate(R.id.createExerciseFragment)
         }
         binding.searchExerciseBtnLayout.setOnClickListener {
@@ -116,8 +108,6 @@ class CreateRoutineFragment : Fragment() {
         }
 
     }
-
-
     private fun checkChipsEvent(): Boolean {
         val chipGroup: ChipGroup = binding.root.findViewById(R.id.routineChipGroup) as ChipGroup
         var isCheckedPart: Boolean = false
@@ -134,27 +124,30 @@ class CreateRoutineFragment : Fragment() {
         }
         return isCheckedPart
     }
-
-
-
-    private fun createObserver() {
-        exerciseViewModel.exerciseWithSetLiveData.observe(this) { exercises ->
+    private fun addObservers() {
+        routineViewModel.exerciseWithSetLiveData.observe(viewLifecycleOwner) { exercises ->
             exerciseAdapter.setExerciseWithSet(exercises)
         }
-        exerciseViewModel.parentIdNullExerciseFlow.observe(this) { allExercise ->
+        routineViewModel.parentIdNullExerciseFlow.observe(viewLifecycleOwner) { allExercise ->
             searchAdapter.setExercise(allExercise)
         }
     }
 
-    fun clickUpdateExercise(exerciseWithSet: ExerciseWithSet,position:Int) {
-        exerciseViewModel.clickedExerciseSetDataPosition = position
-        exerciseViewModel.isCreateExerciseView = false
-        exerciseViewModel.updateExerciseWithSet(exerciseWithSet)
+    private fun clickUpdateExercise(exerciseWithSet: ExerciseWithSet,position:Int) {
+        routineViewModel.clickedExerciseSetDataPosition = position
+        routineViewModel.isCreateExerciseView = false
+        routineViewModel.updateExerciseWithSet(exerciseWithSet)
         findNavController().navigate(R.id.createExerciseFragment)
     }
-    fun clickDeleteExercise(exerciseWithSet: ExerciseWithSet) {
-        exerciseViewModel.removeExerciseWithSetData(exerciseWithSet)
+    private fun clickDeleteExercise(exerciseWithSet: ExerciseWithSet) {
+        routineViewModel.removeExerciseWithSetData(exerciseWithSet)
+        routineViewModel.deleteExerciseWithSetInRoutine(
+            exerciseWithSet.exercise,
+            exerciseWithSet.exerciseSets
+        )
     }
+
+
 
 }
 

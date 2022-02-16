@@ -27,6 +27,7 @@ class RecordAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordViewHolder {
         binding = RecordCardViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         context = parent.context
+
         return RecordViewHolder(binding)
     }
 
@@ -67,9 +68,6 @@ class RecordAdapter(
 
 
 
-
-
-
     }
 
     class RecordViewHolder(val binding: RecordCardViewBinding) :
@@ -97,6 +95,8 @@ class RecordAdapter(
         this.routineWithExercisePart = routineWithExercisePart
         notifyDataSetChanged()
     }
+
+
 
     fun createAlterDeleteDialog(currentItem: Record) {
         AlertDialog.Builder(context)

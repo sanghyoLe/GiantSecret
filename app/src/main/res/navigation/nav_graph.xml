@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/exerciseRecordFragment">
+    app:startDestination="@id/RecordFragment">
 
 
     <fragment
         android:id="@+id/statisticFragment"
-        android:name="com.example.giantsecret.ui.StatisticFragment"
-        tools:layout="@layout/fragment_statistic"
+        android:name="com.example.giantsecret.ui.Routine.ExerciseListFragment"
+        tools:layout="@layout/fragment_exercise_list"
         android:label="@string/create_exercise" />
     <fragment
         android:id="@+id/routineFragment"
-        android:name="com.example.giantsecret.ui.Routine.RoutineFragment"
+        android:name="com.example.giantsecret.ui.Routine.RoutineListFragment"
         tools:layout="@layout/fragment_routine"
         android:label="@string/routine" >
         <action android:id="@+id/createRoutineAction"
@@ -23,7 +23,7 @@
             />
     </fragment>
     <fragment
-        android:id="@+id/exerciseRecordFragment"
+        android:id="@+id/RecordFragment"
         android:name="com.example.giantsecret.ui.Record.RecordFragment"
         tools:layout="@layout/fragment_record"
         android:label="@string/exercise_record" >
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/createRoutineFragment"
-        android:name="com.example.giantsecret.ui.Routine.CreateRoutineFragment"
+        android:name="com.example.giantsecret.ui.Routine.CreateUpdateRoutineFragment"
         tools:layout="@layout/fragment_create_routine"
         android:label="createRoutineFragment">
         <action android:id="@+id/createRoutineToCloseAction"

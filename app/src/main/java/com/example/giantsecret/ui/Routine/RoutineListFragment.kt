@@ -20,17 +20,16 @@ import com.example.giantsecret.databinding.FragmentRoutineBinding
 
 
 import com.example.giantsecret.ui.adapter.RoutineAdapter
+import com.example.giantsecret.util.BaseFragment
 
 
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class RoutineFragment : Fragment(){
-    private lateinit var binding: FragmentRoutineBinding
+class RoutineListFragment : BaseFragment<FragmentRoutineBinding>(FragmentRoutineBinding::inflate){
 
     private val routineViewModel: RoutineViewModel by activityViewModels()
-
     private lateinit var routineAdapter: RoutineAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,18 +40,12 @@ class RoutineFragment : Fragment(){
             ::startRoutine,
             true
         )
-
-
-
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentRoutineBinding.inflate(inflater,container, false)
+
         binding.createRoutineBtnLayout.setOnClickListener {
             findNavController().navigate(R.id.createRoutineAction)
             routineViewModel.routineWithExerciseAndSetsData = null
@@ -68,12 +61,10 @@ class RoutineFragment : Fragment(){
         }
         routineViewModel.allRoutineWithExerciseParts.observe(viewLifecycleOwner) {
             routineAdapter.setRoutineWithExerciseParts(it)
-
         }
 
-        return binding.root
-
     }
+
     private fun deleteRoutine(routine: Routine) {
         routineViewModel.deleteRoutineWithChild(routine)
         routineAdapter.notifyDataSetChanged()

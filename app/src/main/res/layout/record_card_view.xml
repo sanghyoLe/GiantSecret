@@ -42,8 +42,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="0.2"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_create_white_24"
-                android:backgroundTint="@color/secondaryColor"
+                android:src="@drawable/ic_baseline_create_24"
+                android:backgroundTint="@color/white"
                 />
             <androidx.appcompat.widget.AppCompatImageButton
                 android:padding="8dp"
@@ -52,7 +52,7 @@
                 android:layout_weight="0.2"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_delete_24"
-                android:backgroundTint="@color/secondaryColor"
+                android:backgroundTint="@color/white"
                 />
         </LinearLayout>
 
@@ -76,8 +76,14 @@
                 android:text="운동 부위"
                 android:textAppearance="?attr/textAppearanceBody2"
                 />
-
         </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/exerciseRecyclerView"
+            app:layout_constraintTop_toBottomOf="@id/workoutPartLayout"
+            />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/memoTextView"
             android:layout_width="match_parent"
@@ -85,7 +91,7 @@
             android:text="하하"
             android:padding="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            app:layout_constraintTop_toBottomOf="@id/workoutPartLayout"/>
+            app:layout_constraintTop_toBottomOf="@id/exerciseRecyclerView"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

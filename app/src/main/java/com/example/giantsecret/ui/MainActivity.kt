@@ -1,8 +1,6 @@
 package com.example.giantsecret.ui
-import android.os.Build
 import android.os.Bundle
 import android.view.*
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -32,7 +30,7 @@ class MainActivity : AppCompatActivity(){
         navController = Navigation.findNavController(this, R.id.fragmentContainerView)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.exerciseRecordFragment -> showBottomNav()
+                R.id.RecordFragment -> showBottomNav()
                 R.id.statisticFragment -> showBottomNav()
                 R.id.routineFragment -> showBottomNav()
                 else -> hideBottomNav()

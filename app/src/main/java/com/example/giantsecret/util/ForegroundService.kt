@@ -54,6 +54,7 @@ class ForegroundService : Service() {
                 commandStart(startTime)
             }
             COMMAND_STOP -> commandStop()
+
             INVALID -> return
         }
     }

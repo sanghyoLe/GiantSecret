@@ -72,7 +72,7 @@ class ExerciseAdapter(
     fun createDeleteAlterDialog(currentItem:ExerciseWithSet){
         AlertDialog.Builder(context)
             .setTitle("운동 삭제")
-            .setMessage("루틴에서 해당 운동을 삭제하시겠습니까?")
+            .setMessage("해당 운동을 삭제하시겠습니까?")
             .setPositiveButton("삭제", {
                     dialog , _ ->
                 exerciseWithSetList.remove(currentItem)

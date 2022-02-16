@@ -22,42 +22,45 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
+import java.lang.Long.parseLong
 
 
 @AndroidEntryPoint
-class RoutineProgressFragment : Fragment(), LifecycleObserver {
-    private lateinit var binding: FragmentRoutineProgressBinding
+class RoutineProgressFragment : BaseFragment<FragmentRoutineProgressBinding>(FragmentRoutineProgressBinding::inflate), LifecycleObserver {
+
     private val routineViewModel: RoutineViewModel by activityViewModels()
     private val recordViewModel: RecordViewModel by activityViewModels()
+    private var isStart = false
     private var startTime = 0L
+    private var isNotPaused = true
+    private var pauseTime: Long = 0L
+    private var resumeTime: Long = 0L
     private lateinit var exerciseAdapter: ExerciseAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startTime = System.currentTimeMillis()
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         exerciseAdapter = ExerciseAdapter(
             {ExerciseWithSet -> },
             {ExerciseWithSet, Int ->},
             true
         )
-    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
-
-        binding = FragmentRoutineProgressBinding.inflate(inflater,container,false)
-
         initView()
-        return binding.root
+        addEventListeners()
+
     }
+
+
 
 
 
     private fun initView(){
-
         binding.routineNameTextView.text = routineViewModel.progressedRoutine.routine.name
         binding.partsTextView.text = routineViewModel.progressedPartString
         binding.exerciseRecyclerView.adapter = exerciseAdapter
@@ -65,22 +68,33 @@ class RoutineProgressFragment : Fragment(), LifecycleObserver {
         exerciseAdapter.setExerciseWithSet(
             routineViewModel.progressedRoutine.exercise
         )
+    }
+    private fun addEventListeners(){
         // 타이머 시작
         binding.startBtn.setOnClickListener {
-            startTime = System.currentTimeMillis()
-            binding.startBtn.setImageResource(R.drawable.ic_baseline_refresh_24)
-            lifecycleScope.launch(Dispatchers.Main) {
-                while (true) {
-                    binding.timerView.text = (System.currentTimeMillis() - startTime).displayTime()
-                    delay(INTERVAL)
+            if(!isStart) {
+                startTime = System.currentTimeMillis()
+                startTimer(startTime)
+                binding.startBtn.setImageResource(R.drawable.ic_baseline_pause_24)
+            } else {
+                if(isNotPaused) {
+                    pauseTimer()
+                    isNotPaused = !isNotPaused
+                    binding.startBtn.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+                } else {
+                    startTimer(resumeTime)
+                    isNotPaused = !isNotPaused
+                    binding.startBtn.setImageResource(R.drawable.ic_baseline_pause_24)
                 }
             }
         }
+
         // 뒤로 가기
         binding.backBtn.setOnClickListener {
             findNavController().popBackStack()
         }
         binding.endRoutineBtn.setOnClickListener {
+            recordViewModel.isProgressedEndRecordView = true
             recordViewModel.isCreateRecordView = true
             findNavController().popBackStack()
             findNavController().navigate(R.id.createRecordFragment)
@@ -89,6 +103,28 @@ class RoutineProgressFragment : Fragment(), LifecycleObserver {
 
     companion object {
         private const val INTERVAL = 10L
+    }
+
+
+    fun startTimer(time:Long) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            while (isNotPaused) {
+                binding.timerView.text = (System.currentTimeMillis()-time).displayTime()
+                delay(INTERVAL)
+            }
+        }
+        isStart = true
+    }
+    fun pauseTimer() {
+
+        pauseTime = (System.currentTimeMillis() - startTime)
+        binding.timerView.text = pauseTime.displayTime()
+        lifecycleScope.launch(Dispatchers.Main) {
+            while(true) {
+                resumeTime = System.currentTimeMillis() - pauseTime
+                delay(INTERVAL)
+            }
+        }
     }
 
 

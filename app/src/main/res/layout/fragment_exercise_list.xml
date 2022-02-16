@@ -3,7 +3,7 @@
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layout_constraintTop_toBottomOf="@id/createRoutineBtnLayout"
+    app:layout_constraintTop_toBottomOf="@id/createExerciseBtn"
     android:id="@+id/programScrollView"
     android:layout_marginBottom="@dimen/bottomNavigationHeight"
     android:layout_width="match_parent"
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/routineListTextView"
+            android:id="@+id/exerciseListTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/createRoutineBtnLayout"
+            android:id="@+id/createExerciseBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -48,7 +48,7 @@
                 android:textColor="@color/black" />
         </com.google.android.material.card.MaterialCardView>
         <View
-            android:id="@+id/routineListDivider"
+            android:id="@+id/exerciseListDivider"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginStart="8dp"
@@ -57,16 +57,16 @@
             android:background="@color/secondaryColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/routineListTextView" />
+            app:layout_constraintTop_toBottomOf="@id/exerciseListTextView" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="16dp"
-            android:id="@+id/routineRecyclerView"
+            android:id="@+id/exerciseRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/routineListDivider"
+            app:layout_constraintTop_toBottomOf="@id/exerciseListDivider"
             app:layout_constraintBottom_toBottomOf="parent"
 
             android:nestedScrollingEnabled="false"

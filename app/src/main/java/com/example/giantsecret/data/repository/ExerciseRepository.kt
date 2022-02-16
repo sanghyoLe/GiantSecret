@@ -26,6 +26,15 @@ class ExerciseRepository @Inject constructor(
         get() = routineDao.getParentIdNullExerciseFlow()
 
 
+    suspend fun deleteExerciseWithSet(exercise:Exercise, exerciseSets: List<ExerciseSet>) {
+        routineDao.deleteExerciseWithSet(exercise,exerciseSets)
+    }
+
+    suspend fun deleteExerciseWithSetInRoutine(exercise: Exercise,exerciseSets: List<ExerciseSet>) {
+        if(exercise.parentRoutineId != null) {
+            routineDao.deleteExerciseWithSet(exercise, exerciseSets)
+        }
+    }
 
     suspend fun createExercise(exercise: Exercise, exerciseSets: List<ExerciseSet>) :Long{
         return routineDao.createExercise(exercise,exerciseSets)

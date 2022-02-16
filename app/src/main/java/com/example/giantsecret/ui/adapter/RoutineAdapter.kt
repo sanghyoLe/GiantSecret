@@ -95,15 +95,15 @@ class RoutineAdapter(private val onDeleteCallBack: (Routine) -> Unit,
         this.routineWithExercisePart = routineWithExercisePart
         notifyDataSetChanged()
     }
-    fun initRecordAdapter(){
-        binding.startBtn.text = "선택"
-    }
+
     fun initExerciseRecyclerView(){
         binding.exerciseRecyclerView.adapter = exerciseAdapter
         binding.exerciseRecyclerView.layoutManager = LinearLayoutManager(context)
 
     }
-
+    fun initRecordAdapter(){
+        binding.startBtn.text = "선택"
+    }
     fun createAlterDeleteDialog(currentItem:RoutineWithExerciseAndSets){
         AlertDialog.Builder(context)
             .setTitle("루틴 삭제")
