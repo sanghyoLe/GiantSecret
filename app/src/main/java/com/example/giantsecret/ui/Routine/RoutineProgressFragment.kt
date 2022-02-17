@@ -74,14 +74,18 @@ class RoutineProgressFragment : BaseFragment<FragmentRoutineProgressBinding>(Fra
         binding.startBtn.setOnClickListener {
             if(!isStart) {
                 startTime = System.currentTimeMillis()
+                onStartBackGroundTimer(startTime)
                 startTimer(startTime)
                 binding.startBtn.setImageResource(R.drawable.ic_baseline_pause_24)
             } else {
                 if(isNotPaused) {
+                    onPauseTimer()
                     pauseTimer()
                     isNotPaused = !isNotPaused
                     binding.startBtn.setImageResource(R.drawable.ic_baseline_play_arrow_24)
                 } else {
+                    onStartBackGroundTimer(resumeTime)
+                    startTime = resumeTime
                     startTimer(resumeTime)
                     isNotPaused = !isNotPaused
                     binding.startBtn.setImageResource(R.drawable.ic_baseline_pause_24)
@@ -116,8 +120,8 @@ class RoutineProgressFragment : BaseFragment<FragmentRoutineProgressBinding>(Fra
         isStart = true
     }
     fun pauseTimer() {
-
         pauseTime = (System.currentTimeMillis() - startTime)
+
         binding.timerView.text = pauseTime.displayTime()
         lifecycleScope.launch(Dispatchers.Main) {
             while(true) {
@@ -128,19 +132,23 @@ class RoutineProgressFragment : BaseFragment<FragmentRoutineProgressBinding>(Fra
     }
 
 
-
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onAppBackgrounded() {
-        val startIntent = Intent(requireActivity(), ForegroundService::class.java)
+    fun onStartBackGroundTimer(time:Long) {
+        val startIntent = Intent(requireContext(), ForegroundService::class.java)
         startIntent.putExtra(COMMAND_ID, COMMAND_START)
-        startIntent.putExtra(STARTED_TIMER_TIME_MS, startTime)
+        startIntent.putExtra(STARTED_TIMER_TIME_MS, time)
         activity?.startService(startIntent)
+    }
+
+
+    fun onPauseTimer() {
+        val stopIntent = Intent(requireContext(), ForegroundService::class.java)
+        stopIntent.putExtra(COMMAND_ID, COMMAND_STOP)
+        activity?.startService(stopIntent)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onAppForegrounded() {
-        val stopIntent = Intent(requireActivity(), ForegroundService::class.java)
+        val stopIntent = Intent(requireContext(), ForegroundService::class.java)
         stopIntent.putExtra(COMMAND_ID, COMMAND_STOP)
         activity?.startService(stopIntent)
     }

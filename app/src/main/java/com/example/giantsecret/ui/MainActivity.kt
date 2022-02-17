@@ -1,12 +1,16 @@
 package com.example.giantsecret.ui
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.example.giantsecret.R
 import com.example.giantsecret.databinding.ActivityMainBinding
+import com.example.giantsecret.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,6 +55,9 @@ class MainActivity : AppCompatActivity(){
         binding.bottomNavigation.visibility = View.GONE
 
     }
+
+
+
 
 
 

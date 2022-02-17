@@ -10,7 +10,9 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.navigation.NavDeepLinkBuilder
 import com.example.giantsecret.R
+import com.example.giantsecret.ui.MainActivity
 import com.example.giantsecret.ui.Routine.RoutineProgressFragment
 import kotlinx.coroutines.*
 
@@ -54,7 +56,6 @@ class ForegroundService : Service() {
                 commandStart(startTime)
             }
             COMMAND_STOP -> commandStop()
-
             INVALID -> return
         }
     }
@@ -72,6 +73,8 @@ class ForegroundService : Service() {
             isServiceStarted = true
         }
     }
+
+
 
     private fun continueTimer(startTime: Long) {
         job = GlobalScope.launch(Dispatchers.Main) {
@@ -133,14 +136,16 @@ class ForegroundService : Service() {
 
     private fun getPendingIntent(): PendingIntent? {
         val resultIntent = Intent(this, RoutineProgressFragment::class.java)
+
         resultIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             return PendingIntent.getActivity(
                 this,
                 0,
                 resultIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE,
             )
+
         } else {
             return PendingIntent.getActivity(
                 this,

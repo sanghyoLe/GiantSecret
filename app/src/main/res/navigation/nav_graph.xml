@@ -63,7 +63,13 @@
     <fragment
         android:id="@+id/routineProgressFragment"
         android:name="com.example.giantsecret.ui.Routine.RoutineProgressFragment"
-        android:label="routineProgressFragment"/>
+        android:label="routineProgressFragment">
+        <action android:id="@+id/openProgress"
+            app:destination="@+id/routineProgressFragment"
+            app:popUpTo="@id/routineProgressFragment"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
 
     <activity
         android:id="@+id/mainActivity"
