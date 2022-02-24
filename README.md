@@ -1,4 +1,4 @@
-# GiantSecret
+# 운동일지
 
 # 💡 Topic
 
